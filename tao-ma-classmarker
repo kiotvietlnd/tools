@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ tạo Mã Classmarker - KiotViet</title>
+    <meta name="description" content="Công cụ xử lý dữ liệu nhân viên, tự động tạo mã không dấu và mã Classmarker.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Design System Styles from Template */
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Soft Glow & Gradient Foundation */
+        @keyframes moveInCircle { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+        @keyframes moveVertical { 0% { transform: translateY(-50%); } 50% { transform: translateY(50%); } 100% { transform: translateY(-50%); } }
+        @keyframes moveHorizontal { 0% { transform: translateX(-50%); } 50% { transform: translateX(50%); } 100% { transform: translateX(-50%); } }
+        
+        .soft-glow-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; background: linear-gradient(to bottom right, #f8fafc, #e0f2fe); }
+        .soft-glow-background .shape { position: absolute; filter: blur(140px); opacity: 0.25; }
+        .soft-glow-background .shape1 { height: 350px; width: 350px; background: #166def; border-radius: 50%; top: -50px; left: -100px; animation: moveInCircle 22s ease-in-out infinite; }
+        .soft-glow-background .shape2 { height: 450px; width: 450px; background: #16a34a; border-radius: 50%; bottom: -100px; right: -100px; animation: moveVertical 28s ease-in-out infinite; }
+        .soft-glow-background .shape3 { height: 300px; width: 500px; background: #f97316; border-radius: 50%; top: 50%; left: 50%; animation: moveHorizontal 35s ease-in-out infinite; }
+    </style>
+</head>
+<body id="top" class="text-slate-700 antialiased">
+
+    <!-- The Soft Glow & Gradient Foundation -->
+    <div class="soft-glow-background">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+
+    <!-- Pearly Glass Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-900/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#top" class="flex items-center">
+                    <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="KiotViet Logo" class="h-8">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Công cụ tạo Mã Classmarker
+            </h1>
+            <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">
+                Dán dữ liệu từ Excel để tự động tạo mã không dấu và mã Classmarker một cách nhanh chóng.
+            </p>
+        </section>
+
+        <!-- Main Content Section: The Tool -->
+        <section>
+            <div class="bg-white/60 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-lg max-w-4xl mx-auto">
+                
+                <!-- Input Area -->
+                <div>
+                    <label for="inputData" class="block mb-2 text-base font-medium text-slate-800">Dữ liệu đầu vào</label>
+                    <p class="text-sm text-slate-500 mb-3">Dán dữ liệu theo định dạng `Mã [Tab] Họ và tên`. Mỗi dòng một nhân viên.</p>
+                    <textarea id="inputData" rows="6" class="block p-3 w-full text-sm text-slate-900 bg-slate-50 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="Ví dụ:
+HN03656	Nguyễn Mỹ Linh
+SG02316	Phạm Nguyễn Khánh Như
+ĐN00363	Trần Thị Trúc Mai"></textarea>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
+                    <button id="processBtn" class="w-full sm:w-auto flex items-center justify-center gap-2 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-base px-8 py-3 transition-all shadow-md hover:shadow-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                        Xử lý dữ liệu
+                    </button>
+                    <button id="copyBtn" class="w-full sm:w-auto hidden items-center justify-center gap-2 text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-semibold rounded-lg text-base px-8 py-3 transition-all shadow-md hover:shadow-lg">
+                        <i class="fa-solid fa-copy"></i>
+                        <span>Sao chép cả bảng cho Excel</span>
+                    </button>
+                </div>
+
+                <!-- Output Area -->
+                <div id="outputContainer" class="mt-8">
+                    <!-- Results will be injected here by JavaScript -->
+                </div>
+
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white pt-12 pb-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-300">
+             <a href="#top"><img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal-White.svg" alt="KiotViet Logo White" class="h-8 mx-auto mb-4"></a>
+            <p class="mb-1 text-slate-200">Đào tạo KiotViet 2025</p>
+            <p class="text-slate-400 text-sm mt-4">© 2025 Công cụ nội bộ. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        let processedDataForCopy = [];
+
+        // --- Helper Functions ---
+        function removeDiacritics(str) {
+            if (!str) return '';
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        }
+
+        function getLastName(fullName) {
+            if (!fullName) return '';
+            const parts = fullName.trim().split(/\s+/);
+            return parts[parts.length - 1];
+        }
+
+        // --- Core Functions ---
+        function processData() {
+            const input = document.getElementById('inputData').value;
+            const outputContainer = document.getElementById('outputContainer');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            const columnHeaders = [
+                { key: 'maNhanVien', label: 'Mã nhân viên' },
+                { key: 'hoVaTen', label: 'Họ và tên' },
+                { key: 'maKhongDau', label: 'Mã Không dấu' },
+                { key: 'tenNhanVien', label: 'Tên Nhân viên' },
+                { key: 'maClassmarker', label: 'Mã Classmarker' },
+            ];
+
+            let tableHTML = `
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg border border-slate-200">
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                            <tr>`;
+            
+            // Generate table headers with copy buttons
+            columnHeaders.forEach(header => {
+                tableHTML += `
+                    <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <span>${header.label}</span>
+                            <button class="copy-column-btn text-slate-400 hover:text-blue-600 transition-colors" data-column-key="${header.key}" title="Sao chép cột ${header.label}">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </th>`;
+            });
+            tableHTML += `</tr></thead><tbody>`;
+
+            processedDataForCopy = []; 
+            const lines = input.trim().split('\n');
+            lines.forEach(line => {
+                if (line.trim() === '') return;
+                const parts = line.split('\t');
+                if (parts.length < 2) return;
+
+                const maNhanVien = parts[0].trim();
+                const hoVaTen = parts.slice(1).join(' ').trim();
+                const maKhongDau = removeDiacritics(maNhanVien);
+                const tenNhanVien = removeDiacritics(getLastName(hoVaTen));
+                const maClassmarker = `${maKhongDau}, ${tenNhanVien}`;
+
+                const rowData = { maNhanVien, hoVaTen, maKhongDau, tenNhanVien, maClassmarker };
+                processedDataForCopy.push(rowData);
+
+                tableHTML += `<tr class="odd:bg-white even:bg-slate-50 border-b">`;
+                columnHeaders.forEach(header => {
+                    tableHTML += `<td class="px-6 py-4 ${header.key === 'maNhanVien' ? 'font-medium text-slate-900 whitespace-nowrap' : ''} ${header.key === 'maClassmarker' ? 'font-mono text-blue-700' : ''}">${rowData[header.key]}</td>`;
+                });
+                tableHTML += `</tr>`;
+            });
+
+            tableHTML += `</tbody></table></div>`;
+            
+            if (processedDataForCopy.length > 0) {
+                outputContainer.innerHTML = tableHTML;
+                copyBtn.classList.remove('hidden');
+                copyBtn.classList.add('flex');
+            } else {
+                outputContainer.innerHTML = `
+                    <div class="text-center p-4 rounded-lg bg-red-100 border border-red-300 text-red-800">
+                        <p>Không có dữ liệu hợp lệ để xử lý. Vui lòng kiểm tra lại định dạng đầu vào.</p>
+                    </div>`;
+                copyBtn.classList.add('hidden');
+                copyBtn.classList.remove('flex');
+            }
+        }
+
+        function copyTableForExcel() {
+            const headers = ["Mã nhân viên", "Họ và tên", "Mã Không dấu", "Tên Nhân viên", "Mã Classmarker"];
+            let tsvContent = headers.join('\t') + '\n';
+
+            processedDataForCopy.forEach(row => {
+                const rowValues = [row.maNhanVien, row.hoVaTen, row.maKhongDau, row.tenNhanVien, row.maClassmarker];
+                tsvContent += rowValues.join('\t') + '\n';
+            });
+            
+            navigator.clipboard.writeText(tsvContent).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                const copyBtnText = copyBtn.querySelector('span');
+                const originalText = copyBtnText.innerText;
+                
+                copyBtnText.innerText = 'Đã sao chép!';
+                copyBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+                copyBtn.classList.add('bg-teal-500');
+                
+                setTimeout(() => {
+                    copyBtnText.innerText = originalText;
+                    copyBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                    copyBtn.classList.remove('bg-teal-500');
+                }, 2000);
+            }).catch(err => console.error('Sao chép thất bại: ', err));
+        }
+
+        // --- Event Listeners ---
+        document.getElementById('processBtn').addEventListener('click', processData);
+        document.getElementById('copyBtn').addEventListener('click', copyTableForExcel);
+
+        // Event delegation for copying columns
+        document.getElementById('outputContainer').addEventListener('click', function(e) {
+            const copyButton = e.target.closest('.copy-column-btn');
+            if (!copyButton) return;
+
+            const columnKey = copyButton.dataset.columnKey;
+            if (!columnKey || processedDataForCopy.length === 0) return;
+
+            const columnData = processedDataForCopy.map(row => row[columnKey]).join('\n');
+            
+            navigator.clipboard.writeText(columnData).then(() => {
+                const icon = copyButton.querySelector('i');
+                // Store original classes
+                const originalClasses = Array.from(icon.classList);
+                
+                // Show feedback
+                icon.className = 'fa-solid fa-check text-green-500';
+                
+                // Revert after a delay
+                setTimeout(() => {
+                    icon.className = originalClasses.join(' ');
+                }, 1500);
+            }).catch(err => console.error('Sao chép cột thất bại: ', err));
+        });
+    </script>
+</body>
+</html>
