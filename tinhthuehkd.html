@@ -363,21 +363,12 @@
              const showTncnChoice = doanhthuNam > 500000000 && doanhthuNam <= 3000000000;
              elements.tncnChoiceGroup.classList.toggle('hidden', !showTncnChoice);
              
-             handleTncnChoiceChange(); // This will handle chiphi-group visibility
+             handleTncnChoiceChange();
         };
 
         const checkFormValidity = () => {
             const doanhthu = toNumber(elements.moneyInput.value);
-            const doanhthuNam = getDoanhThuNam();
-            const chiphi = toNumber(elements.chiPhiInput.value);
-            let isValid = doanhthu > 0 && selectedNganhNghe !== null;
-
-            if (doanhthuNam > 3000000000) { isValid = isValid && chiphi > 0; }
-            if(doanhthuNam > 500000000 && doanhthuNam <= 3000000000){
-                if(document.querySelector('input[name="tncn-choice"]:checked').value === 'co-chiphi') {
-                    isValid = isValid; // Allow cost to be 0 for Group 2
-                }
-            }
+            const isValid = doanhthu > 0 && selectedNganhNghe !== null;
             elements.calculateBtn.disabled = !isValid;
         };
         
