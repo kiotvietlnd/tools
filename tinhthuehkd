@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Tính Thuế Hộ Kinh Doanh (Beta) | KiotViet</title>
+    <meta name="description" content="Công cụ tính thuế theo phương pháp kê khai dành cho hộ kinh doanh, được cung cấp bởi KiotViet. Giúp chủ kinh doanh tạm tính nhanh chóng thuế GTGT, TNCN phải nộp.">
+    <meta name="keywords" content="công cụ tính thuế, thuế hộ kinh doanh, kiotviet, tính thuế kê khai, thuế GTGT, thuế TNCN">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://www.kiotviet.vn/wp-content/uploads/2021/09/favicon-kiotviet.png" type="image/x-icon" />
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f5ff; 
+            background-image: linear-gradient(to bottom, #f0f5ff, #ffffff);
+            min-height: 100vh;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+
+        .tooltip { position: relative; display: inline-flex; align-items: center; }
+        .tooltip .tooltip-text { 
+            visibility: hidden; width: 220px; background-color: #2d3748; color: #fff; text-align: left; 
+            border-radius: 6px; padding: 8px; position: absolute; z-index: 10; bottom: 125%; left: 50%; 
+            margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.75rem; line-height: 1.5; pointer-events: none;
+        }
+        .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+
+        @media print {
+            body, html { background: #fff !important; }
+            body * { visibility: hidden; }
+            #result-panel-printable, #result-panel-printable * { visibility: visible; }
+            #result-panel-printable { 
+                position: absolute; left: 0; top: 0; width: 100%;
+                box-shadow: none !important; border: none !important;
+                background: white !important;
+            }
+            #print-button, header, footer, main > section:not(:has(#result-panel-wrapper)), #form-panel-container { display: none; }
+        }
+    </style>
+</head>
+<body id="top" class="text-slate-700 antialiased">
+
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="https://www.kiotviet.vn" target="_blank" class="flex items-center">
+                    <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="KiotViet Logo" class="h-8">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <section class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Công cụ tính thuế Hộ kinh doanh
+            </h1>
+            <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">
+                Tạm tính nhanh thuế GTGT và TNCN phải nộp theo phương pháp kê khai dựa trên các quy định mới nhất.
+            </p>
+            <p class="mt-3 inline-block bg-amber-100 text-amber-800 text-sm font-medium px-4 py-1.5 rounded-full">
+                Công cụ đang trong giai đoạn thử nghiệm (Beta), số liệu chỉ mang tính chất tham khảo.
+            </p>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+            <!-- Form Panel -->
+            <div id="form-panel-container" class="lg:col-span-3 bg-white rounded-2xl p-6 md:p-8 border border-slate-200/80 shadow-lg">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4 flex items-center"><i class="fa-solid fa-keyboard mr-3 text-slate-400"></i>Nhập thông tin</h2>
+                
+                <div class="space-y-6">
+                    <!-- Ngành nghề -->
+                    <div>
+                        <label for="nganhnghe-input-show" class="flex items-center text-sm font-medium text-slate-500 mb-1"><i class="fa-solid fa-store w-4 mr-2 text-slate-400"></i>Ngành nghề kinh doanh</label>
+                        <div class="relative" id="nganhnghe-wrapper">
+                            <input id="nganhnghe-input-show" placeholder="Chọn hoặc nhập ngành nghề" type="text" readonly class="w-full p-3 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none cursor-pointer transition">
+                            <ul id="nganhnghe-list" class="hidden absolute z-20 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm custom-scrollbar">
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Tạp hóa, Siêu thị mini</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Quần áo, Thời trang</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Mỹ phẩm</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Mẹ và bé</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Thực phẩm</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Gia dụng, sinh hoạt</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Điện tử, điện máy</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Thuốc, thực phẩm chức năng</li>
+                                <li data-tax="1" data-tncn="0.5" data-hople-min="0.75" data-hople-max="0.85" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Nội thất, trang trí</li>
+                                <li data-tax="3" data-tncn="1.5" data-hople-min="0.80" data-hople-max="0.90" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Nhà hàng, quán ăn</li>
+                                <li data-tax="5" data-tncn="2" data-hople-min="0.60" data-hople-max="0.75" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Bida</li>
+                                <li data-tax="5" data-tncn="2" data-hople-min="0.60" data-hople-max="0.75" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Spa, dịch vụ làm đẹp</li>
+                                <li data-tax="5" data-tncn="2" data-hople-min="0.60" data-hople-max="0.75" class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-50">Homestay – nhà nghỉ</li>
+                                <li class="p-2 border-t border-slate-200">
+                                    <div class="flex">
+                                        <input type="text" id="input-other" placeholder="Ngành nghề khác..." class="w-full p-2 bg-white rounded-l-md border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                                        <button id="send-other" class="bg-blue-600 text-white px-4 rounded-r-md font-semibold hover:bg-blue-700 transition">Nhập</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Kỳ kê khai -->
+                    <div>
+                        <label for="ky-kekhai-select" class="flex items-center text-sm font-medium text-slate-500 mb-1"><i class="fa-solid fa-calendar-days w-4 mr-2 text-slate-400"></i>Kỳ kê khai</label>
+                        <select id="ky-kekhai-select" class="w-full p-3 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none">
+                            <option value="Tháng">Tháng</option>
+                            <option value="Quý" selected>Quý</option>
+                            <option value="Năm">Năm</option>
+                        </select>
+                    </div>
+
+                    <!-- Doanh thu -->
+                    <div>
+                        <label for="money-input" class="flex items-center text-sm font-medium text-slate-500 mb-1"><i class="fa-solid fa-money-bill-wave w-4 mr-2 text-slate-400"></i>Doanh thu theo <span class="title-ky font-semibold text-slate-600 ml-1">quý</span></label>
+                        <div class="relative">
+                            <input id="money-input" type="text" inputmode="numeric" class="w-full p-3 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition pr-12">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">VND</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Live Summary -->
+                    <div id="live-summary" class="bg-slate-50 p-3 rounded-lg text-sm text-slate-600 hidden">
+                        Doanh thu năm dự kiến: <span id="live-doanhthu-nam" class="font-bold text-slate-800">0 VND</span>
+                    </div>
+
+                    <!-- Group 2 TNCN Choice -->
+                    <div id="tncn-choice-group" class="hidden bg-blue-50 p-4 rounded-lg">
+                        <label class="block text-sm font-medium text-slate-600 mb-2">Cách tính Thuế TNCN (Nhóm 2)</label>
+                         <div class="flex flex-wrap gap-x-6 gap-y-2">
+                            <div>
+                                <input id="tncn-choice-co-chiphi" type="radio" name="tncn-choice" value="co-chiphi" class="hidden peer" checked>
+                                <label for="tncn-choice-co-chiphi" class="cursor-pointer text-sm peer-checked:font-bold peer-checked:text-blue-700 text-slate-600">Có xác định chi phí</label>
+                            </div>
+                            <div>
+                                <input id="tncn-choice-khong-chiphi" type="radio" name="tncn-choice" value="khong-chiphi" class="hidden peer">
+                                <label for="tncn-choice-khong-chiphi" class="cursor-pointer text-sm peer-checked:font-bold peer-checked:text-blue-700 text-slate-600">Không xác định chi phí</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chi phí hợp lý -->
+                    <div id="chiphi-group" class="hidden">
+                        <label for="chiphi-input" class="flex items-center text-sm font-medium text-slate-500 mb-1">
+                            <i class="fa-solid fa-file-invoice-dollar w-4 mr-2 text-slate-400"></i>
+                            <span class="tooltip">
+                                Chi phí hợp lý theo <span class="title-ky font-semibold text-slate-600 ml-1">quý</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.546-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span class="tooltip-text">Là các khoản chi thực tế, phục vụ trực tiếp cho kinh doanh và có đầy đủ chứng từ hợp lệ (giá vốn, thuê cửa hàng, lương nhân viên...).</span>
+                            </span>
+                        </label>
+                        <div class="relative">
+                            <input id="chiphi-input" type="text" inputmode="numeric" class="w-full p-3 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition pr-12">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500">VND</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <p id="chiphi-goiy" class="hidden mt-2 text-xs text-slate-500">
+                                💡 Ngành <b id="goiy-nganhnghe" class="font-semibold"></b> thường có chi phí <b id="goiy-percent" class="font-semibold"></b> doanh thu.
+                            </p>
+                            <button id="toggle-detailed-costs" class="text-xs text-blue-600 hover:underline font-semibold mt-2">Nhập chi tiết</button>
+                        </div>
+                        
+                        <div id="detailed-costs-group" class="hidden mt-4 space-y-3 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h4 class="text-sm font-semibold text-slate-700">Chi phí chi tiết</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div><label class="text-xs text-slate-500">Tiền thuê mặt bằng</label><input type="text" data-cost-item class="w-full p-2 text-sm rounded-md border border-slate-200"></div>
+                                <div><label class="text-xs text-slate-500">Lương nhân viên</label><input type="text" data-cost-item class="w-full p-2 text-sm rounded-md border border-slate-200"></div>
+                                <div><label class="text-xs text-slate-500">Chi phí nhập hàng</label><input type="text" data-cost-item class="w-full p-2 text-sm rounded-md border border-slate-200"></div>
+                                <div><label class="text-xs text-slate-500">Chi phí khác</label><input type="text" data-cost-item class="w-full p-2 text-sm rounded-md border border-slate-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-slate-200 md:fixed md:bottom-0 md:left-0 md:w-full md:bg-white/80 md:backdrop-blur-sm md:p-4 md:border-t md:border-slate-200/80 md:z-10 lg:static lg:p-0 lg:border-none lg:shadow-none lg:bg-transparent">
+                     <div class="max-w-3xl mx-auto flex justify-end">
+                          <button id="calculate-btn" class="w-full lg:w-auto bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-all shadow-md disabled:bg-slate-400 disabled:cursor-not-allowed disabled:shadow-none">
+                            <i class="fa-solid fa-calculator mr-2"></i>Tính thuế
+                        </button>
+                     </div>
+                </div>
+            </div>
+
+            <!-- Result Panel -->
+            <div id="result-panel-wrapper" class="lg:col-span-2 sticky top-24">
+                 <div id="result-panel" class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/80 shadow-lg">
+                     <div id="result-panel-printable">
+                         <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-slate-800 flex items-center"><i class="fa-solid fa-chart-pie mr-3 text-slate-400"></i>Kết quả tạm tính</h2>
+                            <button id="print-button" class="hidden text-slate-500 hover:text-blue-600 transition" title="In kết quả">
+                                <i class="fa-solid fa-print text-xl"></i>
+                            </button>
+                         </div>
+                         <div id="result-content" class="space-y-3 mb-6 text-slate-500">
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-sack-dollar w-4 mr-2 text-slate-400"></i>Doanh thu/năm:</span><span id="result-doanhthu-nam" class="font-semibold text-slate-800">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-store w-4 mr-2 text-slate-400"></i>Ngành nghề:</span><span id="result-nganhnghe" class="font-semibold text-slate-800 text-right">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-tags w-4 mr-2 text-slate-400"></i>Nhóm ngành nghề:</span><span id="result-nhom-nganhnghe" class="font-semibold text-slate-800 text-right">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-percent w-4 mr-2 text-blue-400"></i>Thuế GTGT/năm:</span><span id="result-gtgt" class="font-semibold text-slate-800">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-user w-4 mr-2 text-green-400"></i>Thuế TNCN/năm:</span><span id="result-tncn" class="font-semibold text-slate-800">---</span></div>
+                         </div>
+                         
+                         <div class="bg-blue-50 rounded-lg p-4 flex justify-between items-center">
+                            <span class="font-bold text-blue-700 text-lg">Tổng thuế tạm tính/năm:</span>
+                            <span id="result-total-nam" class="font-extrabold text-blue-700 text-xl">---</span>
+                         </div>
+
+                         <!-- Detailed Explanation -->
+                         <div id="explanation-panel" class="mt-6 hidden">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center"><i class="fa-solid fa-book-open mr-2 text-slate-400"></i>Diễn giải chi tiết</h3>
+                            <div class="space-y-2 text-sm bg-slate-50 p-4 rounded-lg">
+                                <div id="explanation-gtgt"></div>
+                                <div id="explanation-tncn"></div>
+                            </div>
+                         </div>
+
+                         <h3 class="text-xl font-bold text-slate-800 mt-8 mb-4 border-b border-slate-200 pb-3 flex items-center"><i class="fa-solid fa-list-check mr-3 text-slate-400"></i>Nghĩa vụ khác</h3>
+                         <div class="space-y-3 text-slate-500">
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-file-signature w-4 mr-2 text-slate-400"></i>Kê khai doanh thu:</span><span id="result-kekhai" class="font-semibold text-slate-800">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-receipt w-4 mr-2 text-slate-400"></i>Hóa đơn:</span><span id="result-hoadon" class="font-semibold text-slate-800 text-right">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-book w-4 mr-2 text-slate-400"></i>Sổ kế toán:</span><span id="result-soketoan" class="font-semibold text-slate-800 text-right">---</span></div>
+                            <div class="flex justify-between items-center"><span><i class="fa-solid fa-landmark w-4 mr-2 text-slate-400"></i>Tài khoản ngân hàng:</span><span id="result-nganhang" class="font-semibold text-slate-800">---</span></div>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+        
+        <section class="mt-16 space-y-12">
+            <!-- Table 1 -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/80 shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4">Phương pháp tính thuế theo các nhóm doanh thu</h3>
+                <p class="text-slate-600 max-w-3xl">Căn cứ theo dự thảo mới nhất về Quy định quản lý thuế đối với hộ kinh doanh và <a href="https://thuvienphapluat.vn/hoi-dap-phap-luat/toan-van-cong-van-18491btccst-ve-tiep-thu-giai-trinh-y-kien-tham-tra-y-kien-cua-dai-bieu-ve-du-an-l-138072076.html" target="_blank" class="text-blue-600 hover:underline font-semibold">Công văn 18491/BTC-CST</a>.</p>
+                <div class="overflow-x-auto my-6">
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 rounded-tl-lg"></th><th scope="col" class="px-6 py-3">Nhóm 1: Doanh thu ≤ 500 triệu/năm</th><th scope="col" class="px-6 py-3">Nhóm 2: Doanh thu > 500 triệu đến 03 tỷ/năm</th><th scope="col" class="px-6 py-3 rounded-tr-lg">Nhóm 3: Doanh thu > 03 tỷ/năm</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b"><th scope="row" class="px-6 py-4 font-bold text-slate-800 bg-slate-50">Thuế GTGT</th><td class="px-6 py-4">Không phải nộp</td><td class="px-6 py-4">Tỷ lệ % theo ngành × Doanh thu</td><td class="px-6 py-4">Tỷ lệ % theo ngành × Doanh thu</td></tr>
+                            <tr class="bg-white border-b"><th scope="row" class="px-6 py-4 font-bold text-slate-800 bg-slate-50">Thuế TNCN</th><td class="px-6 py-4">Không phải nộp</td><td class="px-6 py-4"><p class="font-semibold">Cách 1 (có chi phí):</p><p>15% × (Doanh thu - Chi phí hợp lý)</p><p class="font-semibold mt-2">Cách 2 (không có chi phí):</p><p>Tỷ lệ % theo ngành × (Doanh thu - 500M)</p></td><td class="px-6 py-4"><p class="font-semibold">DT > 3 tỷ - 50 tỷ:</p><p>17% × (Doanh thu - Chi phí hợp lý)</p><p class="font-semibold mt-2">DT > 50 tỷ:</p><p>20% × (Doanh thu - Chi phí hợp lý)</p></td></tr>
+                            <tr class="bg-white"><th scope="row" class="px-6 py-4 font-bold text-slate-800 bg-slate-50 rounded-bl-lg">Tổng thuế</th><td class="px-6 py-4">Không phải nộp</td><td class="px-6 py-4">Thuế GTGT + Thuế TNCN</td><td class="px-6 py-4 rounded-br-lg">Thuế GTGT + Thuế TNCN</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Table 2 -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/80 shadow-lg">
+                <h3 class="text-2xl font-bold text-slate-800 mb-4">Tỷ lệ % tính thuế theo ngành nghề</h3>
+                <p class="text-slate-600 max-w-3xl">Căn cứ theo <a href="https://ketoan247.vn/phu-luc-1-ban-hanh-kem-theo-thong-tu-so-40-2021-tt-btc-ngay-01-thang-6-nam-2021-cua-bo-truong-bo-tai-chinh/" target="_blank" class="text-blue-600 hover:underline font-semibold">Phụ lục I Ban hành kèm theo Thông tư 40/2021/TT-BTC</a>.</p>
+                <div class="overflow-x-auto my-6">
+                     <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-100">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 rounded-tl-lg">STT</th><th scope="col" class="px-6 py-3">Nhóm ngành nghề</th><th scope="col" class="px-6 py-3">Tỷ lệ % thuế GTGT</th><th scope="col" class="px-6 py-3 rounded-tr-lg">Tỷ lệ % thuế TNCN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">1</td><th scope="row" class="px-6 py-4 font-medium text-slate-900">Phân phối, cung cấp hàng hóa</th><td class="px-6 py-4">1%</td><td class="px-6 py-4">0,5%</td></tr>
+                            <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">2</td><th scope="row" class="px-6 py-4 font-medium text-slate-900">Dịch vụ, xây dựng không bao thầu nguyên vật liệu</th><td class="px-6 py-4">5%</td><td class="px-6 py-4">2%</td></tr>
+                            <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">3</td><th scope="row" class="px-6 py-4 font-medium text-slate-900">Sản xuất, vận tải, dịch vụ có gắn với hàng hóa, xây dựng có bao thầu</th><td class="px-6 py-4">3%</td><td class="px-6 py-4">1,5%</td></tr>
+                            <tr class="bg-white"><td class="px-6 py-4 font-medium rounded-bl-lg">4</td><th scope="row" class="px-6 py-4 font-medium text-slate-900">Hoạt động kinh doanh khác</th><td class="px-6 py-4">2%</td><td class="px-6 py-4 rounded-br-lg">1%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Banners Section -->
+            <div class="mt-16">
+                 <h3 class="text-2xl font-bold text-center text-slate-800 mb-8">Công cụ hữu ích khác từ KiotViet</h3>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <a href="https://phanmemketoan.kiotviet.vn/" target="_blank" class="block bg-white p-8 rounded-2xl border border-slate-200/80 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+                        <h4 class="text-xl font-bold text-slate-800 flex items-center"><i class="fa-solid fa-calculator mr-3 text-blue-500"></i>Phần mềm Kế toán</h4>
+                        <p class="text-slate-500 mt-2">Tự động hóa nghiệp vụ, tiết kiệm thời gian và đảm bảo tuân thủ quy định cho hộ kinh doanh.</p>
+                        <span class="inline-block text-blue-600 font-semibold mt-4">Tìm hiểu ngay &rarr;</span>
+                    </a>
+                     <a href="https://hoadondientu.kiotviet.vn/" target="_blank" class="block bg-white p-8 rounded-2xl border border-slate-200/80 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+                        <h4 class="text-xl font-bold text-slate-800 flex items-center"><i class="fa-solid fa-receipt mr-3 text-green-500"></i>Hóa đơn điện tử</h4>
+                        <p class="text-slate-500 mt-2">Khởi tạo và phát hành hóa đơn điện tử dễ dàng, nhanh chóng, tích hợp sẵn trên phần mềm KiotViet.</p>
+                        <span class="inline-block text-blue-600 font-semibold mt-4">Dùng thử miễn phí &rarr;</span>
+                    </a>
+                 </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-white pt-12 pb-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-300">
+             <a href="https://www.kiotviet.vn" target="_blank"><img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal-White.svg" alt="KiotViet Logo White" class="h-8 mx-auto mb-4"></a>
+            <p class="text-slate-400 text-sm mt-4">© 2025 KiotViet - Phần mềm quản lý bán hàng phổ biến nhất.</p>
+        </div>
+    </footer>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = {
+            nganhNgheInputShow: document.getElementById('nganhnghe-input-show'),
+            nganhNgheList: document.getElementById('nganhnghe-list'),
+            nganhNgheWrapper: document.getElementById('nganhnghe-wrapper'),
+            moneyInput: document.getElementById('money-input'),
+            chiPhiInput: document.getElementById('chiphi-input'),
+            chiPhiGroup: document.getElementById('chiphi-group'),
+            calculateBtn: document.getElementById('calculate-btn'),
+            kyKekhaiSelect: document.getElementById('ky-kekhai-select'),
+            titleKySpans: document.querySelectorAll('.title-ky'),
+            resultPanel: document.getElementById('result-panel'),
+            sendOtherBtn: document.getElementById('send-other'),
+            otherInput: document.getElementById('input-other'),
+            liveSummary: document.getElementById('live-summary'),
+            liveDoanhThuNam: document.getElementById('live-doanhthu-nam'),
+            tncnChoiceGroup: document.getElementById('tncn-choice-group'),
+            tncnChoiceRadios: document.querySelectorAll('input[name="tncn-choice"]'),
+            printButton: document.getElementById('print-button'),
+            explanationPanel: document.getElementById('explanation-panel'),
+            explanationGtgt: document.getElementById('explanation-gtgt'),
+            explanationTncn: document.getElementById('explanation-tncn'),
+            goiy: { p: document.getElementById('chiphi-goiy'), nganh: document.getElementById('goiy-nganhnghe'), percent: document.getElementById('goiy-percent'),},
+            detailedCosts: { toggleBtn: document.getElementById('toggle-detailed-costs'), group: document.getElementById('detailed-costs-group'), inputs: document.querySelectorAll('[data-cost-item]') },
+            results: { doanhthuNam: document.getElementById('result-doanhthu-nam'), nganhNghe: document.getElementById('result-nganhnghe'), nhomNganhNghe: document.getElementById('result-nhom-nganhnghe'), gtgt: document.getElementById('result-gtgt'), tncn: document.getElementById('result-tncn'), totalNam: document.getElementById('result-total-nam'), kekhai: document.getElementById('result-kekhai'), hoadon: document.getElementById('result-hoadon'), soketoan: document.getElementById('result-soketoan'), nganhang: document.getElementById('result-nganhang'),}
+        };
+
+        let selectedNganhNghe = null;
+
+        const toNumber = (str) => Number(String(str || "").replace(/[^\d]/g, ""));
+        const formatCurrency = (num) => isNaN(num) || num === null ? '0 VND' : num.toLocaleString('vi-VN') + ' VND';
+        const formatInputCurrency = (input) => {
+            let val = input.value.replace(/\D/g, '');
+            input.value = val.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        };
+
+        const getDoanhThuNam = () => {
+            const ky = elements.kyKekhaiSelect.value;
+            let doanhthu = toNumber(elements.moneyInput.value);
+            if (ky === "Tháng") return doanhthu * 12;
+            if (ky === "Quý") return doanhthu * 4;
+            return doanhthu;
+        };
+        
+        const handleTncnChoiceChange = () => {
+            const choice = document.querySelector('input[name="tncn-choice"]:checked').value;
+            const doanhthuNam = getDoanhThuNam();
+            const showChiPhiGroup = choice === 'co-chiphi' || doanhthuNam > 3000000000;
+            elements.chiPhiGroup.classList.toggle('hidden', !showChiPhiGroup);
+            if(!showChiPhiGroup) elements.chiPhiInput.value = '';
+            checkFormValidity();
+        };
+
+        const updateUIBasedOnDoanhThu = () => {
+             const doanhthuNam = getDoanhThuNam();
+             elements.liveSummary.classList.toggle('hidden', doanhthuNam <= 0);
+             elements.liveDoanhThuNam.textContent = formatCurrency(doanhthuNam);
+
+             const showTncnChoice = doanhthuNam > 500000000 && doanhthuNam <= 3000000000;
+             elements.tncnChoiceGroup.classList.toggle('hidden', !showTncnChoice);
+             
+             handleTncnChoiceChange(); // This will handle chiphi-group visibility
+        };
+
+        const checkFormValidity = () => {
+            const doanhthu = toNumber(elements.moneyInput.value);
+            const doanhthuNam = getDoanhThuNam();
+            const chiphi = toNumber(elements.chiPhiInput.value);
+            let isValid = doanhthu > 0 && selectedNganhNghe !== null;
+
+            if (doanhthuNam > 3000000000) { isValid = isValid && chiphi > 0; }
+            if(doanhthuNam > 500000000 && doanhthuNam <= 3000000000){
+                if(document.querySelector('input[name="tncn-choice"]:checked').value === 'co-chiphi') {
+                    isValid = isValid; // Allow cost to be 0 for Group 2
+                }
+            }
+            elements.calculateBtn.disabled = !isValid;
+        };
+        
+        function handleNganhNgheSelect(li, isOther = false, otherValue = '') {
+            if (isOther) {
+                elements.nganhNgheInputShow.value = otherValue;
+                selectedNganhNghe = { text: otherValue, tax: 2, tncn: 1, hopleMin: null };
+                elements.goiy.p.classList.add('hidden');
+            } else {
+                elements.nganhNgheInputShow.value = li.textContent.trim();
+                selectedNganhNghe = {
+                    text: li.textContent.trim(), tax: parseFloat(li.dataset.tax), tncn: parseFloat(li.dataset.tncn),
+                    hopleMin: parseFloat(li.dataset.hopleMin), hopleMax: parseFloat(li.dataset.hopleMax),
+                };
+                elements.goiy.p.classList.remove('hidden');
+                elements.goiy.nganh.textContent = selectedNganhNghe.text;
+                elements.goiy.percent.textContent = `${selectedNganhNghe.hopleMin*100}% - ${selectedNganhNghe.hopleMax*100}%`;
+            }
+
+            if(toNumber(elements.moneyInput.value) > 0 && selectedNganhNghe.hopleMin){
+                const ky = elements.kyKekhaiSelect.value;
+                let multiplier = 1;
+                if(ky === 'Tháng') multiplier = 12; else if(ky === 'Quý') multiplier = 4;
+                elements.chiPhiInput.value = Math.round((getDoanhThuNam() * selectedNganhNghe.hopleMin) / multiplier);
+                formatInputCurrency(elements.chiPhiInput);
+            }
+            elements.nganhNgheList.classList.add('hidden');
+            checkFormValidity();
+        }
+
+        function calculateAndDisplay() {
+            if (elements.calculateBtn.disabled) return;
+            let chiphi = toNumber(elements.chiPhiInput.value);
+            let doanhthuNam = getDoanhThuNam();
+            let chiphiNam = chiphi;
+            const ky = elements.kyKekhaiSelect.value;
+            if (ky === "Tháng") chiphiNam *= 12; else if (ky === "Quý") chiphiNam *= 4;
+
+            let thueGTGT = 0, thueTNCN = 0;
+            const nganhNgheMap = {
+                "Phân phối, cung cấp hàng hóa": ["Tạp hóa, Siêu thị mini", "Quần áo, Thời trang", "Mỹ phẩm", "Mẹ và bé", "Thực phẩm", "Gia dụng, sinh hoạt", "Điện tử, điện máy", "Thuốc, thực phẩm chức năng", "Nội thất, trang trí"],
+                "Sản xuất, vận tải, dịch vụ có gắn với hàng hóa": ["Nhà hàng, quán ăn", "Homestay – nhà nghỉ"],
+                "Dịch vụ, xây dựng không bao thầu": ["Bida", "Spa, dịch vụ làm đẹp"]
+            };
+            const nhomNganhNghe = Object.keys(nganhNgheMap).find(key => nganhNgheMap[key].includes(selectedNganhNghe.text)) || "Hoạt động kinh doanh khác";
+
+            elements.results.doanhthuNam.textContent = formatCurrency(doanhthuNam);
+            elements.results.nganhNghe.textContent = selectedNganhNghe.text;
+            elements.results.nhomNganhNghe.textContent = nhomNganhNghe;
+            elements.explanationPanel.classList.add('hidden');
+            
+            if (doanhthuNam <= 500000000) {
+                Object.values(elements.results).forEach(el => { if (['gtgt', 'tncn', 'totalNam'].includes(el.id.replace('result-', ''))) el.textContent = 'Không phải nộp';});
+                elements.results.kekhai.textContent = "1-2 lần/năm"; elements.results.hoadon.textContent = "Không bắt buộc";
+                elements.results.soketoan.textContent = "Sổ chi tiết doanh thu"; elements.results.nganhang.textContent = "Không bắt buộc";
+            } else {
+                elements.explanationPanel.classList.remove('hidden');
+                thueGTGT = doanhthuNam * (selectedNganhNghe.tax / 100);
+                elements.explanationGtgt.innerHTML = `<p><span class="font-semibold">Thuế GTGT</span> = ${formatCurrency(doanhthuNam)} × ${selectedNganhNghe.tax}% = <span class="font-bold">${formatCurrency(thueGTGT)}</span></p>`;
+                
+                if (doanhthuNam <= 3000000000) {
+                    const tncnChoice = document.querySelector('input[name="tncn-choice"]:checked').value;
+                    if(tncnChoice === 'co-chiphi') {
+                        const thuNhapTinhThue = doanhthuNam - chiphiNam;
+                        thueTNCN = thuNhapTinhThue > 0 ? thuNhapTinhThue * 0.15 : 0;
+                        elements.explanationTncn.innerHTML = `<p><span class="font-semibold">Thuế TNCN</span> = (${formatCurrency(doanhthuNam)} - ${formatCurrency(chiphiNam)}) × 15% = <span class="font-bold">${formatCurrency(thueTNCN)}</span></p>`;
+                    } else {
+                        const doanhThuTinhThue = doanhthuNam - 500000000;
+                        const thueSuat = selectedNganhNghe.tncn / 100;
+                        thueTNCN = doanhThuTinhThue > 0 ? doanhThuTinhThue * thueSuat : 0;
+                        elements.explanationTncn.innerHTML = `<p><span class="font-semibold">Thuế TNCN</span> = (${formatCurrency(doanhthuNam)} - 500.000.000) × ${selectedNganhNghe.tncn}% = <span class="font-bold">${formatCurrency(thueTNCN)}</span></p>`;
+                    }
+                     elements.results.kekhai.textContent = "Theo quý (4 lần/năm)";
+                     elements.results.hoadon.textContent = doanhthuNam > 1000000000 ? "Bắt buộc HĐĐT từ máy tính tiền" : "Không bắt buộc";
+                     elements.results.soketoan.textContent = "Sổ chi tiết doanh thu"; elements.results.nganhang.textContent = "Bắt buộc";
+                } else {
+                     const thuNhapTinhThue = doanhthuNam - chiphiNam;
+                     const thueSuat = (doanhthuNam > 50000000000) ? 0.20 : 0.17;
+                     thueTNCN = thuNhapTinhThue > 0 ? thuNhapTinhThue * thueSuat : 0;
+                     elements.explanationTncn.innerHTML = `<p><span class="font-semibold">Thuế TNCN</span> = (${formatCurrency(doanhthuNam)} - ${formatCurrency(chiphiNam)}) × ${thueSuat*100}% = <span class="font-bold">${formatCurrency(thueTNCN)}</span></p>`;
+                     elements.results.kekhai.textContent = "Theo tháng"; elements.results.hoadon.textContent = "Bắt buộc HĐĐT";
+                     elements.results.soketoan.textContent = "Sổ chi tiết DT, chi phí"; elements.results.nganhang.textContent = "Bắt buộc";
+                }
+
+                elements.results.gtgt.textContent = formatCurrency(thueGTGT);
+                elements.results.tncn.textContent = formatCurrency(thueTNCN);
+                elements.results.totalNam.textContent = formatCurrency(thueGTGT + thueTNCN);
+            }
+            elements.printButton.classList.remove('hidden');
+            if (window.innerWidth < 1024) { elements.resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        }
+        
+        // --- EVENT BINDING ---
+        elements.nganhNgheInputShow.addEventListener('click', (e) => { e.stopPropagation(); elements.nganhNgheList.classList.toggle('hidden'); });
+        document.addEventListener('click', (e) => { if (!elements.nganhNgheWrapper.contains(e.target)) elements.nganhNgheList.classList.add('hidden'); });
+        elements.nganhNgheList.addEventListener('click', (e) => { if (e.target.tagName === 'LI' && !e.target.querySelector('#input-other')) handleNganhNgheSelect(e.target); });
+        elements.sendOtherBtn.addEventListener('click', () => { const value = elements.otherInput.value.trim(); if(value) handleNganhNgheSelect(null, true, value); });
+        
+        [elements.moneyInput, elements.chiPhiInput].forEach(el => {
+            el.addEventListener('input', () => { formatInputCurrency(el); updateUIBasedOnDoanhThu(); checkFormValidity(); });
+        });
+        elements.tncnChoiceRadios.forEach(radio => radio.addEventListener('change', handleTncnChoiceChange));
+
+        elements.kyKekhaiSelect.addEventListener('change', () => {
+            elements.titleKySpans.forEach(span => span.textContent = elements.kyKekhaiSelect.value.toLowerCase());
+            elements.moneyInput.dispatchEvent(new Event('input'));
+        });
+        elements.calculateBtn.addEventListener('click', (e) => { e.preventDefault(); calculateAndDisplay(); });
+        elements.printButton.addEventListener('click', () => window.print());
+        elements.detailedCosts.toggleBtn.addEventListener('click', () => {
+            elements.detailedCosts.group.classList.toggle('hidden');
+            elements.detailedCosts.toggleBtn.textContent = elements.detailedCosts.group.classList.contains('hidden') ? 'Nhập chi tiết' : 'Ẩn chi tiết';
+        });
+        elements.detailedCosts.inputs.forEach(input => input.addEventListener('input', () => {
+            formatInputCurrency(input);
+            let totalCost = 0;
+            elements.detailedCosts.inputs.forEach(costInput => totalCost += toNumber(costInput.value));
+            elements.chiPhiInput.value = totalCost;
+            formatInputCurrency(elements.chiPhiInput);
+            checkFormValidity();
+        }));
+    });
+    </script>
+</body>
+</html>
