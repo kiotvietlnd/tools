@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Tính Thuế Thu Nhập Cá Nhân 2026</title>
+    <meta name="description" content="Công cụ tính toán và so sánh Thuế Thu nhập Cá nhân (TNCN) theo biểu thuế hiện hành và dự kiến áp dụng từ năm 2026.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Soft Glow & Gradient Foundation */
+        @keyframes moveInCircle { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+        @keyframes moveVertical { 0% { transform: translateY(-50%); } 50% { transform: translateY(50%); } 100% { transform: translateY(-50%); } }
+        @keyframes moveHorizontal { 0% { transform: translateX(-50%); } 50% { transform: translateX(50%); } 100% { transform: translateX(-50%); } }
+        
+        .soft-glow-background { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -10; 
+            background: linear-gradient(to bottom right, #f8fafc, #e0f2fe); 
+        }
+        .soft-glow-background .shape { 
+            position: absolute; 
+            filter: blur(140px); 
+            opacity: 0.2; 
+        }
+        .soft-glow-background .shape1 { 
+            height: 350px; 
+            width: 350px; 
+            background: #166def; 
+            border-radius: 50%; 
+            top: -50px; 
+            left: -100px; 
+            animation: moveInCircle 22s ease-in-out infinite; 
+        }
+        .soft-glow-background .shape2 { 
+            height: 450px; 
+            width: 450px; 
+            background: #16a34a;
+            border-radius: 50%; 
+            bottom: -100px; 
+            right: -100px; 
+            animation: moveVertical 28s ease-in-out infinite; 
+        }
+        .soft-glow-background .shape3 { 
+            height: 300px; 
+            width: 500px; 
+            background: #f97316;
+            border-radius: 50%; 
+            top: 50%; 
+            left: 50%; 
+            animation: moveHorizontal 35s ease-in-out infinite; 
+        }
+        /* Custom styles for active tab */
+        .tab-active {
+            background-color: #166def !important;
+            color: white !important;
+            border-color: #166def !important;
+        }
+    </style>
+</head>
+<body id="top" class="text-slate-700 antialiased">
+
+    <!-- The Soft Glow & Gradient Foundation -->
+    <div class="soft-glow-background">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+
+    <!-- Pearly Glass Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-900/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#top" class="flex items-center space-x-3">
+                    <i class="fa-solid fa-calculator text-2xl text-blue-600"></i>
+                    <span class="text-xl font-bold text-slate-800">Công Cụ Tính Thuế TNCN</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <!-- Hero Section -->
+        <section class="text-center mb-10" data-aos="fade-up">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 tracking-tight">
+                Cách tính Thuế Thu nhập Cá nhân
+            </h1>
+            <p class="mt-4 text-lg text-slate-600 max-w-3xl mx-auto">
+                Ước tính số thuế TNCN phải nộp theo biểu thuế hiện hành và so sánh với phương án dự kiến áp dụng từ 01/01/2026.
+            </p>
+        </section>
+
+        <!-- Main Calculator Section -->
+        <section data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-white/60 backdrop-blur-lg rounded-2xl p-6 md:p-8 border border-slate-200 shadow-xl">
+                
+                <!-- Tax Schedule Tabs -->
+                <div class="mb-6">
+                    <div class="flex border-b border-slate-200">
+                        <button id="tab-current" class="tab-button tab-active flex-1 py-3 px-4 text-center font-semibold text-slate-500 hover:bg-slate-100 transition-colors duration-300 rounded-t-lg">
+                            <i class="fa-solid fa-calendar-days mr-2"></i>Biểu thuế Hiện hành
+                        </button>
+                        <button id="tab-2026" class="tab-button flex-1 py-3 px-4 text-center font-semibold text-slate-500 hover:bg-slate-100 transition-colors duration-300 rounded-t-lg">
+                            <i class="fa-solid fa-calendar-check mr-2"></i>Dự kiến từ 01/01/2026
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input Form -->
+                <form id="tax-form" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div>
+                        <label for="total-income" class="block text-sm font-medium text-slate-600 mb-2">Tổng thu nhập (VNĐ/tháng)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-money-bill-wave"></i>
+                            </span>
+                            <input type="text" id="total-income" placeholder="Ví dụ: 30000000" class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="exempt-income" class="block text-sm font-medium text-slate-600 mb-2">Thu nhập miễn thuế (nếu có)</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-tags"></i>
+                            </span>
+                            <input type="text" id="exempt-income" placeholder="Ví dụ: tiền ăn trưa, điện thoại..." class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm">
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="dependents" class="block text-sm font-medium text-slate-600 mb-2">Số người phụ thuộc</label>
+                         <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-users"></i>
+                            </span>
+                            <input type="number" id="dependents" value="0" min="0" class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm">
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            <i class="fa-solid fa-calculator mr-2"></i>Tính thuế TNCN
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Results Section -->
+                <div id="results" class="mt-8 pt-6 border-t border-slate-200 hidden">
+                    <h3 class="text-2xl font-bold text-slate-800 mb-4 text-center">Kết quả tính thuế</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg">
+                        <div class="bg-slate-50 p-4 rounded-lg flex justify-between items-center">
+                            <span class="text-slate-600">Giảm trừ bản thân:</span>
+                            <strong id="result-personal-deduction" class="text-slate-800"></strong>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg flex justify-between items-center">
+                            <span class="text-slate-600">Giảm trừ người phụ thuộc:</span>
+                            <strong id="result-dependent-deduction" class="text-slate-800"></strong>
+                        </div>
+                         <div class="bg-slate-50 p-4 rounded-lg flex justify-between items-center col-span-1 sm:col-span-2">
+                            <span class="text-slate-600">Thu nhập tính thuế:</span>
+                            <strong id="result-taxable-income" class="text-slate-800"></strong>
+                        </div>
+                        <div class="bg-red-100/50 p-4 rounded-lg flex justify-between items-center col-span-1 sm:col-span-2 ring-2 ring-red-200">
+                            <span class="font-bold text-red-700">Thuế TNCN phải nộp:</span>
+                            <strong id="result-tax-payable" class="text-2xl font-extrabold text-red-700"></strong>
+                        </div>
+                        <div class="bg-green-100/50 p-4 rounded-lg flex justify-between items-center col-span-1 sm:col-span-2 ring-2 ring-green-200">
+                            <span class="font-bold text-green-700">Thu nhập còn lại:</span>
+                            <strong id="result-remaining-income" class="text-2xl font-extrabold text-green-700"></strong>
+                        </div>
+                    </div>
+                     <p class="text-center text-sm text-slate-500 mt-6">
+                        <i class="fa-solid fa-circle-info mr-1"></i>
+                        Lưu ý: Mức thuế dự kiến 2026 chỉ mang tính tham khảo dựa trên các đề xuất.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-white pt-12 pb-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-300">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <i class="fa-solid fa-calculator text-2xl text-white"></i>
+                <span class="text-xl font-bold text-white">Công Cụ Tính Thuế TNCN</span>
+            </div>
+            <p class="text-slate-400 text-sm mt-4">© 2024 - Một sản phẩm cho mục đích tham khảo.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({ once: true, duration: 600, easing: 'ease-in-out', offset: 50 });
+
+            // --- CONFIGURATION ---
+            const CONFIG = {
+                current: {
+                    personal_deduction: 11000000,
+                    dependent_deduction: 4400000,
+                    brackets: [
+                        { upto: 5000000, rate: 0.05 },
+                        { upto: 10000000, rate: 0.10 },
+                        { upto: 18000000, rate: 0.15 },
+                        { upto: 32000000, rate: 0.20 },
+                        { upto: 52000000, rate: 0.25 },
+                        { upto: 80000000, rate: 0.30 },
+                        { upto: Infinity, rate: 0.35 }
+                    ]
+                },
+                y2026: { // Based on common proposals for simplification
+                    personal_deduction: 15000000,
+                    dependent_deduction: 6000000,
+                    brackets: [
+                        { upto: 10000000, rate: 0.05 },
+                        { upto: 25000000, rate: 0.10 },
+                        { upto: 50000000, rate: 0.15 },
+                        { upto: 80000000, rate: 0.20 },
+                        { upto: Infinity, rate: 0.25 }
+                    ]
+                }
+            };
+            
+            // --- DOM ELEMENTS ---
+            const form = document.getElementById('tax-form');
+            const totalIncomeInput = document.getElementById('total-income');
+            const exemptIncomeInput = document.getElementById('exempt-income');
+            const dependentsInput = document.getElementById('dependents');
+            const resultsDiv = document.getElementById('results');
+            const tabCurrent = document.getElementById('tab-current');
+            const tab2026 = document.getElementById('tab-2026');
+
+            // Result spans
+            const personalDeductionEl = document.getElementById('result-personal-deduction');
+            const dependentDeductionEl = document.getElementById('result-dependent-deduction');
+            const taxableIncomeEl = document.getElementById('result-taxable-income');
+            const taxPayableEl = document.getElementById('result-tax-payable');
+            const remainingIncomeEl = document.getElementById('result-remaining-income');
+
+            let activeTab = 'current';
+
+            // --- HELPER FUNCTIONS ---
+            const formatCurrency = (value) => {
+                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+            };
+
+            const parseInputAsNumber = (input) => {
+                const value = parseFloat(input.value.replace(/[^0-9]/g, ''));
+                return isNaN(value) ? 0 : value;
+            };
+            
+            // Auto format currency input
+            const autoFormatInput = (event) => {
+                let value = event.target.value.replace(/[^0-9]/g, '');
+                if (value) {
+                    event.target.value = new Intl.NumberFormat('vi-VN').format(value);
+                } else {
+                    event.target.value = '';
+                }
+            };
+
+            totalIncomeInput.addEventListener('input', autoFormatInput);
+            exemptIncomeInput.addEventListener('input', autoFormatInput);
+
+            // --- CORE CALCULATION LOGIC ---
+            const calculateProgressiveTax = (taxableIncome, brackets) => {
+                let totalTax = 0;
+                let previousUpto = 0;
+                
+                for (const bracket of brackets) {
+                    if (taxableIncome <= 0) break;
+                    
+                    const taxableInBracket = Math.min(taxableIncome, bracket.upto - previousUpto);
+                    totalTax += taxableInBracket * bracket.rate;
+                    taxableIncome -= taxableInBracket;
+                    previousUpto = bracket.upto;
+                }
+                
+                return totalTax;
+            };
+
+            const calculateTax = (e) => {
+                e.preventDefault();
+
+                const totalIncome = parseInputAsNumber(totalIncomeInput);
+                const exemptIncome = parseInputAsNumber(exemptIncomeInput);
+                const dependents = parseInt(dependentsInput.value) || 0;
+
+                const rules = CONFIG[activeTab];
+                
+                const personalDeduction = rules.personal_deduction;
+                const dependentDeduction = dependents * rules.dependent_deduction;
+                
+                const totalDeductions = personalDeduction + dependentDeduction;
+                
+                const taxableIncome = Math.max(0, totalIncome - exemptIncome - totalDeductions);
+                
+                const taxPayable = calculateProgressiveTax(taxableIncome, rules.brackets);
+                
+                const remainingIncome = totalIncome - taxPayable;
+
+                // Display results
+                personalDeductionEl.textContent = formatCurrency(personalDeduction);
+                dependentDeductionEl.textContent = formatCurrency(dependentDeduction);
+                taxableIncomeEl.textContent = formatCurrency(taxableIncome);
+                taxPayableEl.textContent = formatCurrency(taxPayable);
+                remainingIncomeEl.textContent = formatCurrency(remainingIncome);
+
+                resultsDiv.classList.remove('hidden');
+                 // Scroll to results on smaller screens for better UX
+                if (window.innerWidth < 768) {
+                    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+            };
+
+            // --- EVENT LISTENERS ---
+            form.addEventListener('submit', calculateTax);
+            
+            tabCurrent.addEventListener('click', () => {
+                activeTab = 'current';
+                tabCurrent.classList.add('tab-active');
+                tab2026.classList.remove('tab-active');
+                resultsDiv.classList.add('hidden');
+            });
+
+            tab2026.addEventListener('click', () => {
+                activeTab = 'y2026';
+                tab2026.classList.add('tab-active');
+                tabCurrent.classList.remove('tab-active');
+                resultsDiv.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
