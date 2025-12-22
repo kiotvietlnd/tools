@@ -99,6 +99,15 @@
             text-align: right;
         }
         
+        /* Checkbox Custom Style */
+        .custom-checkbox input:checked + div {
+            background-color: #00A651;
+            border-color: #00A651;
+        }
+        .custom-checkbox input:checked + div svg {
+            display: block;
+        }
+        
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: rgba(241, 245, 249, 0.5); }
@@ -144,10 +153,13 @@
     <nav class="bg-white/60 backdrop-blur-md border-b border-slate-200/60 shadow-sm sticky top-[72px] z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex overflow-x-auto py-0 no-scrollbar gap-2 text-sm font-semibold text-slate-500" id="tab-container">
-                <button onclick="switchTab('tab-huong-dan')" class="tab-btn active px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2">
+                <button onclick="switchTab('tab-checklist')" class="tab-btn active px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2 text-blue-700 bg-blue-50/30">
+                    <i class="fas fa-clipboard-check"></i> Checklist Đánh giá
+                </button>
+                <button onclick="switchTab('tab-huong-dan')" class="tab-btn px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2">
                     <i class="fas fa-info-circle"></i> Hướng dẫn
                 </button>
-                <button onclick="switchTab('tab-kich-ban')" class="tab-btn px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2 text-blue-700 bg-blue-50/50">
+                <button onclick="switchTab('tab-kich-ban')" class="tab-btn px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2">
                     <i class="fas fa-file-alt"></i> Kịch bản Mẫu
                 </button>
                 <button onclick="switchTab('tab-tieu-chi')" class="tab-btn px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2">
@@ -168,8 +180,291 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[calc(100vh-140px)]">
 
+        <!-- TAB 0: CHECKLIST (NEW) -->
+        <div id="tab-checklist" class="tab-content fade-in">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Checklist Theo Dõi & Đánh Giá</h2>
+                    <p class="text-sm text-slate-500">Sử dụng để tick chọn nhanh các nội dung nhân viên đã thực hiện được trong buổi roleplay.</p>
+                </div>
+                <div class="hidden sm:block text-right">
+                    <button onclick="resetChecklist()" class="text-sm text-slate-400 hover:text-red-500 transition-colors"><i class="fas fa-sync-alt mr-1"></i> Làm mới</button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 rounded-full h-2.5 mb-8">
+                <div id="checklist-progress" class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- 1. Tiếp cận -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-pink-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">1. Tiếp cận & Tạo thiện cảm (10%)</h3>
+                        <span class="text-xs font-bold text-pink-500 bg-pink-50 px-2 py-1 rounded">Mở đầu</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Tìm hiểu thông tin khách trước khi gặp</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Chào hỏi thân thiện, xưng hô phù hợp</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Phá băng (Khen ngợi/Hỏi thăm) tự nhiên</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Khơi gợi sự quan tâm/Đặt vấn đề</span>
+                        </label>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="2" placeholder="Ghi chú nhanh về phần Tiếp cận..."></textarea>
+                </div>
+
+                <!-- 2. COC -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-blue-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">2. Xác thực & COC (20%)</h3>
+                        <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">Bắt buộc</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Hỏi: Đã từng tạo tài khoản/Sale chăm sóc?</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Hỏi: Nguồn biết đến KiotViet?</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Xử lý đúng quy trình (nếu có trùng)</span>
+                        </label>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="2" placeholder="Ghi chú về COC..."></textarea>
+                </div>
+
+                <!-- 3. Nhu cầu -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-amber-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">3. Khai thác nhu cầu (15%)</h3>
+                        <span class="text-xs font-bold text-amber-500 bg-amber-50 px-2 py-1 rounded">Quan trọng</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Hỏi thâm niên/quy mô cửa hàng</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Hỏi cách quản lý hiện tại (Sổ/Excel...)</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Tìm ra "điểm đau" (khó khăn nhất)</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Hỏi mong muốn về giải pháp</span>
+                        </label>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="2" placeholder="Ghi chú về nhu cầu..."></textarea>
+                </div>
+
+                <!-- 4. Lợi ích -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-purple-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">4. Giới thiệu lợi ích (15%)</h3>
+                        <span class="text-xs font-bold text-purple-500 bg-purple-50 px-2 py-1 rounded">Giải pháp</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Xác nhận lại nhu cầu khách vừa kể</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Khẳng định KiotViet đáp ứng tốt</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Nêu Tính năng + Lợi ích đi kèm</span>
+                        </label>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="2" placeholder="Ghi chú phần lợi ích..."></textarea>
+                </div>
+
+                <!-- 5. Demo -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-green-600 lg:col-span-2 bg-green-50/20">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">5. Demo tính năng (30%)</h3>
+                        <span class="text-xs font-bold text-white bg-kiot-green px-3 py-1 rounded-full shadow">Trọng tâm</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="space-y-2">
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" onchange="updateProgress()">
+                                <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                    <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm text-slate-600 select-none">Xin phép demo/Dẫn dắt vào demo</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" onchange="updateProgress()">
+                                <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                    <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm text-slate-600 select-none">Thao tác: Tổng quan & Hàng hóa</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" onchange="updateProgress()">
+                                <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                    <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm text-slate-600 select-none">Thao tác: Nhập hàng (NCC, Thanh toán)</span>
+                            </label>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" onchange="updateProgress()">
+                                <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                    <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm text-slate-600 select-none">Thao tác: Bán hàng (Thêm KH, Tra cứu)</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" onchange="updateProgress()">
+                                <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                    <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm text-slate-600 select-none">Thao tác: Báo cáo & Tiện ích khác</span>
+                            </label>
+                            <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="hidden" onchange="updateProgress()">
+                                <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                    <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <span class="text-sm text-slate-600 select-none">Trả lời thắc mắc chính xác</span>
+                            </label>
+                        </div>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="3" placeholder="Nhận xét chi tiết về phần Demo..."></textarea>
+                </div>
+
+                <!-- 6. Gói giá -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-slate-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">6. Tư vấn gói giá (5%)</h3>
+                        <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">Chốt sale</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Báo giá niêm yết các gói</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Tư vấn gói phù hợp (Kèm lý do)</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Chốt KM/Chia nhỏ chi phí</span>
+                        </label>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="2" placeholder="Ghi chú tư vấn giá..."></textarea>
+                </div>
+
+                <!-- 7. Tương tác -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-slate-500">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-slate-800">7. Tương tác tổng thể (5%)</h3>
+                        <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">Kỹ năng mềm</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Giọng điệu tự tin, truyền cảm</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Lắng nghe, không ngắt lời</span>
+                        </label>
+                        <label class="custom-checkbox flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" class="hidden" onchange="updateProgress()">
+                            <div class="w-5 h-5 border-2 border-slate-300 rounded flex items-center justify-center transition-colors bg-white">
+                                <svg class="w-3 h-3 text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <span class="text-sm text-slate-600 select-none">Xử lý từ chối khéo léo</span>
+                        </label>
+                    </div>
+                    <textarea class="w-full text-sm p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white/50" rows="2" placeholder="Ghi chú tương tác..."></textarea>
+                </div>
+            </div>
+        </div>
+
         <!-- TAB 1: HƯỚNG DẪN -->
-        <div id="tab-huong-dan" class="tab-content fade-in">
+        <div id="tab-huong-dan" class="tab-content hidden-tab fade-in">
             <section class="mb-8 text-center">
                 <h2 class="text-3xl font-black text-slate-800 tracking-tight mb-2">KẾ HOẠCH ĐÁNH GIÁ</h2>
                 <p class="text-lg text-slate-600 font-medium">Sau đào tạo Sản phẩm, COC và Kỹ năng Bán hàng</p>
@@ -1097,8 +1392,6 @@
             buttons.forEach(btn => btn.classList.remove('active'));
             
             // Find the button that called this function and make it active
-            // This relies on the button being clicked. If calling programmatically, might need more logic
-            // Simple approach: add active class based on onclick attribute match
             buttons.forEach(btn => {
                 if(btn.getAttribute('onclick').includes(tabId)) {
                     btn.classList.add('active');
@@ -1109,6 +1402,27 @@
             if (tabId === 'tab-tieu-chi') {
                // Optional: Trigger a chart update or resize if needed
             }
+        }
+
+        // Progress Bar Logic
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('#tab-checklist input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const percentage = (checked / total) * 100;
+            
+            document.getElementById('checklist-progress').style.width = percentage + '%';
+        }
+
+        // Reset Checklist
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('#tab-checklist input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            
+            const textareas = document.querySelectorAll('#tab-checklist textarea');
+            textareas.forEach(ta => ta.value = '');
+            
+            updateProgress();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
