@@ -82,17 +82,19 @@
             border-radius: 1rem;
             max-width: 90%;
             margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
         .chat-sales {
             background-color: #eff6ff;
             border-bottom-left-radius: 0;
-            margin-right: auto;
+            margin-right: 2rem;
             border: 1px solid #dbeafe;
         }
         .chat-customer {
             background-color: #f0fdf4;
             border-bottom-right-radius: 0;
-            margin-left: auto;
+            margin-left: 2rem;
             border: 1px solid #dcfce7;
             text-align: right;
         }
@@ -155,10 +157,10 @@
                     <i class="fas fa-list-check"></i> Năng lực SP
                 </button>
                 <button onclick="switchTab('tab-rubric')" class="tab-btn px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2">
-                    <i class="fas fa-th-list"></i> Rubric
+                    <i class="fas fa-th-list"></i> Thang điểm đánh giá
                 </button>
                 <button onclick="switchTab('tab-cau-hoi')" class="tab-btn px-4 py-4 whitespace-nowrap hover:text-blue-600 transition-colors focus:outline-none flex items-center gap-2">
-                    <i class="fas fa-question-circle"></i> Ngân hàng Câu hỏi
+                    <i class="fas fa-question-circle"></i> Nội dung COC tham khảo
                 </button>
             </div>
         </div>
@@ -247,11 +249,11 @@
                     <div class="glass-panel rounded-2xl p-6 border-t-4 border-t-blue-600">
                         <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-200">
                             <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white text-xl">
-                                <i class="fas fa-store"></i>
+                                <i class="fas fa-tshirt"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-800">Kịch bản Mẫu: Cửa hàng Tạp hóa</h3>
-                                <p class="text-sm text-slate-500">Tình huống: Cửa hàng có 3 nhân viên, có nhận ship hàng online.</p>
+                                <h3 class="text-xl font-bold text-slate-800">Kịch bản Mẫu: Cửa hàng Thời trang</h3>
+                                <p class="text-sm text-slate-500">Nhân vật: Nhật Vi (Sales) & Chị Thu Phương (Chủ shop, quản lý sổ sách).</p>
                             </div>
                         </div>
 
@@ -259,54 +261,86 @@
                         <div class="mb-8">
                             <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">1. Tiếp cận & Phá băng</h4>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Dạ em chào anh/chị [Tên] ạ!
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ em chào chị Phương ạ. Chị ơi, nãy em đi ngang qua thấy cửa hàng mình bài trí ma-nơ-canh (mannequin) bắt mắt quá, nhìn rất có gu luôn ạ. Em thấy khách ra vào nườm nượp, trộm vía mình buôn bán tốt quá chị ha.
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Cảm ơn em nhé, cũng tàm tạm thôi em, nay cuối tuần nên hơi đông chút.
                             </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Cửa hàng của anh/chị nhiều hàng phong phú quá, em quan sát nãy giờ thấy khách ra vào liên tục trộm vía ghê ạ!
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, em quan sát thấy nãy giờ chị với nhân viên vừa phải tư vấn, vừa phải ghi chép sổ sách để tính tiền, lúc khách đông chắc là cũng dễ bị rối và nhầm lẫn chị nhỉ?
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Ừ đúng rồi em, nhiều khi khách hối quá ghi không kịp, tối về cộng sổ lại thấy lệch tiền mà không biết lệch ở đâu.
                             </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Em cũng để ý thấy mình ghi sổ rất chi tiết để theo dõi hàng. Chị cẩn thận chỉn chu thật đấy ạ! Nhưng ghi sổ này chắc cũng hơi mất thời gian phải không chị, nhất là lúc đông khách tính tiền.
-                            </div>
-                            <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Em tên Trang ạ, em cũng từng hỗ trợ set up rất nhiều mô hình cửa hàng <b>tạp hóa</b> tương tự cửa hàng mình. Đa phần các anh/chị đó đều gặp khó khăn trong việc kiểm soát hàng nhập - xuất và giá cả, vì tạp hóa thì vô vàn mã hàng nhỏ lẻ.
-                                <br><br>
-                                Cũng không mất gì cả, chị dành ra vài phút tham khảo thử cách thức quản lý này của KiotViet bên em xem sao nhé, biết đâu sẽ giúp ích được cho anh/chị.
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ vâng, em là Vi đến từ phần mềm quản lý bán hàng <b>KiotViet</b>. Em cũng đã hỗ trợ cho rất nhiều cửa hàng thời trang trong khu vực này giải quyết được cái việc đau đầu vì ghi chép sổ sách và thất thoát hàng hóa. Hôm nay tiện ghé qua, em xin phép vài phút chia sẻ giải pháp bên em, biết đâu giúp được chị quản lý nhàn tênh hơn ạ.
                             </div>
                         </div>
 
-                        <!-- 2. Kiểm tra thông tin -->
+                        <!-- 2. Xác thực -->
                         <div class="mb-8">
                             <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">2. Xác thực (COC)</h4>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Ừ, chị cũng nghe nói đến KiotViet rồi nhưng chưa có thời gian tìm hiểu.
+                            </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Để tư vấn tốt nhất cho chị, em xin phép hỏi một vài thông tin ạ.
-                                <br>
-                                <b>Trước đây, anh/chị đã từng tạo tài khoản và đã được bạn chuyên viên tư vấn nào bên em hỗ trợ chưa ạ?</b>
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, vậy <b>trước giờ chị đã từng tạo tài khoản dùng thử nào trên KiotViet hoặc có bạn sale nào từng liên hệ tư vấn chi tiết cho chị chưa ạ?</b>
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Chưa em ơi, chị mù công nghệ nên chưa đăng ký thử bao giờ, cũng chưa có ai gọi cả.
                             </div>
                              <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Dạ, anh/chị <b>biết đến KiotViet thông qua bạn bè giới thiệu hay tự tìm hiểu qua trang quảng cáo nào ạ?</b>
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, thế <b>có bạn bè hay người quen nào của chị đang dùng KiotViet giới thiệu chị không ạ?</b>
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                À không, chị thấy mấy shop bên cạnh dùng nên biết tên thôi.
                             </div>
                         </div>
 
-                        <!-- 3. Khai thác nhu cầu -->
+                        <!-- 3. Khai thác -->
                         <div class="mb-8">
                             <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">3. Khai thác nhu cầu</h4>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Tiệm tạp hóa nhà mình mở được bao lâu rồi chị? Trước giờ chị theo dõi tồn kho và giá bán bằng cách nào ạ?
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ vâng, để em tư vấn gói phù hợp nhất, chị cho em hỏi thăm xíu là cửa hàng mình kinh doanh ở đây lâu chưa và hiện tại quy mô nhân viên bên mình thế nào chị ha?
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Chị bán được 2 năm rồi. Hiện tại có chị với 2 bạn nhân viên thay ca nhau.
                             </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Khi quản lý kinh doanh, chị thấy thường mất thời gian hay khó khăn nhất ở phần nào ạ? (Ví dụ: thất thoát, nhầm giá, không biết lãi lỗ...)
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, với 3 người bán, thì hiện tại chị đang kiểm soát hàng tồn kho và doanh thu hàng ngày bằng cách nào ạ?
                             </div>
-                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Nếu có một công cụ hỗ trợ, anh/chị mong muốn nó sẽ giúp mình giải quyết vấn đề gì nhất ạ?
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Chị tin tưởng nhân viên là chính thôi, hàng nhập về thì ghi vào sổ, bán ra cũng ghi sổ. Cuối tháng chị mới kiểm kho một lần.
+                            </div>
+                            <div class="chat-sales chat-bubble">
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, kiểm kho thủ công cuối tháng vậy chắc mất thời gian lắm chị ha. Mà chị ơi, ngoài bán tại cửa hàng, mình có bán trên Facebook hay Shopee gì không ạ?
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Có chứ, chị live stream trên Facebook nữa, chốt đơn cũng cực lắm, nhiều khi sót đơn của khách.
+                            </div>
+                            <div class="chat-sales chat-bubble">
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, vậy nếu có một công cụ hỗ trợ, chị mong muốn nó giải quyết được vấn đề gì nhất cho mình ngay lúc này ạ?
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Chị muốn làm sao biết chính xác trong kho còn cái áo đó size gì, màu gì để chốt đơn cho nhanh, chứ giờ cứ phải chạy đi tìm. Với lại tính tiền cho lẹ chứ khách đợi lâu họ cáu.
                             </div>
                         </div>
 
@@ -314,64 +348,104 @@
                          <div class="mb-8">
                             <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">4. Tư vấn giải pháp</h4>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Như anh/chị vừa chia sẻ, em xác nhận lại nhu cầu của mình là muốn quản lý chặt chẽ tồn kho hàng nghìn mã hàng và tránh nhầm lẫn giá bán khi đông khách đúng không ạ?
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ em xác nhận lại nhu cầu của chị chút nhé. Chị đang cần một giải pháp giúp <b>quản lý tồn kho chính xác theo size/màu sắc</b> để tránh thất thoát và muốn <b>đẩy nhanh tốc độ tính tiền, chốt đơn online</b> đúng không ạ?
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Đúng rồi em, chính xác là vậy.
                             </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Với những yêu cầu này thì Phần mềm KiotViet hoàn toàn đáp ứng tốt ạ. Bên em có tính năng quét mã vạch thanh toán cực nhanh và hệ thống cảnh báo tồn kho tự động, giúp chị không bao giờ lo thất thoát hay nhớ nhầm giá nữa.
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Chị yên tâm, phần mềm KiotViet bên em đáp ứng rất tốt những mong đợi này của chị.
+                                <br><br>
+                                <b>Thứ nhất,</b> KiotViet có tính năng quản lý hàng hóa theo thuộc tính (size, màu sắc, chất liệu). Khi chị nhập hàng, chị chỉ cần nhập một lần, hệ thống sẽ tạo mã vạch. Khi bán, chị chỉ cần dùng máy quét "tít" một cái là xong. Ngay lập tức, hàng tồn kho giảm xuống, doanh thu cộng vào, và chị biết ngay lãi lỗ mà không cần cộng sổ sách.
+                                <br><br>
+                                <b>Thứ hai,</b> KiotViet hỗ trợ bán hàng online, liên kết fanpage. Phần mềm giúp chị chốt đơn ngay trên livestream, tự động in phiếu giao hàng và trừ kho luôn, chị không lo sót đơn hay không biết còn hàng để bán hay không. Việc này giúp chị tiết kiệm rất nhiều thời gian so với làm thủ công ạ.
                             </div>
                         </div>
 
-                        <!-- 5. Demo & Chốt -->
+                        <!-- 5. Demo -->
                         <div class="mb-8">
-                            <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">5. Demo & Chốt giá</h4>
-                            <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Để hình dung rõ hơn, anh/chị dành ra vài phút em sẽ thao tác trực tiếp trên phần mềm cho anh/chị xem nhé.
-                                <br>
-                                <i>(Thực hiện Demo 6 bước...)</i>
-                            </div>
-                            <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-100 mb-4 text-sm text-slate-700">
-                                <strong>Báo giá:</strong> Hiện tại KiotViet đang có 3 gói là Hỗ trợ, Chuyên nghiệp & Cao cấp với mức phí cài đặt từ 250k - 490k/tháng.
+                            <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">5. Demo (Dẫn dắt)</h4>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Nghe thì hay đấy nhưng chị sợ chị không rành máy tính, khó dùng thì sao?
                             </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Tuy nhiên, với quy mô cửa hàng chị có <b>3 nhân viên</b> và chị cũng có <b>ship hàng khách đặt online</b> thì em thấy mình đăng ký <b>Gói Chuyên nghiệp (310k/tháng)</b> là phù hợp nhất ạ. Gói này giúp chị phân quyền chi tiết cho nhân viên để bảo mật và quản lý đơn online hiệu quả.
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ cái này dễ lắm chị ạ, giao diện tiếng Việt trực quan. Để chị dễ hình dung hơn, chị dành ra 5 phút thôi, em sẽ thao tác trực tiếp trên máy tính bảng này cho chị xem thử nhé. Em sẽ thử nhập một cái áo và bán thử để chị thấy nó nhanh và đơn giản thế nào ạ.
+                                <br><i>(Vi thực hiện demo theo quy trình 6 bước: Tổng quan -> Hàng hóa -> Bán hàng -> Báo cáo...)</i>
+                            </div>
+                        </div>
+
+                        <!-- 6. Chốt -->
+                        <div class="mb-8">
+                            <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 border-l-4 border-blue-500 pl-3">6. Chốt (Báo giá & Ưu đãi)</h4>
+                            <div class="chat-sales chat-bubble">
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Chị Phương thấy thao tác vừa rồi có đơn giản không ạ?
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Ừ, công nhận nhanh thật, quét cái là ra tiền luôn. Thế giá cả sao em?
                             </div>
                             <div class="chat-sales chat-bubble">
-                                <div class="text-xs font-bold text-blue-600 mb-1">Sales (Trang)</div>
-                                Đặc biệt, nếu chị đăng ký 2 năm và kích hoạt trước ngày [Ngày], em xin tặng chị <b>Voucher giảm 500k</b> (hoặc Máy in/Quét tùy CTKM), tính ra chỉ còn <b>280k/tháng</b> thôi ạ. Chưa bằng tiền internet 1 tháng mà quản lý nhẹ nhàng, chính xác hơn hẳn!
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ hiện tại KiotViet có 3 gói là Hỗ trợ, Chuyên nghiệp và Cao cấp với mức giá từ 250.000đ đến 490.000đ/tháng.
+                                <br><br>
+                                Tuy nhiên, với quy mô cửa hàng mình có <b>3 nhân viên</b> và có <b>bán hàng online</b>, em thấy <b>gói Chuyên nghiệp (310.000đ/tháng)</b> là phù hợp nhất. Gói này vừa hỗ trợ đầy đủ tính năng quản lý tồn kho, vừa quản lý được nhân viên và các kênh bán hàng online cho chị.
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                310 ngàn một tháng à? Phải đóng một lần hay sao em?
+                            </div>
+                            <div class="chat-sales chat-bubble">
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ mình đăng ký tối thiểu 1 năm ạ. Nhưng chị ơi, đặc biệt hôm nay bên em đang có chương trình ưu đãi rất tốt. Nếu chị đăng ký gói 2 năm và kích hoạt trước ngày 28 này, chị sẽ được tặng thêm 12 tháng sử dụng (hoặc tặng máy in hóa đơn/Voucher giảm giá - tùy chính sách). Tính ra chi phí chị đầu tư chưa đến 8.000đ/ngày, chỉ bằng ly trà đá thôi mà quản lý được cả cơ ngơi, tránh thất thoát tiền triệu mỗi tháng.
+                            </div>
+                            <div class="chat-customer chat-bubble">
+                                <div class="text-xs font-bold text-green-600 mb-1">Thu Phương</div>
+                                Ờ, tính ra rẻ nhỉ. Thôi được rồi để chị đăng ký luôn, chứ sổ sách mệt quá rồi.
+                            </div>
+                            <div class="chat-sales chat-bubble">
+                                <div class="text-xs font-bold text-blue-600 mb-1">Nhật Vi</div>
+                                Dạ, chị cho em xin CMND/CCCD để em lên hợp đồng và hỗ trợ chị cài đặt luôn nhé. Em cảm ơn chị.
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar: Cẩm nang Tư vấn -->
+                <!-- Sidebar: Phân tích -->
                 <div class="lg:w-1/3 space-y-4">
                     <div class="bg-indigo-600 text-white p-5 rounded-2xl shadow-lg">
-                        <h4 class="font-bold text-lg mb-2"><i class="fas fa-lightbulb text-yellow-300 mr-2"></i>Mẹo Tư vấn Gói</h4>
-                        <p class="text-indigo-100 text-sm">Căn cứ vào nhu cầu thực tế để hướng khách hàng vào gói phù hợp.</p>
+                        <h4 class="font-bold text-lg mb-2"><i class="fas fa-microscope text-yellow-300 mr-2"></i>Phân tích Kỹ năng</h4>
+                        <p class="text-indigo-100 text-sm">Điểm sáng trong kịch bản mẫu này.</p>
                     </div>
 
-                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-blue-500">
-                        <h5 class="font-bold text-slate-800 mb-2">Gói CHUYÊN NGHIỆP (310k)</h5>
-                        <ul class="text-sm space-y-2 text-slate-600 list-disc pl-4">
-                            <li><strong class="text-blue-600">Phần cứng:</strong> Khách cần tặng Máy in/Máy quét (Mua 2 năm gói Pro lợi hơn mua lẻ).</li>
-                            <li><strong class="text-blue-600">Nhân viên:</strong> > 2 nhân viên, cần phân quyền chi tiết, bảo mật giá vốn/doanh thu.</li>
-                            <li><strong class="text-blue-600">Chuỗi:</strong> Có nhiều chi nhánh, cần luân chuyển hàng hóa.</li>
-                            <li><strong class="text-blue-600">Tính năng khác:</strong> Chấm công tính lương, Web bán hàng, Livestream, Sàn TMĐT (Shopee, Lazada).</li>
-                        </ul>
+                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-green-500">
+                        <h5 class="font-bold text-slate-800 mb-2">1. Phá băng (Ice-breaking)</h5>
+                        <p class="text-sm text-slate-600">Sử dụng lời khen chân thành về thẩm mỹ cửa hàng (mannequin, gu) và sự đắt khách để tạo thiện cảm ngay lập tức.</p>
                     </div>
 
-                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-slate-400">
-                        <h5 class="font-bold text-slate-800 mb-2">Gói HỖ TRỢ (250k)</h5>
-                        <ul class="text-sm space-y-2 text-slate-600 list-disc pl-4">
-                            <li>Cửa hàng nhỏ, chỉ có chủ hoặc 1 nhân viên tin cậy.</li>
-                            <li>Chỉ dùng điện thoại, không có nhu cầu dùng máy in/quét.</li>
-                            <li>Muốn trải nghiệm trước, chưa muốn đầu tư nhiều.</li>
-                            <li>Đã có sẵn phần cứng cũ tận dụng lại.</li>
-                        </ul>
+                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-green-500">
+                        <h5 class="font-bold text-slate-800 mb-2">2. Đặt vấn đề (Hook)</h5>
+                        <p class="text-sm text-slate-600">Đánh trúng "nỗi đau" ghi chép thủ công (rối, nhầm lẫn) và thất thoát khi đông khách.</p>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-green-500">
+                        <h5 class="font-bold text-slate-800 mb-2">3. Xác thực (Verification)</h5>
+                        <p class="text-sm text-slate-600">Hỏi rõ về tài khoản cũ và người giới thiệu để tuân thủ quy định COC (tránh tranh chấp Lead).</p>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-green-500">
+                        <h5 class="font-bold text-slate-800 mb-2">4. Tư vấn Giải pháp</h5>
+                        <p class="text-sm text-slate-600">Áp dụng công thức: Xác nhận nhu cầu -> Khẳng định KiotViet làm được -> Mô tả Tính năng đi kèm Lợi ích.</p>
+                    </div>
+
+                    <div class="glass-panel rounded-2xl p-5 border-l-4 border-l-green-500">
+                        <h5 class="font-bold text-slate-800 mb-2">5. Chốt sale</h5>
+                        <p class="text-sm text-slate-600">Tư vấn đúng gói (Chuyên nghiệp), chia nhỏ giá thành (8k/ngày = ly trà đá) để khách thấy rẻ, tạo sự khan hiếm (deadline ưu đãi).</p>
                     </div>
                 </div>
             </div>
@@ -468,41 +542,126 @@
                             </tr>
                             <tr>
                                 <td class="px-6 py-4 font-bold text-slate-700">Tổng thể Demo</td>
-                                <td class="px-6 py-4 text-slate-600">Demo thiếu bước, thao tác lúng túng. Hầu như không giải đáp được câu hỏi (20-30%), trình bày dài dòng.</td>
-                                <td class="px-6 py-4 text-slate-800 font-medium">Demo đủ 6 bước cơ bản. Giải đáp hầu hết (~70%) câu hỏi. Hiểu lợi ích PM.</td>
+                                <td class="px-6 py-4 text-slate-600">Demo thiếu bước, thao tác trên phần mềm lúng túng, không nhớ thao tác. Hầu như không giải đáp được câu hỏi của khách hàng liên quan đến tính năng, lợi ích phần mềm. Chỉ trả lời được khoảng 20-30% nhưng trình bày dài dòng khó hiểu.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Demo đủ 6 bước cơ bản. Giải đáp được hầu hết (~70%) những câu hỏi của khách hàng liên quan đến tính năng, lợi ích phần mềm. Một vài tính năng (~30%) còn chưa nhớ chắc.</td>
                             </tr>
+
                             <!-- DEMO CƠ BẢN -->
-                             <tr class="bg-slate-100/50">
+                            <tr class="bg-slate-100/50">
                                 <td colspan="3" class="px-6 py-2 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-200/50">2. Demo Cơ bản</td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-4 font-bold text-slate-700">Thêm mới hàng hóa</td>
-                                <td class="px-6 py-4 text-slate-600">Hiểu sai thuật ngữ: Mã, Tên, Nhóm, Giá vốn...</td>
-                                <td class="px-6 py-4 text-slate-800 font-medium">Hiểu rõ khái niệm các thuật ngữ về hàng hóa.</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai về cách sử dụng phần mềm, hiểu sai thuật ngữ Mã hàng, Tên hàng, Nhóm hàng, Giá vốn, Giá bán, Tồn kho, Thuộc tính, Đơn vị tính.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Hiểu rõ khái niệm các thuật ngữ về hàng hóa: Mã hàng, Tên hàng, Nhóm hàng, Giá vốn, Giá bán, Tồn kho, Thuộc tính, Đơn vị tính.</td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-4 font-bold text-slate-700">Nhập hàng</td>
-                                <td class="px-6 py-4 text-slate-600">Thiếu bước (không giới thiệu NCC, thanh toán).</td>
-                                <td class="px-6 py-4 text-slate-800 font-medium">Hướng dẫn đầy đủ: Sản phẩm, NCC, Thanh toán.</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn thiếu bước khi nhập hàng, ví dụ không giới thiệu nhập thông tin nhà cung cấp, không hướng dẫn nhập phương thức thanh toán.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Hướng dẫn đầy đủ các bước nhập hàng, bao gồm đưa sản phẩm vào đơn, nhập thông tin nhà cung cấp, phương thức thanh toán.</td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-4 font-bold text-slate-700">Bán hàng</td>
-                                <td class="px-6 py-4 text-slate-600">Thao tác cồng kềnh (Giao dịch -> Hóa đơn). Không giới thiệu thêm KH, đa phương thức thanh toán.</td>
-                                <td class="px-6 py-4 text-kiot-green font-semibold">Thao tác nhanh trên MHBH. Tra cứu SP, bán theo ĐVT, thêm KH, đa phương thức.</td>
+                                <td class="px-6 py-4 text-slate-600">
+                                    <ul class="list-disc pl-4 space-y-1">
+                                        <li>Tư vấn sai cách tạo hóa đơn bán hàng (Trên màn hình bán hàng).</li>
+                                        <li>Thao tác tư vấn khách hàng tạo hoá đơn bán hàng: Giao dịch -> Hoá đơn -> Thêm hoá đơn mới (Thao tác này bị cồng kềnh, chỉ cần click vào Bán hàng góc phải màn hình là xong).</li>
+                                        <li>Không giới thiệu bước thêm khách hàng để lưu thông tin.</li>
+                                        <li>Không hướng dẫn nhập đa phương thức thanh toán.</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 text-kiot-green font-semibold">
+                                    Biết cách hướng dẫn đầy đủ các bước tạo hóa đơn bán hàng (Trên màn hình bán hàng):
+                                    <ul class="list-disc pl-4 space-y-1 mt-1">
+                                        <li>Tra cứu sản phẩm để thêm vào hoá đơn.</li>
+                                        <li>Thao tác khi khách hàng mua hoá đơn theo đơn vị tính (Hộp, Thùng,..).</li>
+                                        <li>Nhập thông tin khách hàng.</li>
+                                        <li>Đa phương thức thanh toán hoá đơn.</li>
+                                    </ul>
+                                </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td class="px-6 py-4 font-bold text-slate-700">Trả hàng</td>
-                                <td class="px-6 py-4 text-slate-600">Không tìm được nút Trả hàng. Không giới thiệu 2 hình thức (thường/nhanh).</td>
-                                <td class="px-6 py-4 text-slate-800 font-medium">Biết hướng dẫn tạo phiếu trả hàng từ hóa đơn gốc.</td>
+                                <td class="px-6 py-4 text-slate-600">
+                                    Không biết cách thực hiện trả hàng trên Màn hình bán hàng:
+                                    <ul class="list-disc pl-4 space-y-1 mt-1">
+                                        <li>Không biết thao tác tìm nút Trả hàng tại màn hình bán hàng.</li>
+                                        <li>Không biết tìm thông tin hoá đơn trả hàng.</li>
+                                        <li>Không giới thiệu cho khách hàng về 2 hình thức trả hàng: Trả hàng thường và Trả hàng nhanh.</li>
+                                        <li>Giới thiệu thiếu các bước để trả hàng: nhập số lượng trả, xác nhận phương thức thanh toán tiền trả khách, trả hàng vừa tạo.</li>
+                                    </ul>
+                                </td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách hướng dẫn tạo phiếu trả hàng dựa trên hóa đơn gốc.</td>
                             </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Công nợ</td>
+                                <td class="px-6 py-4 text-slate-600">Nhầm lẫn Điều chỉnh và Thanh toán khi quản lý công nợ.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách khởi tạo giá trị công nợ, tạo phiếu thu thanh toán công nợ.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Báo cáo</td>
+                                <td class="px-6 py-4 text-slate-600">Không biết xem Báo cáo cuối ngày trên Màn hình bán hàng, không giới thiệu được các báo cáo phổ biến trên Màn hình quản lý.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách giới thiệu các loại báo cáo cơ bản: Cuối ngày, Bán hàng, Hàng hóa, Tài chính.</td>
+                            </tr>
+
+                            <!-- GIẢI ĐÁP CÂU HỎI -->
+                            <tr class="bg-slate-100/50">
+                                <td colspan="3" class="px-6 py-2 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-200/50">3. Giải đáp Câu hỏi Nghiệp vụ</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Phân quyền</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách tạo tài khoản người dùng, phân quyền người dùng, giới hạn người dùng gói hỗ trợ.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách tạo tài khoản người dùng, phân quyền người dùng.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Hàng hóa (Nâng cao)</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách tư vấn tạo hàng dịch vụ, thiết lập bảng giá sỉ.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách tư vấn tạo hàng dịch vụ, thiết lập bảng giá sỉ.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Nhập hàng (Nâng cao)</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách Nhập hàng sản phẩm mới, Thêm dòng, Thiết lập giá, Giá vốn trung bình.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách Nhập hàng sản phẩm mới, Thêm dòng, Thiết lập giá, Giá vốn trung bình.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Bán hàng (Nâng cao)</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách Thêm mới sản phẩm trên MHBH, Tra cứu vị trí, Lập phiếu thu công nợ, tư vấn bán hàng khi mất mạng.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách Thêm mới sản phẩm trên MHBH, Tra cứu vị trí, Lập phiếu thu công nợ, tư vấn bán hàng khi mất mạng.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Trả hàng (Nâng cao)</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách thiết lập thời gian trả hàng theo hóa đơn, thao tác trả hàng nhanh.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách thiết lập thời gian trả hàng theo hóa đơn, thao tác trả hàng nhanh.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Nhóm khách hàng</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách tạo nhóm khách VIP.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách tạo nhóm khách VIP theo điều kiện.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Kiểm kho</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách tạo phiếu kiểm kho.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách tạo phiếu kiểm kho.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Sổ quỹ</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách Tạo phiếu thu - chi.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách Tạo phiếu thu - chi.</td>
+                            </tr>
+
                             <!-- APP MOBILE -->
                             <tr class="bg-slate-100/50">
-                                <td colspan="3" class="px-6 py-2 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-200/50">3. App Mobile</td>
+                                <td colspan="3" class="px-6 py-2 text-xs font-bold text-slate-500 uppercase tracking-wide bg-slate-200/50">4. App KiotViet (Mobile)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-slate-700">Tải App</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách tải app KiotViet, tải nhầm app khác.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách tải app KiotViet.</td>
                             </tr>
                             <tr>
                                 <td class="px-6 py-4 font-bold text-slate-700">Demo trên App</td>
-                                <td class="px-6 py-4 text-slate-600">Sai thao tác demo các tính năng.</td>
-                                <td class="px-6 py-4 text-slate-800 font-medium">Demo thành thạo: Thêm SP, Nhập, Bán, Trả, Báo cáo trên App.</td>
+                                <td class="px-6 py-4 text-slate-600">Tư vấn sai cách demo các tính năng trên app: Thêm mới sản phẩm, Nhập hàng, Bán hàng, Trả hàng, Công nợ, Báo cáo.</td>
+                                <td class="px-6 py-4 text-slate-800 font-medium">Biết cách demo các tính năng trên app: Thêm mới sản phẩm, Nhập hàng, Bán hàng, Trả hàng, Công nợ, Báo cáo.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -512,8 +671,15 @@
 
         <!-- TAB 4: RUBRIC -->
         <div id="tab-rubric" class="tab-content hidden-tab fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/30">
+                    <i class="fas fa-th-list text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">IV. THANG ĐIỂM ĐÁNH GIÁ</h2>
+            </div>
+            
             <div class="space-y-6">
-                <!-- Tiêu chí 1 -->
+                <!-- Tiêu chí 1: Tiếp cận -->
                 <div class="glass-panel rounded-2xl overflow-hidden">
                     <div class="bg-slate-50/80 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
                         <span class="font-bold text-slate-700">1. Tiếp cận & Tạo thiện cảm</span>
@@ -522,20 +688,99 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
                         <div class="p-5">
                             <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
-                            <p class="text-sm text-slate-500">Không tìm hiểu thông tin khách. Chào hỏi thiếu tự nhiên.</p>
+                            <p class="text-sm text-slate-500">
+                                - Không tìm hiểu bất kỳ thông tin cơ bản nào của khách hàng.<br>
+                                - Chào hỏi thiếu tự nhiên, thiếu sự chuẩn bị kịch bản.<br>
+                                - Mời chào tư vẫn chung chung, ko khiến khách hàng hứng thú muốn nghe tư vấn.
+                            </p>
                         </div>
                         <div class="p-5">
                             <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
-                            <p class="text-sm text-slate-600">Tìm hiểu được thông tin cơ bản. Chào hỏi bằng tên.</p>
+                            <p class="text-sm text-slate-600">
+                                - Tìm hiểu được một vài thông tin cơ bản (tên cửa hàng, mặt hàng, tình trạng kinh doanh) trước khi tiếp cận khách hàng.<br>
+                                - Chào hỏi khách hàng bằng tên hoặc nhắc tên cửa hàng.<br>
+                                - Đặt vấn đề bằng cách thăm dò mối quan tâm khách hàng/ khó khăn khách đang gặp phải và chủ động xin tư vấn.
+                            </p>
                         </div>
                         <div class="p-5 bg-green-50/30">
                             <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
-                            <p class="text-sm text-slate-800 font-medium">Tìm hiểu kỹ. Chào hỏi thân thiện. Khơi gợi đúng đặc trưng ngành hàng.</p>
+                            <p class="text-sm text-slate-800 font-medium">
+                                - Tìm hiểu kỹ các thông tin liên quan đến khách hàng; có sự chuẩn bị tốt trước khi tiếp cận.<br>
+                                - Chào hỏi khách hàng một cách thân thiện, nhắc tên khách hàng hoặc tên cửa hàng. Bắt chuyện tự nhiên bằng lời hỏi thăm và chủ động xin tư vấn.<br>
+                                - Khơi gợi mối quan tâm thường gặp dựa trên đặc trưng ngành hàng của khách, tạo lòng tin và thuyết phục được khách hàng cho cơ hội tư vấn.<br>
+                                - Có thể nhanh chóng điều chỉnh thông điệp tạo sự quan tâm của khách nếu bị từ chối ngay từ đầu.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tiêu chí 5 -->
+                <!-- Tiêu chí 2: Xác thực COC -->
+                <div class="glass-panel rounded-2xl overflow-hidden">
+                    <div class="bg-slate-50/80 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-bold text-slate-700">2. Xác thực & Xử lý theo COC</span>
+                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">20%</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
+                            <p class="text-sm text-slate-500">Bỏ sót câu xác thực. Xử lý thông tin khách hàng cung cấp sai với quy trình.</p>
+                        </div>
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
+                            <p class="text-sm text-slate-600">Thực hiện đủ 2 bước xác thực và xử lý đúng quy trình nhưng còn hơi cứng hoặc chưa tạo sự thoải mái.</p>
+                        </div>
+                        <div class="p-5 bg-green-50/30">
+                            <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
+                            <p class="text-sm text-slate-800 font-medium">Thực hiện xác thực đầy đủ, chính xác; giọng điệu tự nhiên, tạo sự thoải mái cho khách hàng. Xử lý đúng theo quy trình.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tiêu chí 3: Khai thác nhu cầu -->
+                <div class="glass-panel rounded-2xl overflow-hidden">
+                    <div class="bg-slate-50/80 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-bold text-slate-700">3. Khai thác nhu cầu</span>
+                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">15%</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
+                            <p class="text-sm text-slate-500">Không đặt câu hỏi tìm hiểu nhu cầu. Không khai thác được thông tin. Không biết khách cần gì hay khó khăn ở đâu.</p>
+                        </div>
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
+                            <p class="text-sm text-slate-600">Có đặt câu hỏi để tìm hiểu nhu cầu khách hàng. Nắm bắt được nhu cầu cơ bản của khách. Có thể chưa biết khai thác đào sâu làm rõ.</p>
+                        </div>
+                        <div class="p-5 bg-green-50/30">
+                            <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
+                            <p class="text-sm text-slate-800 font-medium">Đặt câu hỏi mở, khai thác sâu, giúp khách hàng bộc lộ rõ nhu cầu và khó khăn gặp phải khi kinh doanh. Nắm bắt chính xác nhu cầu điểm đau của khách hàng.</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Tiêu chí 4: Lợi ích PM -->
+                 <div class="glass-panel rounded-2xl overflow-hidden">
+                    <div class="bg-slate-50/80 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-bold text-slate-700">4. Giới thiệu lợi ích PM</span>
+                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">15%</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
+                            <p class="text-sm text-slate-500">Không chỉ ra được lợi ích của tính năng PM cho khách. Giới thiệu tính năng chung chung, lan man, dàn trải, không liên kết với nhu cầu khách hàng.</p>
+                        </div>
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
+                            <p class="text-sm text-slate-600">Giới thiệu được lợi ích của tính năng trên phần mềm giải quyết được nhu cầu khách hàng.</p>
+                        </div>
+                        <div class="p-5 bg-green-50/30">
+                            <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
+                            <p class="text-sm text-slate-800 font-medium">Giới thiệu lợi ích PM hấp dẫn, liên kết giữa nhu cầu và đặc trưng ngành hàng của khách với tính năng PM KiotViet, có ví dụ minh họa bám sát với thông tin kinh doanh hiện tại của khách.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tiêu chí 5: Demo -->
                 <div class="glass-panel rounded-2xl overflow-hidden border-2 border-kiot-green/20">
                     <div class="bg-green-50/80 px-6 py-3 border-b border-green-100 flex justify-between items-center">
                         <span class="font-bold text-kiot-green"><i class="fas fa-star mr-1"></i> 5. Demo tính năng PM</span>
@@ -544,15 +789,74 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
                         <div class="p-5">
                             <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
-                            <p class="text-sm text-slate-500">Demo lúng túng, trả lời < 30% câu hỏi.</p>
+                            <p class="text-sm text-slate-500">
+                                - Chưa chủ động thuyết phục để khách hàng đồng ý demo.<br>
+                                - Chưa chuẩn bị sẵn sàng công cụ gian hàng trước khi demo.<br>
+                                - Demo thiếu bước, thao tác trên phần mềm lúng túng, không nhớ thao tác.<br>
+                                - Hầu như không giải đáp được câu hỏi của khách hàng liên quan đến tính năng, lợi ích phần mềm. Chỉ trả lời được khoảng 20-30% nhưng trình bày dài dòng khó hiểu.
+                            </p>
                         </div>
                         <div class="p-5">
                             <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
-                            <p class="text-sm text-slate-600">Demo đủ 6 bước. Giải đáp 70% câu hỏi.</p>
+                            <p class="text-sm text-slate-600">
+                                - Thuyết phục được khách hàng đồng ý demo.<br>
+                                - Có sự chuẩn bị kỹ trước khi demo.<br>
+                                - Demo đủ 6 bước cơ bản, trình tự có thể còn lộn xộn.<br>
+                                - Giải đáp được hầu hết (70%) những câu hỏi của khách hàng liên quan đến tính năng, lợi ích phần mềm. Một vài tính năng còn chưa nhớ chắc.
+                            </p>
                         </div>
                         <div class="p-5 bg-green-50/30">
                             <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
-                            <p class="text-sm text-slate-800 font-medium">Demo trôi chảy. Giải đáp gãy gọn toàn bộ câu hỏi.</p>
+                            <p class="text-sm text-slate-800 font-medium">
+                                - Thuyết phục được khách hàng đồng ý demo.<br>
+                                - Có sự chuẩn bị kỹ trước khi demo.<br>
+                                - Demo trôi chảy 6 bước cơ bản gắn với thông tin của khách hàng theo đúng trình tự.<br>
+                                - Giải đáp gãy gọn toàn bộ những câu hỏi của khách hàng liên quan đến tính năng, lợi ích phần mềm.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tiêu chí 6: Tư vấn gói giá -->
+                <div class="glass-panel rounded-2xl overflow-hidden">
+                    <div class="bg-slate-50/80 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-bold text-slate-700">6. Tư vấn gói giá</span>
+                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">5%</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
+                            <p class="text-sm text-slate-500">Tư vấn sai gói giá hoặc ngập ngừng ấp úng vì không biết tư vấn gói nào cho khách.</p>
+                        </div>
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
+                            <p class="text-sm text-slate-600">Tư vấn được gói giá đúng theo nhu cầu khách hàng. (biết khách gì thì nên dùng gói gì). Có chủ động thuyết phục khách hàng đăng ký, có thể chưa xử lý được các tình huống khách hàng hỏi sâu hay từ chối khó.</p>
+                        </div>
+                        <div class="p-5 bg-green-50/30">
+                            <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
+                            <p class="text-sm text-slate-800 font-medium">Chủ động tư vấn gói phù hợp nhất với khách hàng. Có thể giải thích rõ ràng sự khác biệt giữa các gói. Thuyết phục được khách đăng ký với lý do hợp lý.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tiêu chí 7: Tương tác -->
+                <div class="glass-panel rounded-2xl overflow-hidden">
+                    <div class="bg-slate-50/80 px-6 py-3 border-b border-slate-200 flex justify-between items-center">
+                        <span class="font-bold text-slate-700">7. Tương tác tổng thể</span>
+                        <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded">5%</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded mb-2 uppercase">1-2 điểm</span>
+                            <p class="text-sm text-slate-500">Trò chuyện rời rạc, thiếu tương tác, thể hiện rõ lúng túng, nhiều phần im lặng vì không nhớ bước không biết nói gì.</p>
+                        </div>
+                        <div class="p-5">
+                            <span class="inline-block px-2 py-0.5 bg-blue-100 text-blue-600 text-[10px] font-bold rounded mb-2 uppercase">3-4 điểm</span>
+                            <p class="text-sm text-slate-600">Chủ động tạo sự kết nối và tương tác với khách hàng. Có thể còn chưa thực sự tự nhiên, các bước còn đôi chút lúng túng chưa hoàn toàn thành thục.</p>
+                        </div>
+                        <div class="p-5 bg-green-50/30">
+                            <span class="inline-block px-2 py-0.5 bg-kiot-green text-white text-[10px] font-bold rounded mb-2 uppercase">5 điểm</span>
+                            <p class="text-sm text-slate-800 font-medium">Thực hiện thành thục các bước trong quy trình bán hàng. Kết nối tự nhiên, duy trì mạch cảm xúc tốt, khen ngợi, đồng cảm và tương tác khéo léo với khách hàng xuyên suốt phần tư vấn.</p>
                         </div>
                     </div>
                 </div>
@@ -561,6 +865,12 @@
 
         <!-- TAB 5: CÂU HỎI -->
         <div id="tab-cau-hoi" class="tab-content hidden-tab fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-white shadow-lg shadow-slate-600/30">
+                    <i class="fas fa-question text-xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">V. NỘI DUNG COC THAM KHẢO (35 CÂU)</h2>
+            </div>
              <div class="glass-panel rounded-2xl overflow-hidden">
                 <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
                     <table class="w-full text-left border-collapse">
@@ -578,19 +888,178 @@
                                 <td class="px-4 py-3">Khi nào thì một bạn Telesale được chăm sóc khách ngoài khu vực của mình phụ trách?</td>
                             </tr>
                             <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">2</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý Khách hàng</td>
+                                <td class="px-4 py-3">Nếu KH ở nước ngoài thì sale nào (TS hay DS) được chăm sóc?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
                                 <td class="px-4 py-3 text-center text-slate-400">3</td>
                                 <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
                                 <td class="px-4 py-3">Lead là gì? Contact là gì? Lead và contact khác nhau như thế nào?</td>
                             </tr>
-                             <tr class="hover:bg-orange-50/50">
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">4</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Khi nào thì convert lead thành contact?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">5</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Lead có bao nhiêu trạng thái? là những trạng thái nào?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">6</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Thời gian chăm sóc của các trạng thái lead là bao lâu?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">7</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Những trạng thái nào của lead thì sales được chăm sóc? Trạng thái nào thì sales mất quyền chăm sóc?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">8</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Lead ở trạng thái Mới tạo, Direct Sales sẽ mất quyền chăm sóc khi nào?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">9</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Contact có bao nhiêu trạng thái? Là những trạng thái gì?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">10</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Thời gian chăm sóc của từng trạng thái contact cụ thể như thế nào?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">11</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Trạng thái nào của contact thì sales được chăm sóc? Trạng thái nào mất quyền chăm sóc?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">12</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Để có thể xin gia hạn contact, sales cần đảm bảo điều kiện gì?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">13</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">1 số điện thoại có thể tạo được bao nhiêu lead? bao nhiêu contact?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">14</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Khi chuyển trạng thái lead hoặc khi convert lead thành contact, sales cần làm gì để ko mất quyền chăm sóc khách hàng?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">15</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Khi tạo activity, sales cần nhập đầy đủ những thông tin gì?</td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">16</td>
+                                <td class="px-4 py-3 font-semibold text-blue-600">Quản lý trên CRM</td>
+                                <td class="px-4 py-3">Tính từ khi xin contact Getback về, sau bao nhiêu lâu không tạo activity thì sales sẽ bị thu hồi lại contact?</td>
+                            </tr>
+                            <!-- Quy trình kiểm tra thông tin -->
+                            <tr class="hover:bg-orange-50/50">
                                 <td class="px-4 py-3 text-center text-slate-400">17</td>
-                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
                                 <td class="px-4 py-3">Có bao nhiêu câu hỏi xác thực trong quy trình kiểm tra thông tin của khách hàng? Là những câu nào?</td>
                             </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">18</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Sales tiếp cận khách hàng, check thông tin sđt của khách đã có trên hệ thống thì thông tin khách hàng ở trạng thái lead/contact nào sales phải trả? Trạng thái nào thì được chăm sóc</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">19</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Ở câu hỏi xác thực 1, trường hợp khách hàng đã từng tạo tài khoản hay có chuyên viên tư vấn trước đây, sales sẽ xử lý như thế nào?</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">20</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Sales check thông tin khách hàng thấy ở tình trạng nào thì không cần hỏi câu hỏi check nguồn xem khách hàng biết đến Kioviet từ đâu?</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">21</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Trường hợp khách hàng có người giới thiệu, thông tin người giới thiệu ở trạng thái nào trên hệ thống thì sales phải trả? người giới thiệu ở trạng thái nào thì sales được chăm sóc?</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">22</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Sales tiếp cận khách hàng, xác thực thấy có người giới thiệu. Người giới thiệu đang là lead trong hạn 10 ngày của bạn sales khác (Hẹn liên hệ sau, chưa xác thực) thì sales xử lý như thế nào?</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">23</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Ở câu hỏi xác thực 2, trường hợp khách hàng cho thông tin người giới thiệu sơ sài không check được thì sales cần làm gì?</td>
+                            </tr>
+                            <tr class="hover:bg-orange-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">24</td>
+                                <td class="px-4 py-3 font-semibold text-orange-600">Quy trình kiểm tra thông tin</td>
+                                <td class="px-4 py-3">Trường hợp khách hàng không muốn cho thông tin người giới thiệu luôn thì sales cần làm gì?</td>
+                            </tr>
+                            <!-- KH giới thiệu KH -->
+                            <tr class="hover:bg-purple-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">25</td>
+                                <td class="px-4 py-3 font-semibold text-purple-600">Chương trình KH giới thiệu</td>
+                                <td class="px-4 py-3">Chị A giới thiệu anh B sử dụng KiotViet. Để có thể tiến hành trả thưởng cho chị A, chị A và anh B cần thỏa mãn những điều kiện gì về định nghĩa khách hàng cũ và khách hàng mới?</td>
+                            </tr>
+                            <tr class="hover:bg-purple-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">26</td>
+                                <td class="px-4 py-3 font-semibold text-purple-600">Chương trình KH giới thiệu</td>
+                                <td class="px-4 py-3">Biết người giới thiệu và người được giới thiệu trước đây từng làm chung và đã sử dụng KiotViet, khi người được giới thiệu ký hợp đồng thì sales sẽ tiến hành trả thưởng cho người giới thiệu như thế nào?</td>
+                            </tr>
+                            <tr class="hover:bg-purple-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">27</td>
+                                <td class="px-4 py-3 font-semibold text-purple-600">Chương trình KH giới thiệu</td>
+                                <td class="px-4 py-3">Biết người giới thiệu và người được giới thiệu là 2 vợ chồng, khi người được giới thiệu ký hợp đồng thì sales sẽ tiến hành trả thưởng cho người giới thiệu như thế nào?</td>
+                            </tr>
+                            <tr class="hover:bg-purple-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">28</td>
+                                <td class="px-4 py-3 font-semibold text-purple-600">Chương trình KH giới thiệu</td>
+                                <td class="px-4 py-3">Hình thức trả thưởng, các mức thưởng KiotViet đang áp dụng cho chương trình KHGTKH là như thế nào?</td>
+                            </tr>
+                            <!-- Tranh chấp -->
                             <tr class="hover:bg-red-50/50">
                                 <td class="px-4 py-3 text-center text-slate-400">29</td>
                                 <td class="px-4 py-3 font-semibold text-red-600">Giải quyết tranh chấp</td>
                                 <td class="px-4 py-3">Các trường hợp như thế nào được xem là trùng khách hàng?</td>
+                            </tr>
+                            <tr class="hover:bg-red-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">30</td>
+                                <td class="px-4 py-3 font-semibold text-red-600">Giải quyết tranh chấp</td>
+                                <td class="px-4 py-3">Khi nào thì sales cần báo lại về việc trùng khách hàng?</td>
+                            </tr>
+                            <tr class="hover:bg-red-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">31</td>
+                                <td class="px-4 py-3 font-semibold text-red-600">Giải quyết tranh chấp</td>
+                                <td class="px-4 py-3">Thời gian tối đa để xử lý trùng khách hàng là bao lâu? Quá thời gian này sẽ xử lý như thế nào?</td>
+                            </tr>
+                            <tr class="hover:bg-red-50/50">
+                                <td class="px-4 py-3 text-center text-slate-400">32</td>
+                                <td class="px-4 py-3 font-semibold text-red-600">Giải quyết tranh chấp</td>
+                                <td class="px-4 py-3">Quá trình xử lý trùng khách hàng sẽ có những trường hợp như thế nào? Cách xử lý trong từng trường hợp?</td>
+                            </tr>
+                            <!-- Quảng bá & Tái ký -->
+                            <tr class="hover:bg-slate-100">
+                                <td class="px-4 py-3 text-center text-slate-400">33</td>
+                                <td class="px-4 py-3 font-semibold text-slate-600">Quy định quảng bá</td>
+                                <td class="px-4 py-3">Hỏi bất kỳ nội dung nào trong quy định quảng bá sản phẩm?</td>
+                            </tr>
+                            <tr class="hover:bg-slate-100">
+                                <td class="px-4 py-3 text-center text-slate-400">34</td>
+                                <td class="px-4 py-3 font-semibold text-slate-600">Quy định quảng bá</td>
+                                <td class="px-4 py-3">Nhân viên được phép chạy quảng cáo các từ khóa: KiotVietHN, KiotVietSG, Kiotvietsieuvip,.. được không?</td>
+                            </tr>
+                            <tr class="hover:bg-slate-100">
+                                <td class="px-4 py-3 text-center text-slate-400">35</td>
+                                <td class="px-4 py-3 font-semibold text-slate-600">Chuyển giao tái ký</td>
+                                <td class="px-4 py-3">Khách hàng chủ động yêu cầu ký mới dù đã có gian hàng. Thời gian ký mới được quy định như thế nào thì sẽ tính cho tái ký, như thế nào thì tính là ký mới?</td>
                             </tr>
                         </tbody>
                     </table>
