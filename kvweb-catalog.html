@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KiotViet - Thư viện Website mẫu</title>
+    <meta name="description" content="Tổng hợp các website tiêu biểu của khách hàng KiotViet theo từng ngành hàng: Retail, FNB, Salon, Hotel.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Fallback background */
+            overflow: hidden; /* Prevent body scrolling for app-like layout */
+            color: #334155; /* slate-700 */
+        }
+
+        /* Custom Scrollbar for Sidebar */
+        #sidebar::-webkit-scrollbar { width: 6px; }
+        #sidebar::-webkit-scrollbar-track { background: transparent; }
+        #sidebar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        #sidebar::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Soft Glow & Gradient Foundation */
+        @keyframes moveInCircle { 0% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+        @keyframes moveVertical { 0% { transform: translateY(-50%); } 50% { transform: translateY(50%); } 100% { transform: translateY(-50%); } }
+        @keyframes moveHorizontal { 0% { transform: translateX(-50%); } 50% { transform: translateX(50%); } 100% { transform: translateX(-50%); } }
+        
+        .soft-glow-background { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -10; 
+            background: linear-gradient(to bottom right, #f8fafc, #e0f2fe); 
+        }
+        .soft-glow-background .shape { position: absolute; filter: blur(140px); opacity: 0.25; }
+        .soft-glow-background .shape1 { height: 350px; width: 350px; background: #166def; border-radius: 50%; top: -50px; left: -100px; animation: moveInCircle 22s ease-in-out infinite; }
+        .soft-glow-background .shape2 { height: 450px; width: 450px; background: #16a34a; border-radius: 50%; bottom: -100px; right: -100px; animation: moveVertical 28s ease-in-out infinite; }
+        .soft-glow-background .shape3 { height: 300px; width: 500px; background: #f97316; border-radius: 50%; top: 50%; left: 50%; animation: moveHorizontal 35s ease-in-out infinite; }
+
+        /* Component Styles */
+        .kv-blue { color: #166def; }
+        .bg-kv-blue { background-color: #166def; }
+        .hover\:bg-kv-blue-dark:hover { background-color: #0a58ca; }
+        .border-kv-blue { border-color: #166def; }
+        .ring-kv-blue:focus { --tw-ring-color: #166def; }
+        
+        /* Sidebar Button Active State */
+        .website-button.active {
+            background-color: #166def !important; /* kv-blue */
+            border-color: #166def !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px -2px rgba(22, 109, 239, 0.3);
+        }
+        .website-button.active .button-name { color: white !important; }
+        .website-button.active .button-category { color: #dbeafe !important; } /* blue-100 */
+
+        /* Navbar Filter Active State */
+        .navbar-filter-btn.active {
+            background-color: #166def; /* kv-blue */
+            color: white;
+            box-shadow: 0 2px 8px -1px rgba(22, 109, 239, 0.2);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- The Soft Glow & Gradient Foundation -->
+    <div class="soft-glow-background">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+
+    <!-- Pearly Glass Navigation Bar -->
+    <header class="sticky top-0 z-20 bg-white/70 backdrop-blur-xl border-b border-slate-900/10 h-20">
+        <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+            <div class="flex items-center justify-between h-full">
+                <!-- Left: Logo -->
+                <a href="#" class="flex-shrink-0">
+                    <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="KiotViet Logo" class="h-8">
+                </a>
+                
+                <!-- Center & Right container -->
+                <div class="flex-1 flex items-center justify-end ml-4 sm:ml-6">
+                    <!-- Search Bar -->
+                    <div class="flex-1 max-w-xl">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-slate-400"></i>
+                            </div>
+                            <input type="text" id="searchBar" oninput="updateVisibleWebsites()"
+                                   class="block w-full bg-white/60 border border-slate-300 rounded-lg py-2.5 pl-11 pr-4 text-sm placeholder-slate-500 focus:outline-none focus:bg-white focus:border-kv-blue focus:ring-2 focus:ring-kv-blue"
+                                   placeholder="Tìm website theo tên, ngành hàng, địa điểm...">
+                        </div>
+                    </div>
+                    <!-- Filters -->
+                    <div class="hidden lg:flex items-center space-x-2 ml-4">
+                        <button onclick="handleFilterClick('all', this)" data-category="all" class="navbar-filter-btn active">Tất cả</button>
+                        <button onclick="handleFilterClick('retail', this)" data-category="retail" class="navbar-filter-btn">Retail</button>
+                        <button onclick="handleFilterClick('f&b', this)" data-category="f&b" class="navbar-filter-btn">F&B</button>
+                        <button onclick="handleFilterClick('salon', this)" data-category="salon" class="navbar-filter-btn">Salon</button>
+                        <button onclick="handleFilterClick('hotel', this)" data-category="hotel" class="navbar-filter-btn">Hotel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex h-[calc(100vh-80px)] max-w-screen-2xl mx-auto p-4 sm:p-6 lg:p-8 gap-8">
+        <!-- Sidebar -->
+        <aside id="sidebar" data-aos="fade-right" class="w-[420px] flex-shrink-0 bg-white/60 backdrop-blur-lg rounded-2xl p-6 border border-slate-200 shadow-lg overflow-y-auto">
+            <div class="industry-section mb-6" data-category="retail">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-3"><i class="fa-solid fa-store text-blue-600"></i>Retail</h4>
+                <div class="space-y-3"></div>
+            </div>
+            <div class="industry-section mb-6" data-category="f&b">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-3"><i class="fa-solid fa-utensils text-orange-500"></i>F&B</h4>
+                 <div class="space-y-3"></div>
+            </div>
+            <div class="industry-section mb-6" data-category="salon">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-3"><i class="fa-solid fa-wand-magic-sparkles text-pink-500"></i>Salon</h4>
+                <div class="space-y-3"></div>
+            </div>
+            <div class="industry-section mb-6" data-category="hotel">
+                <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-3"><i class="fa-solid fa-hotel text-green-500"></i>Hotel</h4>
+                <div class="space-y-3"></div>
+            </div>
+        </aside>
+
+        <!-- Content (Iframe) -->
+        <section data-aos="fade-left" data-aos-delay="100" class="flex-1 flex flex-col gap-4">
+            <!-- URL Display Bar -->
+            <a id="currentUrlLink" href="#" target="_blank" class="flex-shrink-0 flex items-center bg-white/60 backdrop-blur-lg p-3 rounded-xl shadow-sm border border-slate-200 hover:border-kv-blue transition-colors">
+                <i class="fas fa-globe text-slate-400 mr-3"></i>
+                <span id="currentUrlDisplay" class="text-kv-blue font-medium text-sm truncate"></span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-slate-400 ml-auto text-xs"></i>
+            </a>
+            <!-- Iframe container -->
+            <div class="flex-grow bg-white/60 backdrop-blur-xl rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+                <iframe id="websiteFrame" class="w-full h-full border-0" title="Website Content"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Navigation Buttons -->
+    <div class="fixed bottom-8 right-8 z-30 flex flex-col space-y-3">
+        <button onclick="navigateWebsites('up')" title="Website trước (↑)" class="float-nav-btn">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button onclick="navigateWebsites('down')" title="Website kế tiếp (↓)" class="float-nav-btn">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+    </div>
+
+    <!-- Hidden Master List of ALL websites -->
+    <div id="full-list-container" class="hidden">
+        <button onclick="loadUrl('https://nhanphatbinhdinh.com/', this)" data-category="retail" data-name="Nhân Phát Bình Định" data-details="Điện máy / Gia dụng - Bình Định"><div class="button-name">Nhân Phát Bình Định</div><div class="button-category">Điện máy / Gia dụng - Bình Định</div><div class="button-url">https://nhanphatbinhdinh.com/</div></button>
+        <button onclick="loadUrl('https://xiaomiphanthiet.com/', this)" data-category="retail" data-name="Xiaomi Phan Thiết" data-details="Điện máy / Gia dụng - Bình Thuận"><div class="button-name">Xiaomi Phan Thiết</div><div class="button-category">Điện máy / Gia dụng - Bình Thuận</div><div class="button-url">https://xiaomiphanthiet.com/</div></button>
+        <button onclick="loadUrl('https://camerakiengiang.com.vn/', this)" data-category="retail" data-name="Camera Kiên Giang" data-details="Điện máy / Gia dụng - Kiên Giang"><div class="button-name">Camera Kiên Giang</div><div class="button-category">Điện máy / Gia dụng - Kiên Giang</div><div class="button-url">https://camerakiengiang.com.vn/</div></button>
+        <button onclick="loadUrl('https://bigbangsolar.kiotvietweb.vn/', this)" data-category="retail" data-name="BigBang Solar" data-details="Điện máy / Gia dụng - Hà Nội"><div class="button-name">BigBang Solar</div><div class="button-category">Điện máy / Gia dụng - Hà Nội</div><div class="button-url">https://bigbangsolar.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://vattudienlanhthuandung.com/', this)" data-category="retail" data-name="Điện Lạnh Thuận Dung" data-details="Điện Lạnh - Đồng Nai"><div class="button-name">Điện Lạnh Thuận Dung</div><div class="button-category">Điện Lạnh - Đồng Nai</div><div class="button-url">https://vattudienlanhthuandung.com/</div></button>
+        <button onclick="loadUrl('https://dienmaythanhphanri.com/', this)" data-category="retail" data-name="Điện máy Thanh" data-details="Điện máy / Gia dụng - Bình Thuận"><div class="button-name">Điện máy Thanh</div><div class="button-category">Điện máy / Gia dụng - Bình Thuận</div><div class="button-url">https://dienmaythanhphanri.com/</div></button>
+        <button onclick="loadUrl('https://shop.kiotviet.vn', this)" data-category="retail" data-name="Phần cứng KiotViet" data-details="Điện máy / Gia dụng - Hà Nội"><div class="button-name">Phần cứng KiotViet</div><div class="button-category">Điện máy / Gia dụng - Hà Nội</div><div class="button-url">https://shop.kiotviet.vn</div></button>
+        <button onclick="loadUrl('https://campoutvn.com/', this)" data-category="retail" data-name="Campout VN" data-details="Dã ngoại - Khánh Hòa"><div class="button-name">Campout VN</div><div class="button-category">Dã ngoại - Khánh Hòa</div><div class="button-url">https://campoutvn.com/</div></button>
+        <button onclick="loadUrl('https://hplog.kiotvietweb.vn/', this)" data-category="retail" data-name="HPL Logistics" data-details="Logistics - Hà Nội"><div class="button-name">HPL Logistics</div><div class="button-category">Logistics - Hà Nội</div><div class="button-url">https://hplog.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://surishoplongxuyen.kiotvietweb.vn/', this)" data-category="retail" data-name="Surishop Long Xuyên" data-details="Mỹ phẩm - An Giang"><div class="button-name">Surishop Long Xuyên</div><div class="button-category">Mỹ phẩm - An Giang</div><div class="button-url">https://surishoplongxuyen.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://myphamgiasi68.kiotvietweb.vn/', this)" data-category="retail" data-name="Mỹ phẩm giá sỉ Ngọc Bích" data-details="Mỹ phẩm - Hà Nội"><div class="button-name">Mỹ phẩm giá sỉ Ngọc Bích</div><div class="button-category">Mỹ phẩm - Hà Nội</div><div class="button-url">https://myphamgiasi68.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://simyphamkhuatgia.kiotvietweb.vn/', this)" data-category="retail" data-name="Sỉ Mỹ Phẩm Khuất Gia" data-details="Mỹ phẩm - Hà Nội"><div class="button-name">Sỉ Mỹ Phẩm Khuất Gia</div><div class="button-category">Mỹ phẩm - Hà Nội</div><div class="button-url">https://simyphamkhuatgia.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://germannailsupplies.gicungban.vn/', this)" data-category="retail" data-name="German Nail Supplies" data-details="Mỹ phẩm - Hà Nội"><div class="button-name">German Nail Supplies</div><div class="button-category">Mỹ phẩm - Hà Nội</div><div class="button-url">https://germannailsupplies.gicungban.vn/</div></button>
+        <button onclick="loadUrl('https://2hcosmetic.kiotvietweb.vn/', this)" data-category="retail" data-name="2H Store Cosmetics BMT" data-details="Mỹ phẩm - Buôn Ma Thuột"><div class="button-name">2H Store Cosmetics BMT</div><div class="button-category">Mỹ phẩm - Buôn Ma Thuột</div><div class="button-url">https://2hcosmetic.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://cindybookstore.com/', this)" data-category="retail" data-name="Cindy Bookstore" data-details="Nhà sách - TP. HCM"><div class="button-name">Cindy Bookstore</div><div class="button-category">Nhà sách - TP. HCM</div><div class="button-url">https://cindybookstore.com/</div></button>
+        <button onclick="loadUrl('https://nhathuocnamnhi.com.vn/', this)" data-category="retail" data-name="Nhà thuốc Nam Nhi" data-details="Nhà thuốc - Bình Định"><div class="button-name">Nhà thuốc Nam Nhi</div><div class="button-category">Nhà thuốc - Bình Định</div><div class="button-url">https://nhathuocnamnhi.com.vn/</div></button>
+        <button onclick="loadUrl('https://quaythuochaiquanmc.kiotvietweb.vn/', this)" data-category="retail" data-name="Nhà thuốc phòng khảm Hải Quân" data-details="Nhà thuốc - Sơn La"><div class="button-name">Nhà thuốc phòng khảm Hải Quân</div><div class="button-category">Nhà thuốc - Sơn La</div><div class="button-url">https://quaythuochaiquanmc.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://nhadamtaynguyen.com/', this)" data-category="retail" data-name="Nha Đam Tây Nguyên" data-details="Nông sản - Buôn Ma Thuột"><div class="button-name">Nha Đam Tây Nguyên</div><div class="button-category">Nông sản - Buôn Ma Thuột</div><div class="button-url">https://nhadamtaynguyen.com/</div></button>
+        <button onclick="loadUrl('https://gifthaus.vn/', this)" data-category="retail" data-name="Gift Haus" data-details="Quà tặng - Hà Nội"><div class="button-name">Gift Haus</div><div class="button-category">Quà tặng - Hà Nội</div><div class="button-url">https://gifthaus.vn/</div></button>
+        <button onclick="loadUrl('https://buudienquangninh.vn/', this)" data-category="retail" data-name="Bưu điện Quảng Ninh" data-details="Tạp hóa - Quảng Ninh"><div class="button-name">Bưu điện Quảng Ninh</div><div class="button-category">Tạp hóa - Quảng Ninh</div><div class="button-url">https://buudienquangninh.vn/</div></button>
+        <button onclick="loadUrl('https://suataphoavietnam.kiotvietweb.vn/', this)" data-category="retail" data-name="Sữa - Tạp hóa Việt Nam" data-details="Tạp hóa - Seoul (Hàn Quốc)"><div class="button-name">Sữa - Tạp hóa Việt Nam</div><div class="button-category">Tạp hóa - Seoul (Hàn Quốc)</div><div class="button-url">https://suataphoavietnam.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://benztayshop.gicungban.vn/', this)" data-category="retail" data-name="Benz Tay Shop" data-details="Tạp hóa / Siêu thị - Nagasaki (Nhật Bản)"><div class="button-name">Benz Tay Shop</div><div class="button-category">Tạp hóa / Siêu thị - Nagasaki (Nhật Bản)</div><div class="button-url">https://benztayshop.gicungban.vn/</div></button>
+        <button onclick="loadUrl('https://hangnhatsmile.vn/', this)" data-category="retail" data-name="Tổng kho hàng Nhật Smile" data-details="Tạp hóa / Siêu thị - Hà Nội"><div class="button-name">Tổng kho hàng Nhật Smile</div><div class="button-category">Tạp hóa / Siêu thị - Hà Nội</div><div class="button-url">https://hangnhatsmile.vn/</div></button>
+        <button onclick="loadUrl('https://hoaquauudam.vn/', this)" data-category="retail" data-name="Hoa Quả Ưu Đàm" data-details="Tạp hóa / Siêu thị - Hà Nội"><div class="button-name">Hoa Quả Ưu Đàm</div><div class="button-category">Tạp hóa / Siêu thị - Hà Nội</div><div class="button-url">https://hoaquauudam.vn/</div></button>
+        <button onclick="loadUrl('https://vietfoodhokkaido.kiotvietweb.vn/', this)" data-category="retail" data-name="Việt Food Hokkaido" data-details="Tạp hóa / Siêu thị - Hokkaido (Nhật Bản)"><div class="button-name">Việt Food Hokkaido</div><div class="button-category">Tạp hóa / Siêu thị - Hokkaido (Nhật Bản)</div><div class="button-url">https://vietfoodhokkaido.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://vicofarm.vn/', this)" data-category="retail" data-name="Vicofarm" data-details="Thực phẩm - TP. HCM"><div class="button-name">Vicofarm</div><div class="button-category">Thực phẩm - TP. HCM</div><div class="button-url">https://vicofarm.vn/</div></button>
+        <button onclick="loadUrl('https://dacsanvietnam.info/', this)" data-category="retail" data-name="Đặc sản Việt Nam" data-details="Thực phẩm - TP. HCM"><div class="button-name">Đặc sản Việt Nam</div><div class="button-category">Thực phẩm - TP. HCM</div><div class="button-url">https://dacsanvietnam.info/</div></button>
+        <button onclick="loadUrl('https://cacanhthuysinh.vn/', this)" data-category="retail" data-name="Cá cảnh thủy sinh" data-details="Cá cảnh - Khánh Hòa"><div class="button-name">Cá cảnh thủy sinh</div><div class="button-category">Cá cảnh - Khánh Hòa</div><div class="button-url">https://cacanhthuysinh.vn/</div></button>
+        <button onclick="loadUrl('https://dongtrunghathaodrtrung.com/', this)" data-category="retail" data-name="Đông Trùng Hạ Thảo Dr.Trung" data-details="TPCN - Đà Nẵng"><div class="button-name">Đông Trùng Hạ Thảo Dr.Trung</div><div class="button-category">TPCN - Đà Nẵng</div><div class="button-url">https://dongtrunghathaodrtrung.com/</div></button>
+        <button onclick="loadUrl('https://hadura.store/', this)" data-category="retail" data-name="Hadura Store" data-details="Trang sức - TP. HCM"><div class="button-name">Hadura Store</div><div class="button-category">Trang sức - TP. HCM</div><div class="button-url">https://hadura.store/</div></button>
+        <button onclick="loadUrl('https://otota.com.vn/', this)" data-category="retail" data-name="Ô Tô Ta" data-details="Xe - Linh kiện - TP. HCM"><div class="button-name">Ô Tô Ta</div><div class="button-category">Xe - Linh kiện - TP. HCM</div><div class="button-url">https://otota.com.vn/</div></button>
+        <button onclick="loadUrl('https://phutungthanhle.kiotvietweb.vn/', this)" data-category="retail" data-name="Phụ tùng xe khách Thành Lê" data-details="Xe - Linh kiện - Quảng Ngãi"><div class="button-name">Phụ tùng xe khách Thành Lê</div><div class="button-category">Phụ tùng xe khách Thành Lê</div><div class="button-url">https://phutungthanhle.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://jeepshop.vn/', this)" data-category="retail" data-name="Jeepshop" data-details="Thời trang - TP. HCM"><div class="button-name">Jeepshop</div><div class="button-category">Thời trang - TP. HCM</div><div class="button-url">https://jeepshop.vn/</div></button>
+        <button onclick="loadUrl('https://quay35l.kiotvietweb.vn/', this)" data-category="retail" data-name="Quay 35L" data-details="Thời trang - TP. HCM"><div class="button-name">Quay 35L</div><div class="button-category">Thời trang - TP. HCM</div><div class="button-url">https://quay35l.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://emmiclothing.com.au/', this)" data-category="retail" data-name="Emmi Clothing" data-details="Thời trang - NSW (Úc)"><div class="button-name">Emmi Clothing</div><div class="button-category">Thời trang - NSW (Úc)</div><div class="button-url">https://emmiclothing.com.au/</div></button>
+        <button onclick="loadUrl('https://khanhvysport.vn/', this)" data-category="retail" data-name="KHÁNH VY SPORT" data-details="Thời trang - TP. HCM"><div class="button-name">KHÁNH VY SPORT</div><div class="button-category">Thời trang - TP. HCM</div><div class="button-url">https://khanhvysport.vn/</div></button>
+        <button onclick="loadUrl('https://monicomode.kiotvietweb.vn/', this)" data-category="retail" data-name="MONICO" data-details="Thời trang - TP. HCM"><div class="button-name">MONICO</div><div class="button-category">Thời trang - TP. HCM</div><div class="button-url">https://monicomode.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://tlhoopsland.vn/', this)" data-category="retail" data-name="TL Hoopsland" data-details="Thời trang - TP. HCM"><div class="button-name">TL Hoopsland</div><div class="button-category">Thời trang - TP. HCM</div><div class="button-url">https://tlhoopsland.vn/</div></button>
+        <button onclick="loadUrl('https://thoitrangsonnguyen.kiotvietweb.vn/', this)" data-category="retail" data-name="Thời trang Sơn Nguyễn" data-details="Thời trang - TP. HCM"><div class="button-name">Thời trang Sơn Nguyễn</div><div class="button-category">Thời trang - TP. HCM</div><div class="button-url">https://thoitrangsonnguyen.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://giaanhsport.kiotvietweb.vn/', this)" data-category="retail" data-name="Gia Anh Pickleball" data-details="Thể thao - Bình Dương"><div class="button-name">Gia Anh Pickleball</div><div class="button-category">Thể thao - Bình Dương</div><div class="button-url">https://giaanhsport.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://londonfogcafehn.kiotvietweb.vn/', this)" data-category="f&b" data-name="London Fog Cafe Hà Nội" data-details="Coffee shop - Hà Nội"><div class="button-name">London Fog Cafe Hà Nội</div><div class="button-category">Coffee shop - Hà Nội</div><div class="button-url">https://londonfogcafehn.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://minhcoffeeqb.kiotvietweb.vn/', this)" data-category="f&b" data-name="Minh Coffee QB" data-details="Coffee shop - Quảng Bình"><div class="button-name">Minh Coffee QB</div><div class="button-category">Coffee shop - Quảng Bình</div><div class="button-url">https://minhcoffeeqb.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://camcamjuice.kiotvietweb.vn/', this)" data-category="f&b" data-name="Cam Cam Juice" data-details="Coffee shop - Hà Nội"><div class="button-name">Cam Cam Juice</div><div class="button-category">Coffee shop - Hà Nội</div><div class="button-url">https://camcamjuice.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://moccaphehcm.kiotvietweb.vn/', this)" data-category="f&b" data-name="Mộc Cà Phê HCM" data-details="Coffee shop - TP. HCM"><div class="button-name">Mộc Cà Phê HCM</div><div class="button-category">Coffee shop - TP. HCM</div><div class="button-url">https://moccaphehcm.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://cafena.kiotvietweb.vn/', this)" data-category="f&b" data-name="NA and Cakes - Đà Lạt" data-details="Tiệm bánh - Đà Lạt"><div class="button-name">NA and Cakes - Đà Lạt</div><div class="button-category">Tiệm bánh - Đà Lạt</div><div class="button-url">https://cafena.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://sophiascoffeeandbakery.kiotvietweb.vn/', this)" data-category="f&b" data-name="Sophia's Coffee & Bakery" data-details="Tiệm bánh - Ninh Thuận"><div class="button-name">Sophia's Coffee & Bakery</div><div class="button-category">Tiệm bánh - Ninh Thuận</div><div class="button-url">https://sophiascoffeeandbakery.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://annamuine.kiotvietweb.vn/', this)" data-category="f&b" data-name="Anna Muine" data-details="Quán ăn - Vũng Tàu"><div class="button-name">Anna Muine</div><div class="button-category">Quán ăn - Vũng Tàu</div><div class="button-url">https://annamuine.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://vuoncauquangc.kiotvietweb.vn/', this)" data-category="f&b" data-name="Vườn Cau Quán" data-details="Quán ăn - Tiền Giang"><div class="button-name">Vườn Cau Quán</div><div class="button-category">Quán ăn - Tiền Giang</div><div class="button-url">https://vuoncauquangc.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://bepabeo.kiotvietweb.vn/', this)" data-category="f&b" data-name="Bếp A. Béo" data-details="Nhà hàng - Kon Tum"><div class="button-name">Bếp A. Béo</div><div class="button-category">Nhà hàng - Kon Tum</div><div class="button-url">https://bepabeo.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://nhahangtuanbao.kiotvietweb.vn/', this)" data-category="f&b" data-name="Trung tâm tiệc cưới Tuấn Bảo" data-details="Tiệc cưới - Hải Phòng"><div class="button-name">Trung tâm tiệc cưới Tuấn Bảo</div><div class="button-category">Tiệc cưới - Hải Phòng</div><div class="button-url">https://nhahangtuanbao.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://trungnguyenecoffee72ahamnghi.kiotvietweb.vn/', this)" data-category="f&b" data-name="Trung Nguyên E-Coffee" data-details="Coffee Shop - Hà Tĩnh"><div class="button-name">Trung Nguyên E-Coffee</div><div class="button-category">Coffee Shop - Hà Tĩnh</div><div class="button-url">https://trungnguyenecoffee72ahamnghi.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://ongbaucoffee.kiotvietweb.vn/', this)" data-category="f&b" data-name="Cà phê Ông Bầu - Trà Cú" data-details="Coffee Shop - Trà Vinh"><div class="button-name">Cà phê Ông Bầu - Trà Cú</div><div class="button-category">Coffee Shop - Trà Vinh</div><div class="button-url">https://ongbaucoffee.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://alicespavn.kiotvietweb.vn/', this)" data-category="salon" data-name="Alice Spa VN" data-details="Spa - TP. HCM"><div class="button-name">Alice Spa VN</div><div class="button-category">Spa - TP. HCM</div><div class="button-url">https://alicespavn.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://nhaspa.kiotvietweb.vn/', this)" data-category="salon" data-name="Nhà Spa - Về nhà gội đầu dưỡng da" data-details="Spa - TP. HCM"><div class="button-name">Nhà Spa - Về nhà gội đầu dưỡng da</div><div class="button-category">Spa - TP. HCM</div><div class="button-url">https://nhaspa.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://spaanhdao.kiotvietweb.vn/', this)" data-category="salon" data-name="Dưỡng Sinh Anh Đào" data-details="Spa - TP. HCM"><div class="button-name">Dưỡng Sinh Anh Đào</div><div class="button-category">Spa - TP. HCM</div><div class="button-url">https://spaanhdao.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://luxuryss.salonviet.com/', this)" data-category="salon" data-name="Luxury SS" data-details="Hair salon - Thái Bình"><div class="button-name">Luxury SS</div><div class="button-category">Hair salon - Thái Bình</div><div class="button-url">https://luxuryss.salonviet.com/</div></button>
+        <button onclick="loadUrl('https://chicnailbeauty.com/', this)" data-category="salon" data-name="Chic Nail & Beauty" data-details="Tiệm nails - TP. HCM"><div class="button-name">Chic Nail & Beauty</div><div class="button-category">Tiệm nails - TP. HCM</div><div class="button-url">https://chicnailbeauty.com/</div></button>
+        <button onclick="loadUrl('https://khachsanhomay.com/', this)" data-category="hotel" data-name="Khách sạn Homay" data-details="Khách sạn - Vũng Tàu"><div class="button-name">Khách sạn Homay</div><div class="button-category">Khách sạn - Vũng Tàu</div><div class="button-url">https://khachsanhomay.com/</div></button>
+        <button onclick="loadUrl('https://thuhuonghotel.kiotvietweb.vn/', this)" data-category="hotel" data-name="Thu Hương Hotel" data-details="Khách sạn - Quảng Ninh"><div class="button-name">Thu Hương Hotel</div><div class="button-category">Thu Hương Hotel</div><div class="button-url">https://thuhuonghotel.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://khachsanthuhien.kiotvietweb.vn/', this)" data-category="hotel" data-name="Khách sạn Thu Hiền" data-details="Khách sạn - Khánh Hòa"><div class="button-name">Khách sạn Thu Hiền</div><div class="button-category">Khách sạn - Khánh Hòa</div><div class="button-url">https://khachsanthuhien.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://happyhome.homemotel.net.vn/', this)" data-category="hotel" data-name="Happy Home" data-details="Khách sạn - Đắk Lắk"><div class="button-name">Happy Home</div><div class="button-category">Khách sạn - Đắk Lắk</div><div class="button-url">https://happyhome.homemotel.net.vn/</div></button>
+        <button onclick="loadUrl('https://holidayinn.kiotvietweb.vn/', this)" data-category="hotel" data-name="Holiday Inn" data-details="Khách sạn - Đà Nẵng"><div class="button-name">Holiday Inn</div><div class="button-category">Khách sạn - Đà Nẵng</div><div class="button-url">https://holidayinn.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://phonglinhhomestay.kiotvietweb.vn/', this)" data-category="hotel" data-name="Phong Linh Homestay" data-details="Homestay - TP. HCM"><div class="button-name">Phong Linh Homestay</div><div class="button-category">Homestay - TP. HCM</div><div class="button-url">https://phonglinhhomestay.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://nalaretreat.com/', this)" data-category="hotel" data-name="Nala Retreat" data-details="Khu nghỉ dưỡng - Ninh Bình"><div class="button-name">Nala Retreat</div><div class="button-category">Khu nghỉ dưỡng - Ninh Bình</div><div class="button-url">https://nalaretreat.com/</div></button>
+        <button onclick="loadUrl('https://dainganhomestay.kiotvietweb.vn/', this)" data-category="hotel" data-name="Đại Ngàn Homestay" data-details="Khu nghỉ dưỡng - Kon Tum"><div class="button-name">Đại Ngàn Homestay</div><div class="button-category">Khu nghỉ dưỡng - Kon Tum</div><div class="button-url">https://dainganhomestay.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://geehomestay.kiotvietweb.vn/', this)" data-category="hotel" data-name="Gee Homestay" data-details="Khu nghỉ dưỡng - Huế"><div class="button-name">Gee Homestay</div><div class="button-category">Khu nghỉ dưỡng - Huế</div><div class="button-url">https://geehomestay.kiotvietweb.vn/</div></button>
+        <button onclick="loadUrl('https://aloresortninhbinh.homevilla.net/', this)" data-category="hotel" data-name="Alo Resort Ninh Bình" data-details="Khu nghỉ dưỡng - Ninh Bình"><div class="button-name">Alo Resort Ninh Bình</div><div class="button-category">Khu nghỉ dưỡng - Ninh Bình</div><div class="button-url">https://aloresortninhbinh.homevilla.net/</div></button>
+        <button onclick="loadUrl('https://punna.kiotvietweb.vn/', this)" data-category="hotel" data-name="Punna Ecolodge" data-details="Nghỉ dưỡng - Vĩnh Phúc"><div class="button-name">Punna Ecolodge</div><div class="button-category">Nghỉ dưỡng - Vĩnh Phúc</div><div class="button-url">https://punna.kiotvietweb.vn/</div></button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({ once: true, duration: 600, easing: 'ease-out-cubic', offset: 50 });
+
+            // Apply common styles to navbar filter buttons
+            document.querySelectorAll('.navbar-filter-btn').forEach(btn => {
+                btn.classList.add('px-4', 'py-2', 'rounded-lg', 'text-sm', 'font-semibold', 'transition-all', 'duration-200', 'flex', 'items-center', 'text-slate-600', 'bg-white/60', 'hover:bg-blue-100', 'hover:text-kv-blue');
+            });
+
+             // Apply common styles to float nav buttons
+            document.querySelectorAll('.float-nav-btn').forEach(btn => {
+                btn.classList.add('w-12', 'h-12', 'bg-kv-blue', 'text-white', 'rounded-full', 'flex', 'items-center', 'justify-center', 'shadow-lg', 'transition-all', 'duration-300', 'hover:scale-110', 'hover:bg-kv-blue-dark');
+            });
+            
+            // Populate the sidebar from the master list
+            const masterListContainer = document.getElementById('full-list-container');
+            const allButtons = Array.from(masterListContainer.children);
+
+            allButtons.forEach(button => {
+                const category = button.dataset.category;
+                const section = document.querySelector(`#sidebar .industry-section[data-category="${category}"] .space-y-3`);
+                if (section) {
+                    const clonedButton = button.cloneNode(true);
+                    clonedButton.classList.add(
+                        'website-button', 'block', 'w-full', 'text-left', 'p-4', 'rounded-xl', 'bg-slate-50', 'hover:bg-blue-100',
+                        'transition-all', 'duration-200', 'cursor-pointer', 'border', 'border-slate-200', 'hover:border-blue-400'
+                    );
+                    clonedButton.querySelector('.button-name').classList.add('font-semibold', 'text-slate-800', 'text-base', 'transition-colors');
+                    clonedButton.querySelector('.button-category').classList.add('text-sm', 'text-slate-500', 'mt-1', 'transition-colors');
+                    // Hide the URL part in the sidebar
+                    clonedButton.querySelector('.button-url').classList.add('hidden');
+                    section.appendChild(clonedButton);
+                }
+            });
+            masterListContainer.remove(); // Clean up master list from DOM
+
+            // Add Keyboard navigation
+            document.addEventListener('keydown', handleKeyboardNav);
+
+            // Initial view setup
+            updateVisibleWebsites();
+        });
+
+        function loadUrl(url, element) {
+            document.getElementById('websiteFrame').src = url;
+            const urlLink = document.getElementById('currentUrlLink');
+            urlLink.href = url;
+            urlLink.querySelector('#currentUrlDisplay').textContent = url.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, "");;
+            
+            document.querySelectorAll('#sidebar .website-button.active').forEach(activeBtn => {
+                activeBtn.classList.remove('active');
+            });
+            if(element) {
+                element.classList.add('active');
+            }
+        }
+        
+        function handleFilterClick(category, element) {
+            document.querySelectorAll('.navbar-filter-btn.active').forEach(activeBtn => activeBtn.classList.remove('active'));
+            element.classList.add('active');
+            updateVisibleWebsites();
+        }
+        
+        function updateVisibleWebsites() {
+            const activeFilter = document.querySelector('.navbar-filter-btn.active').dataset.category;
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase().trim();
+            
+            document.querySelectorAll('#sidebar .website-button').forEach(button => {
+                const buttonCategory = button.dataset.category;
+                const buttonName = button.dataset.name.toLowerCase();
+                const buttonDetails = button.dataset.details.toLowerCase();
+
+                const categoryMatch = (activeFilter === 'all' || buttonCategory === activeFilter);
+                const searchMatch = (buttonName.includes(searchTerm) || buttonDetails.includes(searchTerm));
+                
+                button.style.display = (categoryMatch && searchMatch) ? 'block' : 'none';
+            });
+            
+            updateSectionVisibility();
+            selectFirstWebsite();
+        }
+
+        function updateSectionVisibility() {
+            document.querySelectorAll('#sidebar .industry-section').forEach(section => {
+                const visibleButtons = section.querySelectorAll('.website-button:not([style*="display: none"])');
+                section.style.display = visibleButtons.length > 0 ? 'block' : 'none';
+            });
+        }
+        
+        function selectFirstWebsite() {
+            const firstVisibleButton = document.querySelector('#sidebar .website-button:not([style*="display: none"])');
+            if (firstVisibleButton) {
+                firstVisibleButton.click();
+            } else {
+                document.getElementById('websiteFrame').src = 'about:blank';
+                const urlLink = document.getElementById('currentUrlLink');
+                urlLink.href = '#';
+                urlLink.querySelector('#currentUrlDisplay').textContent = 'Không tìm thấy kết quả phù hợp.';
+            }
+        }
+
+        function navigateWebsites(direction) {
+            const visibleButtons = Array.from(document.querySelectorAll('#sidebar .website-button:not([style*="display: none"])'));
+            if (visibleButtons.length < 2) return;
+
+            const activeButton = document.querySelector('#sidebar .website-button.active');
+            let currentIndex = visibleButtons.indexOf(activeButton);
+
+            let nextIndex;
+            if (direction === 'down') {
+                nextIndex = currentIndex + 1;
+                if (nextIndex >= visibleButtons.length) nextIndex = 0; // Loop to top
+            } else { // 'up'
+                nextIndex = currentIndex - 1;
+                if (nextIndex < 0) nextIndex = visibleButtons.length - 1; // Loop to bottom
+            }
+            
+            const nextButton = visibleButtons[nextIndex];
+            if (nextButton) {
+                nextButton.click();
+                nextButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function handleKeyboardNav(event) {
+            // Prevent navigation when user is typing in the search bar
+            if (document.activeElement === document.getElementById('searchBar')) {
+                return;
+            }
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                navigateWebsites('down');
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                navigateWebsites('up');
+            }
+        }
+    </script>
+</body>
+</html>
