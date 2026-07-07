@@ -1,221 +1,203 @@
 <!DOCTYPE html>
-<html lang="vi" class="h-full">
+<html lang="vi" class="h-full overflow-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML & JSON Live Simulator</title>
+    <title>Code Pen của Hoàng Sơn</title>
     <!-- Tailwind CSS dựng giao diện -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Phông chữ Inter cao cấp từ Google Fonts -->
+    <!-- Phông chữ Inter từ Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome cho các icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Ace Editor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.36.2/ace.js"></script>
     <style>
-        /* Áp dụng phông chữ Inter mặc định */
-        body {
+        /* Áp dụng phông chữ Inter mặc định và chặn cuộn trang chính */
+        body, html {
+            height: 100%;
+            overflow: hidden;
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(at top left, #f8fafc, #eff6ff, #f8fafc);
+            background: radial-gradient(at top left, #f8fafc, #f1f5f9, #f8fafc);
         }
 
-        /* Tùy chỉnh thanh cuộn */
+        /* Tùy chỉnh thanh cuộn siêu mỏng */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(22, 109, 239, 0.05);
+            background: rgba(22, 109, 239, 0.02);
         }
         ::-webkit-scrollbar-thumb {
             background: rgba(22, 109, 239, 0.2);
-            border-radius: 4px;
+            border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(22, 109, 239, 0.4);
         }
 
-        /* Chiều cao đồng bộ của khu vực Editor và Preview */
-        .workspace-height {
-            height: 580px;
-        }
-
-        /* Định nghĩa lại màu sắc của Ace Editor theo Light Theme */
-        .ace_editor {
-            background-color: #ffffff !important;
-            font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
-        }
-        .ace_gutter {
-            background: #f1f5f9 !important;
-            border-right: 1px solid #e2e8f0 !important;
-            color: #94a3b8 !important;
-        }
-
-        /* Hiệu ứng kính mờ (Glassmorphism sáng) */
+        /* Hiệu ứng kính mờ có đường viền sắc nét, rõ ràng */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 10px 30px rgba(22, 109, 239, 0.04);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #cbd5e1; /* Nâng cao độ tương phản viền */
+            box-shadow: 0 4px 15px rgba(22, 109, 239, 0.02);
+            transition: all 0.25s ease-in-out;
         }
         .glass-panel:hover {
-            border-color: rgba(22, 109, 239, 0.3);
-            box-shadow: 0 10px 30px rgba(22, 109, 239, 0.08);
+            border-color: #166def; /* Chuyển sang màu xanh chủ đạo khi tương tác */
+            box-shadow: 0 4px 20px rgba(22, 109, 239, 0.06);
+        }
+
+        /* Định hình viền rõ nét cho các Ace Editor */
+        #inputEditor, #jsonEditor {
+            border: 1px solid #cbd5e1 !important;
+            border-radius: 0.5rem;
         }
     </style>
 </head>
-<body class="min-h-full flex flex-col overflow-x-hidden text-slate-700">
+<body class="flex flex-col h-full text-slate-700">
 
-    <!-- Header -->
-    <header class="shrink-0 bg-white/70 backdrop-blur-md border-b border-slate-200/80 px-6 py-4 z-10">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#166def] to-[#3b82f6] flex items-center justify-center shadow-[0_4px_15px_rgba(22,109,239,0.3)]">
-                    <i class="fa-solid fa-laptop-code text-white text-lg"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold text-slate-800 tracking-tight">Sonny Technology HTML Viewer</h1>
-                    <p class="text-[10px] text-slate-400 tracking-wider uppercase font-semibold">Công cụ xem trực tiếp - Kiểm tra di động - Giả lập tệp JSON động</p>
-                </div>
+    <!-- Top Navbar tinh giản tích hợp toàn bộ các tác vụ -->
+    <header class="shrink-0 bg-white/85 backdrop-blur-md border-b border-slate-300 px-4 py-2.5 z-10 flex flex-col md:flex-row justify-between items-center gap-3">
+        <!-- Brand -->
+        <div class="flex items-center gap-2 select-none">
+            <div class="w-7 h-7 rounded-lg bg-[#166def] flex items-center justify-center shadow-[0_2px_8px_rgba(22,109,239,0.25)]">
+                <i class="fa-solid fa-code text-white text-xs"></i>
             </div>
-            <div class="flex items-center gap-2 bg-[#eff6ff] px-3.5 py-1.5 rounded-full border border-blue-100 text-xs text-[#166def] font-semibold">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Chế độ Live Auto-Update</span>
+            <h1 class="text-xs font-bold text-slate-800 tracking-tight flex items-center gap-1.5">
+                Code Pen của Hoàng Sơn
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            </h1>
+        </div>
+        
+        <!-- Controls & Actions với các đường viền rõ nét -->
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+            <!-- Nút nạp dữ liệu mẫu -->
+            <button onclick="loadSampleData()" class="text-slate-600 hover:text-[#166def] bg-white border border-slate-300 hover:border-[#166def] px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Tải dữ liệu mẫu">
+                <i class="fa-solid fa-cubes text-blue-500"></i> Mẫu thử
+            </button>
+            <!-- Nhập file từ thiết bị -->
+            <label class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 hover:border-[#166def] px-3 py-1.5 rounded-lg font-semibold cursor-pointer transition flex items-center gap-1.5 shadow-2xs" title="Tải file HTML/TXT lên">
+                <i class="fa-solid fa-cloud-arrow-up text-[#166def]"></i> Nhập File
+                <input type="file" id="fileInput" class="hidden" accept=".html,.txt,.htm" onchange="handleFileUpload(event)">
+            </label>
+            <!-- Xóa sạch -->
+            <button onclick="clearEditors()" class="bg-red-50/60 hover:bg-red-100/50 text-red-600 border border-red-300/80 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Xóa dữ liệu">
+                <i class="fa-solid fa-trash-can"></i> Xóa
+            </button>
+            
+            <span class="text-slate-300 hidden sm:inline">|</span>
+            
+            <!-- Checkbox sử dụng JSON giả lập -->
+            <div class="flex items-center gap-1.5 bg-white border border-slate-300 px-3 py-1.5 rounded-lg shadow-2xs">
+                <input type="checkbox" id="useJsonMock" class="w-3.5 h-3.5 text-[#166def] rounded border-slate-300 focus:ring-[#166def] cursor-pointer" onchange="toggleJsonMock(this.checked)">
+                <label for="useJsonMock" class="text-slate-600 font-bold select-none cursor-pointer">Giả lập JSON</label>
             </div>
+            
+            <span class="text-slate-300 hidden sm:inline">|</span>
+
+            <!-- Chế độ di động -->
+            <button id="toggleViewBtn" onclick="toggleViewport()" class="text-slate-600 hover:text-[#166def] bg-white border border-slate-300 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                <i class="fa-solid fa-mobile-screen-button text-slate-400"></i> Di động
+            </button>
+            <!-- Mở sang Tab độc lập -->
+            <button onclick="openInNewTab()" class="text-[#166def] hover:text-blue-800 bg-blue-50/50 border border-blue-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Tab mới
+            </button>
+            <!-- Toàn màn hình -->
+            <button onclick="toggleFullscreen()" class="text-orange-600 hover:text-orange-800 bg-orange-50/50 border border-orange-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                <i class="fa-solid fa-expand"></i> Full Screen
+            </button>
+            <!-- Tải xuống file .html -->
+            <button onclick="downloadOutput()" class="text-emerald-600 hover:text-emerald-800 bg-emerald-50/50 border border-emerald-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                <i class="fa-solid fa-download"></i> Tải về
+            </button>
         </div>
     </header>
 
     <!-- Main Workspace -->
-    <main class="flex-grow w-full max-w-7xl mx-auto p-4 sm:p-6 flex flex-col gap-6 z-10 min-h-0">
+    <main class="flex-1 w-full max-w-none px-4 pb-4 pt-3 flex flex-col min-h-0 overflow-hidden">
         
-        <!-- Toolbar kính mờ -->
-        <div class="glass-panel p-3.5 rounded-2xl flex flex-wrap gap-3 items-center justify-between">
-            <div class="flex flex-wrap items-center gap-2">
-                <span class="text-xs text-slate-400 font-bold tracking-wider uppercase mr-2"><i class="fa-solid fa-gears text-[#166def] mr-1"></i> Tác vụ nhanh:</span>
-                <!-- Tải file lên -->
-                <label class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-cloud-arrow-up text-[#166def]"></i> Tải file lên
-                    <input type="file" id="fileInput" class="hidden" accept=".html,.txt,.htm" onchange="handleFileUpload(event)">
-                </label>
-                <!-- Trình mẫu thử -->
-                <button onclick="loadSampleData()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-cubes text-blue-500"></i> Mã nguồn mẫu
-                </button>
-            </div>
-
-            <div>
-                <!-- Dọn sạch màn hình -->
-                <button onclick="clearEditors()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 shadow-sm">
-                    <i class="fa-solid fa-trash-can"></i> Xóa dữ liệu
-                </button>
-            </div>
-        </div>
-
         <!-- Khung chia tỷ lệ 1/5 và 4/5 -->
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 flex-grow min-h-0">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 flex-grow min-h-0">
             
             <!-- Cột trái (1/5): Trình nhập mã nguồn / dữ liệu JSON ảo -->
-            <div class="glass-panel p-4 rounded-2xl flex flex-col lg:col-span-1 shadow-sm overflow-hidden">
-                <!-- Tiêu đề & Checkbox kích hoạt giả lập JSON -->
-                <div class="flex justify-between items-center mb-3 shrink-0">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-[#166def] rounded-full"></span> Mã nguồn
-                    </span>
-                    <!-- Checkbox bật/tắt JSON -->
-                    <div class="flex items-center gap-1.5">
-                        <input type="checkbox" id="useJsonMock" class="w-3.5 h-3.5 text-[#166def] rounded border-slate-300 focus:ring-[#166def] cursor-pointer" onchange="toggleJsonMock(this.checked)">
-                        <label for="useJsonMock" class="text-[11px] text-[#166def] font-bold select-none cursor-pointer">Giả lập JSON</label>
-                    </div>
-                </div>
-
-                <!-- Tab Headers (Chỉ xuất hiện khi tích chọn Giả lập JSON) -->
-                <div id="leftTabHeader" class="flex border-b border-slate-200 mb-3 text-xs font-bold hidden">
-                    <button id="tabHtmlBtn" onclick="switchLeftTab('html')" class="py-2 px-3 text-[#166def] border-b-2 border-[#166def] flex items-center gap-1.5 transition">
+            <div class="glass-panel p-3 rounded-xl flex flex-col lg:col-span-1 overflow-hidden min-h-0 h-full">
+                <!-- Tiêu đề / Tab Headers (Chỉ xuất hiện khi tích chọn Giả lập JSON) -->
+                <div id="leftTabHeader" class="flex border-b border-slate-200 mb-2 text-xs font-bold hidden shrink-0">
+                    <button id="tabHtmlBtn" onclick="switchLeftTab('html')" class="py-1.5 px-3 text-[#166def] border-b-2 border-[#166def] flex items-center gap-1.5 transition">
                         <i class="fa-solid fa-code"></i> Mã HTML
                     </button>
-                    <button id="tabJsonBtn" onclick="switchLeftTab('json')" class="py-2 px-3 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition">
+                    <button id="tabJsonBtn" onclick="switchLeftTab('json')" class="py-1.5 px-3 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition">
                         <i class="fa-solid fa-brackets-curly"></i> Dữ liệu JSON
                     </button>
                 </div>
 
-                <!-- Nội dung Tab 1: Mã HTML -->
-                <div id="leftTabHtmlContent" class="flex-grow flex flex-col h-full">
-                    <div class="flex justify-between items-center mb-1.5 shrink-0">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Trình soạn thảo HTML</span>
-                        <button onclick="copyToClipboard(inputEditor)" class="text-[10px] text-[#166def] hover:underline flex items-center gap-1">
-                            <i class="fa-regular fa-copy"></i> Sao chép
-                        </button>
-                    </div>
-                    <div id="inputEditor" class="workspace-height w-full border border-slate-200 rounded-xl overflow-hidden"></div>
+                <!-- Tiêu đề tiêu chuẩn khi không sử dụng JSON -->
+                <div id="leftStandardHeader" class="flex justify-between items-center mb-2 shrink-0 select-none">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <span class="w-1 h-1 bg-[#166def] rounded-full"></span> Trình soạn thảo HTML
+                    </span>
+                    <button onclick="copyToClipboard(inputEditor)" class="text-[10px] text-[#166def] hover:underline flex items-center gap-1">
+                        <i class="fa-regular fa-copy"></i> Sao chép
+                    </button>
                 </div>
 
-                <!-- Nội dung Tab 2: Dữ liệu JSON -->
-                <div id="leftTabJsonContent" class="hidden flex-grow flex flex-col h-full gap-3">
+                <!-- Tab 1: Nội dung HTML -->
+                <div id="leftTabHtmlContent" class="flex-grow min-h-0 relative h-full">
+                    <div id="inputEditor" class="absolute inset-0 overflow-hidden"></div>
+                </div>
+
+                <!-- Tab 2: Nội dung JSON -->
+                <div id="leftTabJsonContent" class="hidden flex-grow flex flex-col h-full gap-3 min-h-0">
                     <div class="flex flex-col gap-1 shrink-0">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tên tệp giả lập ảo:</label>
-                        <input id="jsonFilename" type="text" value="data.json" class="border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#166def] font-mono text-[#166def]" placeholder="data.json" oninput="runPreview()">
+                        <label class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Tên tệp giả lập ảo:</label>
+                        <input id="jsonFilename" type="text" value="data.json" class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#166def] font-mono text-[#166def]" placeholder="data.json" oninput="runPreview()">
                     </div>
-                    <div class="flex flex-col flex-grow min-h-0">
+                    <div class="flex flex-col flex-grow min-h-0 relative">
                         <div class="flex justify-between items-center mb-1 shrink-0">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Nội dung tệp JSON:</label>
+                            <label class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Nội dung tệp JSON:</label>
                             <button onclick="copyToClipboard(jsonEditor)" class="text-[10px] text-[#166def] hover:underline flex items-center gap-1">
                                 <i class="fa-regular fa-copy"></i> Sao chép
                             </button>
                         </div>
-                        <div id="jsonEditor" class="flex-grow border border-slate-200 rounded-xl overflow-hidden" style="height: 480px;"></div>
+                        <div class="flex-grow min-h-0 relative">
+                            <div id="jsonEditor" class="absolute inset-0 overflow-hidden"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Cột phải (4/5): Màn hình xem trực quan (Hỗ trợ Device Emulator) -->
-            <div class="glass-panel p-4 rounded-2xl flex flex-col lg:col-span-4 shadow-sm overflow-hidden">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2 shrink-0">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Màn hình xem trước
+            <div class="glass-panel p-3 rounded-xl flex flex-col lg:col-span-4 overflow-hidden min-h-0 h-full">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 shrink-0 select-none">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <span class="w-1 h-1 bg-emerald-500 rounded-full"></span> Giao diện xem trước (Live Preview)
                     </span>
-                    
-                    <!-- Các nút tác vụ đầu ra -->
-                    <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
-                        <!-- Nút đổi chế độ Mobile / Desktop -->
-                        <button id="toggleViewBtn" onclick="toggleViewport()" class="text-xs text-slate-600 hover:text-[#166def] bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-mobile-screen-button"></i> Chế độ di động
-                        </button>
-                        <span class="text-slate-200">|</span>
-                        <button onclick="openInNewTab()" class="text-xs text-[#166def] hover:text-blue-800 flex items-center gap-1.5 font-semibold transition">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở tab riêng
-                        </button>
-                        <span class="text-slate-200">|</span>
-                        <button onclick="toggleFullscreen()" class="text-xs text-orange-600 hover:text-orange-800 flex items-center gap-1.5 font-semibold transition">
-                            <i class="fa-solid fa-expand"></i> Toàn màn hình
-                        </button>
-                        <span class="text-slate-200">|</span>
-                        <button onclick="downloadOutput()" class="text-xs text-emerald-600 hover:text-emerald-800 flex items-center gap-1.5 font-semibold transition">
-                            <i class="fa-solid fa-download"></i> Tải xuống (.html)
-                        </button>
-                    </div>
                 </div>
 
-                <!-- Vùng chứa Frame mô phỏng thay đổi kích thước linh hoạt -->
-                <div class="flex-grow flex items-center justify-center overflow-y-auto bg-slate-100/40 rounded-xl border border-slate-200/60 p-4">
+                <!-- Vùng chứa Frame mô phỏng có đệm lề -->
+                <div class="flex-grow min-h-0 bg-slate-100/40 rounded-lg border border-slate-300 p-3 flex items-center justify-center relative">
                     
                     <!-- Khung Browser/Mobile Mockup -->
-                    <div id="previewIframeContainer" class="w-full h-full bg-white rounded-xl overflow-hidden border border-slate-200 flex flex-col relative transition-all duration-300">
+                    <div id="previewIframeContainer" class="w-full h-full bg-white rounded-lg overflow-hidden border border-slate-300 flex flex-col relative transition-all duration-300">
                         <!-- Thanh tai thỏ (Chỉ hiển thị ở chế độ di động) -->
                         <div id="mobileNotch" class="absolute top-1.5 left-1/2 -translate-x-1/2 w-24 h-4 bg-slate-800 rounded-full z-30 hidden"></div>
                         
                         <!-- Thanh mô phỏng thanh địa chỉ trình duyệt -->
-                        <div id="browserHeader" class="bg-slate-50 border-b border-slate-200/80 px-4 py-2 flex items-center gap-2 shrink-0 select-none">
+                        <div id="browserHeader" class="bg-slate-50 border-b border-slate-300 px-4 py-1.5 flex items-center gap-2 shrink-0 select-none">
                             <div class="flex gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
-                                <span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
-                                <span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
+                                <span class="w-2 h-2 rounded-full bg-slate-200 border border-slate-300/40"></span>
+                                <span class="w-2 h-2 rounded-full bg-slate-200 border border-slate-300/40"></span>
+                                <span class="w-2 h-2 rounded-full bg-slate-200 border border-slate-300/40"></span>
                             </div>
-                            <div class="bg-white border border-slate-200 text-[10px] text-slate-400 px-3 py-0.5 rounded-md flex-grow mx-4 text-center truncate">
-                                <i class="fa-solid fa-lock text-[8px] mr-1 text-emerald-500"></i> dynamic_simulation_environment.html
+                            <div class="bg-white border border-slate-300 text-[9px] text-slate-400 px-3 py-0.5 rounded flex-grow mx-4 text-center truncate">
+                                <i class="fa-solid fa-lock text-[8px] mr-1 text-emerald-500"></i> codepen.hoangson.sandbox
                             </div>
-                            <button onclick="runPreview()" class="text-slate-400 hover:text-slate-600 transition" title="Tải lại thủ công"><i class="fa-solid fa-rotate-right text-xs"></i></button>
+                            <button onclick="runPreview()" class="text-slate-400 hover:text-slate-600 transition" title="Làm mới"><i class="fa-solid fa-rotate-right text-[10px]"></i></button>
                         </div>
                         
                         <!-- Iframe thực thi kết quả -->
@@ -230,13 +212,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white/70 backdrop-blur-md border-t border-slate-200/80 py-4 px-4 mt-auto text-center text-xs text-slate-400 z-10">
-        <div class="max-w-7xl mx-auto">
-            <p>Xây dựng trên nền tảng Client-Side độc lập. Mọi tác vụ xử lý trực tiếp tại trình duyệt.</p>
-        </div>
-    </footer>
-
     <!-- Logic Script -->
     <script>
         let inputEditor, jsonEditor;
@@ -244,7 +219,7 @@
 
         // Khởi động khi ứng dụng tải xong cấu trúc DOM
         window.addEventListener('DOMContentLoaded', () => {
-            // Khởi tạo Editor nhập liệu HTML (Sử dụng theme Chrome sáng tinh tế)
+            // Khởi tạo Editor nhập liệu HTML
             inputEditor = ace.edit("inputEditor");
             inputEditor.setTheme("ace/theme/chrome");
             inputEditor.session.setMode("ace/mode/html");
@@ -271,56 +246,123 @@
             let timeout;
             const liveUpdate = () => {
                 clearTimeout(timeout);
-                // Đặt độ trễ 400ms sau khi dừng gõ để tối ưu hiệu năng
-                timeout = setTimeout(runPreview, 400); 
+                timeout = setTimeout(runPreview, 350); 
             };
 
             inputEditor.session.on('change', liveUpdate);
             jsonEditor.session.on('change', liveUpdate);
         });
 
-        // Hàm tải mã nguồn mẫu và dữ liệu JSON mẫu minh họa cơ chế nạp tệp linh hoạt
+        // Hàm tải dữ liệu mẫu và dữ liệu JSON giả lập
         function loadSampleData() {
+            // Mã nguồn chào mừng giao diện SÁNG, phong cách công nghệ vui nhộn
             const sampleHTML = `<!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
+  <meta charset="UTF-8">
   <style>
-    body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 80vh; margin: 0;}
-    .card { background: white; padding: 24px; border-radius: 16px; box-shadow: 0 4px 20px rgba(22,109,239,0.1); width: 100%; max-width: 320px; text-align: center; border: 1px solid #dbeafe; }
-    h2 { color: #166def; margin-top: 0; font-size: 18px; font-weight: 700; }
-    p { color: #475569; font-size: 13px; line-height: 1.6; }
-    .btn { background: #166def; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 12px; font-size: 12px; }
-    .btn:hover { background: #0e5cd2; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at 50% 50%, #f0f7ff, #ffffff);
+      color: #1e293b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+      padding: 35px 30px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1.5px solid #dbeafe;
+      box-shadow: 0 10px 40px rgba(22, 109, 239, 0.05);
+      max-width: 360px;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #166def, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0 0 12px 0;
+      letter-spacing: -0.02em;
+    }
+    p {
+      color: #475569;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .tech-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #166def;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 18px;
+      border: 1px solid #bfdbfe;
+    }
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: #166def;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(22, 109, 239, 0.5);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.4; }
+    }
+    .glow-btn {
+      background: linear-gradient(135deg, #166def, #3b82f6);
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(22, 109, 239, 0.3);
+      transition: all 0.3s;
+    }
+    .glow-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(22, 109, 239, 0.45);
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2 id="title">Đang tải...</h2>
-    <p id="desc">Hệ thống đang nạp dữ liệu từ file JSON giả lập...</p>
-    <button class="btn" onclick="fetchData()">Tải lại dữ liệu</button>
+  <div class="container">
+    <div class="tech-badge">
+      <span class="pulse-dot"></span> Online Sandbox
+    </div>
+    <h1>Code Pen của Hoàng Sơn</h1>
+    <p>Không gian sáng tạo và biên dịch mã nguồn trực tuyến tốc độ cao, hỗ trợ kiểm nghiệm responsive và mô phỏng JSON dynamic một cách nhanh chóng nhất.</p>
+    <button class="glow-btn" onclick="alert('Hãy bắt đầu chỉnh sửa code ở cột bên trái để cảm nhận sự khác biệt! 🚀')">Khám phá ngay</button>
   </div>
-  <script>
-    function fetchData() {
-      // Gọi tệp tin giả lập giống như dữ liệu mạng thực tế
-      fetch('data.json')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('title').innerText = data.name;
-          document.getElementById('desc').innerText = data.description;
-        })
-        .catch(err => {
-          document.getElementById('title').innerText = "Thất bại!";
-          document.getElementById('desc').innerText = "Không tìm thấy tệp JSON chỉ định.";
-        });
-    }
-    window.onload = fetchData;
-  <\/script>
 </body>
 </html>`;
 
             const sampleJSON = {
-                "name": "KiotViet E-Learning",
-                "description": "Thành công! Đoạn mã HTML bên trái vừa truy vấn thành công dữ liệu động từ tệp tin ảo này bằng phương thức fetch() cục bộ."
+                "author": "Hoàng Sơn",
+                "status": "Online",
+                "message": "Dữ liệu giả lập từ tệp JSON đã được nạp thành công vào môi trường sandbox!"
             };
 
             inputEditor.setValue(sampleHTML, -1);
@@ -331,11 +373,14 @@
         // Bật/tắt tính năng Giả lập JSON
         function toggleJsonMock(checked) {
             const tabHeader = document.getElementById('leftTabHeader');
+            const standardHeader = document.getElementById('leftStandardHeader');
             if (checked) {
                 tabHeader.classList.remove('hidden');
+                standardHeader.classList.add('hidden');
                 switchLeftTab('html');
             } else {
                 tabHeader.classList.add('hidden');
+                standardHeader.classList.remove('hidden');
                 switchLeftTab('html');
             }
             runPreview();
@@ -349,21 +394,21 @@
             const leftTabJsonContent = document.getElementById('leftTabJsonContent');
 
             if (tab === 'html') {
-                tabHtmlBtn.className = "py-2 px-3 text-[#166def] border-b-2 border-[#166def] flex items-center gap-1.5 transition";
-                tabJsonBtn.className = "py-2 px-3 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition";
+                tabHtmlBtn.className = "py-1.5 px-3 text-[#166def] border-b-2 border-[#166def] flex items-center gap-1.5 transition";
+                tabJsonBtn.className = "py-1.5 px-3 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition";
                 leftTabHtmlContent.classList.remove('hidden');
                 leftTabJsonContent.classList.add('hidden');
                 inputEditor.resize();
             } else {
-                tabJsonBtn.className = "py-2 px-3 text-[#166def] border-b-2 border-[#166def] flex items-center gap-1.5 transition";
-                tabHtmlBtn.className = "py-2 px-3 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition";
+                tabJsonBtn.className = "py-1.5 px-3 text-[#166def] border-b-2 border-[#166def] flex items-center gap-1.5 transition";
+                tabHtmlBtn.className = "py-1.5 px-3 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 transition";
                 leftTabHtmlContent.classList.add('hidden');
                 leftTabJsonContent.classList.remove('hidden');
                 jsonEditor.resize();
             }
         }
 
-        // Tự động nạp mã nguồn vào iframe (Hỗ trợ giả lập chặn Fetch/XHR khi kích hoạt Checkbox)
+        // Tự động nạp mã nguồn vào iframe
         function runPreview() {
             const code = inputEditor.getValue();
             const useJsonMock = document.getElementById('useJsonMock').checked;
@@ -371,7 +416,7 @@
 
             if (!iframe) return;
 
-            // Nếu người dùng KHÔNG bật giả lập JSON, hiển thị mã HTML nguyên bản 100% không can thiệp
+            // Nếu không chọn Giả lập JSON, thực thi mã nguồn HTML thuần khiết nhất
             if (!useJsonMock) {
                 iframe.srcdoc = code;
                 return;
@@ -380,17 +425,17 @@
             const jsonFilename = document.getElementById('jsonFilename').value.trim() || 'data.json';
             const jsonContent = jsonEditor.getValue();
 
-            // Xử lý đọc JSON an toàn
+            // Xử lý dữ liệu JSON an toàn
             let parsedJson = {};
             try {
                 if (jsonContent.trim() !== '') {
                     parsedJson = JSON.parse(jsonContent);
                 }
             } catch (e) {
-                console.warn("JSON chưa đúng định dạng.");
+                console.warn("Dữ liệu JSON chưa đúng định dạng.");
             }
 
-            // Kỹ thuật nối chuỗi an toàn tránh lỗi đứt đoạn HTML Parser của trình duyệt
+            // Kỹ thuật nối chuỗi an toàn tránh lỗi đứt đoạn HTML Parser của trình duyệt chính
             const mockScript = 
                 '<' + 'script' + '>\n' +
                 '(function() {\n' +
@@ -437,7 +482,7 @@
                 '})();\n' +
                 '<' + '/script' + '>\n';
 
-            // Thực hiện tiêm mã cấu hình ảo vào phần đầu của Iframe để chạy ưu tiên
+            // Tiêm mã giả lập ảo vào phần đầu của Iframe để chạy ưu tiên
             let finalCode = code;
             if (code.includes('<head>')) {
                 finalCode = code.replace('<head>', '<head>' + mockScript);
@@ -463,15 +508,15 @@
                 container.className = "w-[375px] h-[550px] border-[12px] border-slate-800 rounded-[36px] shadow-2xl bg-white relative transition-all duration-300 mx-auto flex flex-col overflow-hidden my-4";
                 notch.classList.remove('hidden');
                 browserHeader.classList.add('hidden'); // Ẩn thanh browser bar khi chuyển sang di động
-                viewBtn.innerHTML = `<i class="fa-solid fa-desktop"></i> Chế độ máy tính`;
-                viewBtn.className = "text-xs text-[#166def] hover:text-blue-700 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-sm";
+                viewBtn.innerHTML = `<i class="fa-solid fa-desktop"></i> Máy tính`;
+                viewBtn.className = "text-xs text-[#166def] hover:text-blue-700 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-sm";
             } else {
                 // Chuyển lại màn hình máy tính đầy đủ
-                container.className = "w-full h-full bg-white rounded-xl overflow-hidden border border-slate-200 flex flex-col relative transition-all duration-300";
+                container.className = "w-full h-full bg-white rounded-lg overflow-hidden border border-slate-300 flex flex-col relative transition-all duration-300";
                 notch.classList.add('hidden');
                 browserHeader.classList.remove('hidden');
-                viewBtn.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> Chế độ di động`;
-                viewBtn.className = "text-xs text-slate-600 hover:text-[#166def] bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-sm";
+                viewBtn.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> Di động`;
+                viewBtn.className = "text-xs text-slate-600 hover:text-[#166def] bg-white border border-slate-300 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-xs";
             }
         }
 
@@ -487,7 +532,7 @@
                 newWindow.document.write(code);
                 newWindow.document.close();
             } else {
-                alert("Trình duyệt chặn mở liên kết bật lên (popup). Vui lòng cấp quyền hiển thị popup để sử dụng.");
+                alert("Trình duyệt chặn mở liên kết bật lên (popup). Vui lòng cấp quyền hiển thị popup đối với trang này để sử dụng.");
             }
         }
 
