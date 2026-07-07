@@ -171,29 +171,9 @@
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse lg:hidden"></span>
         </div>
         
-        <!-- Controls & Actions -->
+        <!-- Controls & Actions (Giữ lại các tính năng View/Xuất) -->
         <div class="w-full lg:w-auto overflow-x-auto no-scrollbar py-1">
             <div class="flex flex-row flex-nowrap items-center gap-2 text-xs min-w-max">
-                <button id="sidebarToggleBtn" onclick="toggleSidebar()" class="text-white hover:bg-white/20 bg-white/10 border border-white/25 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-columns text-[#38bdf8]"></i> <span id="sidebarToggleText">Ẩn Trình gõ code</span>
-                </button>
-                <span class="text-white/20 select-none">|</span>
-                <button onclick="loadSampleData()" class="text-white hover:bg-white/20 bg-white/10 border border-white/25 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-cubes text-blue-300"></i> Mẫu thử
-                </button>
-                <label class="hover:bg-white/15 bg-white/10 text-white border border-white/15 px-2.5 py-1.5 rounded-lg font-semibold cursor-pointer transition flex items-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-cloud-arrow-up text-[#38bdf8]"></i> Nhập File
-                    <input type="file" id="fileInput" class="hidden" accept=".html,.txt,.htm" onchange="handleFileUpload(event)">
-                </label>
-                <button onclick="clearEditors()" class="bg-red-500/20 hover:bg-red-500/35 text-red-200 border border-red-500/20 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
-                    <i class="fa-solid fa-trash-can"></i> Xóa hết
-                </button>
-                <span class="text-white/20 select-none">|</span>
-                <div class="flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1.5 rounded-lg shadow-2xs">
-                    <input type="checkbox" id="useJsonMock" class="w-3.5 h-3.5 text-[#166def] rounded border-white/30 focus:ring-0 cursor-pointer bg-slate-900" onchange="toggleJsonMock(this.checked)">
-                    <label for="useJsonMock" class="text-white font-bold select-none cursor-pointer">Giả lập JSON</label>
-                </div>
-                <span class="text-white/20 select-none">|</span>
                 <button id="toggleViewBtn" onclick="toggleViewport()" class="text-white hover:bg-white/10 bg-white/5 border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
                     <i class="fa-solid fa-mobile-screen-button text-[#38bdf8]"></i> Di động
                 </button>
@@ -211,11 +191,16 @@
     </header>
 
     <!-- Main Workspace -->
-    <main class="flex-1 w-full max-w-none flex flex-col min-h-0 overflow-y-auto lg:overflow-hidden bg-[#fafbfc]">
+    <main class="flex-1 w-full max-w-none flex flex-col min-h-0 overflow-y-auto lg:overflow-hidden bg-[#fafbfc] relative">
         
+        <!-- Nút nổi để mở lại Sidebar khi bị ẩn -->
+        <button id="floatingToggleBtn" onclick="toggleSidebar()" title="Mở lại Trình gõ code" class="hidden absolute top-4 left-4 z-40 w-11 h-11 bg-[#243242] border border-[#1b2734] text-[#38bdf8] rounded-xl shadow-xl flex items-center justify-center hover:bg-[#2c3d52] transition">
+            <i class="fa-solid fa-code text-lg"></i>
+        </button>
+
         <div id="workspace" class="flex flex-col lg:flex-row flex-grow min-h-0 w-full relative">
             
-            <!-- Cột trái (Sidebar) - Đã tăng kích thước mặc định lên 40% -->
+            <!-- Cột trái (Sidebar) -->
             <div id="leftSidebar" style="width: 40%;" class="bg-[#243242] border-r border-[#1a2635] p-3.5 flex flex-col shrink-0 min-h-0 h-[450px] lg:h-full transition-all duration-300 select-none relative">
                 
                 <div id="leftTabHeader" class="flex border-b border-[#1b2734] mb-2.5 text-xs font-bold hidden shrink-0">
@@ -269,6 +254,33 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Bottom Toolbar (Chỉ chứa Icon, nằm dưới cùng Trình soạn thảo) -->
+                <div class="shrink-0 flex items-center justify-between mt-3 pt-3 border-t border-[#1b2734]">
+                    <!-- Nút Ẩn Editor -->
+                    <button onclick="toggleSidebar()" title="Ẩn Trình gõ code" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition group">
+                        <i class="fa-solid fa-angles-left text-lg group-hover:-translate-x-0.5 transition-transform"></i>
+                    </button>
+                    <!-- Cụm tính năng ở giữa -->
+                    <div class="flex items-center gap-1">
+                        <button onclick="loadSampleData()" title="Mẫu thử" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-slate-400 hover:text-blue-400 transition">
+                            <i class="fa-solid fa-cubes text-lg"></i>
+                        </button>
+                        <label title="Nhập File" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition m-0">
+                            <i class="fa-solid fa-cloud-arrow-up text-lg"></i>
+                            <input type="file" id="fileInput" class="hidden" accept=".html,.txt,.htm" onchange="handleFileUpload(event)">
+                        </label>
+                        <label title="Bật/Tắt Giả lập JSON" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white/10 text-slate-400 cursor-pointer transition m-0">
+                            <input type="checkbox" id="useJsonMock" class="hidden" onchange="toggleJsonMock(this.checked)">
+                            <i id="jsonToggleIcon" class="fa-solid fa-database text-lg"></i>
+                        </label>
+                    </div>
+                    <!-- Nút Xóa hết -->
+                    <button onclick="clearEditors()" title="Xóa hết" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-[#ef4444]/20 text-slate-400 hover:text-red-400 transition">
+                        <i class="fa-solid fa-trash-can text-lg"></i>
+                    </button>
+                </div>
+
             </div>
 
             <!-- Resizer -->
@@ -456,21 +468,21 @@
             });
         }
 
-        // Ẩn/hiện Sidebar
+        // Ẩn/hiện Sidebar và quản lý Nút Nổi (Floating Button)
         function toggleSidebar() {
             isSidebarHidden = !isSidebarHidden;
             const sidebar = document.getElementById('leftSidebar');
             const resizer = document.getElementById('resizer');
-            const toggleText = document.getElementById('sidebarToggleText');
+            const floatingBtn = document.getElementById('floatingToggleBtn');
 
             if (isSidebarHidden) {
                 sidebar.classList.add('hidden');
                 resizer.classList.add('hidden');
-                toggleText.innerText = "Hiện Trình gõ code";
+                floatingBtn.classList.remove('hidden');
             } else {
                 sidebar.classList.remove('hidden');
                 resizer.classList.remove('hidden');
-                toggleText.innerText = "Ẩn Trình gõ code";
+                floatingBtn.classList.add('hidden');
                 inputEditor.resize(); jsonEditor.resize();
             }
         }
@@ -604,16 +616,23 @@
             runPreview();
         }
 
+        // Đổi màu icon khi Bật/Tắt JSON ở Bottombar
         function toggleJsonMock(checked) {
             const tabHeader = document.getElementById('leftTabHeader');
             const standardHeader = document.getElementById('leftStandardHeader');
+            const jsonIcon = document.getElementById('jsonToggleIcon');
+
             if (checked) {
                 tabHeader.classList.remove('hidden');
                 standardHeader.classList.add('hidden');
+                jsonIcon.classList.remove('text-slate-400');
+                jsonIcon.classList.add('text-emerald-400');
                 switchLeftTab('html');
             } else {
                 tabHeader.classList.add('hidden');
                 standardHeader.classList.remove('hidden');
+                jsonIcon.classList.remove('text-emerald-400');
+                jsonIcon.classList.add('text-slate-400');
                 switchLeftTab('html');
             }
             runPreview();
@@ -642,7 +661,8 @@
 
         function runPreview() {
             const code = inputEditor.getValue();
-            const useJsonMock = document.getElementById('useJsonMock').checked;
+            const useJsonMockElement = document.getElementById('useJsonMock');
+            const useJsonMock = useJsonMockElement ? useJsonMockElement.checked : false;
             const iframe = document.getElementById('previewIframe');
 
             if (!iframe) return;
@@ -679,7 +699,7 @@
             iframe.srcdoc = finalCode; 
         }
 
-        // Thay đổi tỷ lệ Mobile chuẩn iPhone 14 Pro Max
+        // Thay đổi tỷ lệ Mobile với kích thước thu nhỏ để luôn thấy cả 4 viền màn hình (300px x 640px)
         function toggleViewport() {
             // Cập nhật reset zoom về 80% khi đổi view
             currentZoom = 0.8;
@@ -691,10 +711,10 @@
             const viewBtn = document.getElementById('toggleViewBtn');
 
             if (isMobileView) {
-                // Tỉ lệ iPhone 14 Pro Max
-                container.className = "w-[393px] max-w-full h-[760px] border-[12px] border-slate-900 rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)] bg-white relative transition-all duration-300 mx-auto flex flex-col overflow-hidden my-4 shrink-0";
-                notch.className = "absolute top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-40 flex items-center justify-center";
-                notch.innerHTML = `<div class="w-2.5 h-2.5 bg-[#0a1226] rounded-full ml-auto mr-4 border border-[#1e293b] shadow-inner"></div>`;
+                // Tỉ lệ iPhone thu nhỏ an toàn hiển thị cho đa số màn hình
+                container.className = "w-[300px] max-w-full h-[640px] border-[12px] border-slate-900 rounded-[40px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)] bg-white relative transition-all duration-300 mx-auto flex flex-col overflow-hidden my-auto shrink-0";
+                notch.className = "absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-40 flex items-center justify-center";
+                notch.innerHTML = `<div class="w-2 h-2 bg-[#0a1226] rounded-full ml-auto mr-3 border border-[#1e293b] shadow-inner"></div>`;
                 notch.classList.remove('hidden');
                 viewBtn.innerHTML = `<i class="fa-solid fa-desktop text-[#38bdf8]"></i> Máy tính`;
             } else {
