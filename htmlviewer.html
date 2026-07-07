@@ -7,19 +7,19 @@
     <!-- Tailwind CSS dựng giao diện -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Phông chữ Inter từ Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome cho các icon chuyên nghiệp -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome cho các icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Ace Editor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.36.2/ace.js"></script>
     <style>
-        /* Áp dụng phông chữ Inter */
+        /* Áp dụng phông chữ Inter mặc định */
         body {
             font-family: 'Inter', sans-serif;
             background: #fafbfc;
         }
 
-        /* Khóa cuộn trang chính trên PC để tạo cảm giác ứng dụng chuyên nghiệp (IDE-like) */
+        /* Khóa cuộn trang chính trên PC để tạo cảm giác ứng dụng chuyên nghiệp */
         @media (min-width: 1024px) {
             body, html {
                 height: 100%;
@@ -49,21 +49,6 @@
             background: rgba(148, 163, 184, 0.45);
         }
 
-        /* Đồng bộ màu sắc Ace Editor với nền Navy của Sidebar */
-        .ace_editor {
-            background-color: transparent !important;
-            font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
-            border-radius: 0.375rem;
-        }
-        .ace_gutter {
-            background: rgba(0, 0, 0, 0.15) !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-            color: #64748b !important;
-        }
-        .ace_content {
-            background-color: transparent !important;
-        }
-
         /* Ẩn thanh cuộn ngang của Navbar di động */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -72,91 +57,223 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* Đồng bộ màu sắc Ace Editor với nền Navy của Sidebar */
+        .ace_editor {
+            background-color: transparent !important;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace !important;
+        }
+        .ace_content {
+            background-color: transparent !important;
+        }
+
+        /* Hiệu ứng trượt xuống êm ái khi dịch chuyển mã nguồn */
+        .ace_gutter, .ace_scroller, .ace_scrollbar-v {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), height 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        /* ========================================================
+           Hộp thoại Tìm kiếm & Thay thế (Search & Replace Box)
+           ======================================================== */
+        .ace_search {
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            background-color: #f1f5f9 !important; /* Màu xám nhạt cao cấp */
+            border: none !important;
+            border-bottom: 2px solid #cbd5e1 !important; /* Viền ngăn cách rõ nét */
+            border-radius: 0 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12) !important;
+            padding: 8px 12px !important;
+            box-sizing: border-box !important;
+            z-index: 99 !important;
+            color: #0f172a !important; /* Chữ tối màu tương phản tốt */
+            font-family: 'Inter', sans-serif !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 5px !important;
+            height: 115px !important; /* Cố định chiều cao */
+            transform: none !important; /* Vô hiệu hóa mọi di dịch ngẫu nhiên từ thư viện */
+        }
+        
+        /* Cấu hình các dòng nhập liệu */
+        .ace_search_form, .ace_replace_form {
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        
+        /* Cấu hình ô nhập văn bản sáng tương phản cao */
+        .ace_search_field {
+            background-color: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important; /* Chữ gõ vào hiển thị màu đen đậm */
+            border-radius: 4px !important;
+            padding: 4px 8px !important;
+            font-size: 12px !important;
+            font-family: 'Fira Code', monospace !important;
+            box-sizing: border-box !important;
+            flex-grow: 1 !important;
+        }
+        .ace_search_field::placeholder {
+            color: #94a3b8 !important;
+        }
+        
+        /* Cấu hình các nút bấm tương tác bên trong panel */
+        .ace_searchbtn {
+            background-color: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #475569 !important;
+            border-radius: 4px !important;
+            padding: 3px 8px !important;
+            font-size: 11px !important;
+            cursor: pointer !important;
+        }
+        .ace_searchbtn:hover {
+            background-color: #166def !important;
+            color: #ffffff !important;
+            border-color: #166def !important;
+        }
+        .ace_searchbtn.prev, .ace_searchbtn.next {
+            padding: 3px 10px !important;
+        }
+        .ace_search_options {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 6px !important;
+            color: #475569 !important;
+            margin-top: 2px !important;
+        }
+        .ace_search_option {
+            background-color: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #475569 !important;
+            border-radius: 3px !important;
+            padding: 1px 6px !important;
+            font-size: 10px !important;
+        }
+        .ace_search_option.checked {
+            color: #166def !important;
+            border-color: #166def !important;
+            background-color: rgba(22, 109, 239, 0.08) !important;
+        }
+        /* Nút đóng góc phải */
+        .ace_searchbtn.close {
+            color: #94a3b8 !important;
+        }
+        .ace_searchbtn.close:hover {
+            color: #ef4444 !important;
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+
+        /* ========================================================
+           Kỹ thuật đẩy mã nguồn (Gutter & Scroller) xuống dưới khi bật Search
+           ======================================================== */
+        .ace_editor:has(.ace_search:not(.ace_hidden)) .ace_scroller,
+        .ace_editor:has(.ace_search:not(.ace_hidden)) .ace_gutter,
+        .ace_editor:has(.ace_search:not(.ace_hidden)) .ace_scrollbar-v {
+            transform: translateY(115px) !important;
+            height: calc(100% - 115px) !important;
+        }
+
+        /* Tối ưu hóa chuyển động mượt mà khi Zoom */
+        #previewIframe {
+            transform-origin: top left;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                        height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, width, height;
+        }
     </style>
 </head>
-<body class="flex flex-col h-full text-slate-600 antialiased">
+<body class="flex flex-col h-full text-slate-700 antialiased">
 
     <!-- Top Navbar màu Navy ấm dịu mắt và đồng bộ -->
     <header class="shrink-0 bg-[#243242] border-b border-[#1b2734] px-4 py-2.5 z-30 flex flex-col md:flex-row justify-between items-center gap-3 shadow-md select-none">
-        <!-- Brand Logo & Title -->
+        <!-- Brand Logo -->
         <div class="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-start">
             <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center">
-                    <i class="fa-solid fa-square-terminal text-white text-xs"></i>
+                <!-- Logo HS Sáng tạo với thiết kế mờ phủ lăng kính -->
+                <div class="relative w-8 h-8 rounded-lg bg-gradient-to-br from-[#166def] to-cyan-500 flex items-center justify-center font-extrabold text-white text-[13px] shadow-[0_3px_10px_rgba(22,109,239,0.3)] border border-white/10 select-none">
+                    <span class="relative z-10">H</span>
+                    <span class="relative z-10 text-cyan-200 -ml-[2px] mt-[3px]">S</span>
+                    <div class="absolute inset-0.5 rounded-[6px] bg-[#243242]/20 backdrop-blur-xs z-0"></div>
                 </div>
                 <div>
                     <h1 class="text-xs font-bold text-white tracking-tight">Code Pen của Hoàng Sơn</h1>
                 </div>
             </div>
-            
-            <!-- Trạng thái kết nối ảo -->
-            <div class="flex items-center gap-1.5 bg-slate-800/40 px-2 py-0.5 rounded-md border border-slate-700/50 text-[9px] text-emerald-400 font-semibold">
-                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Active</span>
-            </div>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse lg:hidden"></span>
         </div>
         
         <!-- Controls & Actions -->
-        <div class="flex flex-wrap items-center gap-2 text-xs w-full lg:w-auto justify-end">
-            <!-- Nút Ẩn/Hiện Trình soạn thảo -->
-            <button onclick="toggleSidebar()" class="bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Ẩn hoặc hiện khung soạn thảo trái">
-                <i class="fa-solid fa-columns text-[#38bdf8]"></i>
-                <span id="sidebarToggleText">Ẩn Trình gõ code</span>
-            </button>
+        <div class="w-full lg:w-auto overflow-x-auto no-scrollbar py-1">
+            <div class="flex flex-row flex-nowrap items-center gap-2 text-xs min-w-max">
+                <!-- Nút ẩn / hiện Sidebar -->
+                <button id="sidebarToggleBtn" onclick="toggleSidebar()" class="text-white hover:bg-white/20 bg-white/10 border border-white/25 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Ẩn hoặc hiện hoàn toàn cột code">
+                    <i class="fa-solid fa-columns text-[#38bdf8]"></i>
+                    <span id="sidebarToggleText">Ẩn Trình gõ code</span>
+                </button>
+                
+                <span class="text-white/20 select-none">|</span>
 
-            <span class="text-white/10 hidden lg:inline">|</span>
+                <!-- Nút nạp dữ liệu mẫu -->
+                <button onclick="loadSampleData()" class="text-white hover:bg-white/20 bg-white/10 border border-white/25 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Tải dữ liệu mẫu">
+                    <i class="fa-solid fa-cubes text-blue-300"></i> Mẫu thử
+                </button>
+                <!-- Nhập file từ thiết bị -->
+                <label class="hover:bg-white/15 bg-white/10 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold cursor-pointer transition flex items-center gap-1.5 shadow-2xs" title="Tải file HTML/TXT lên">
+                    <i class="fa-solid fa-cloud-arrow-up text-[#38bdf8]"></i> Nhập File
+                    <input type="file" id="fileInput" class="hidden" accept=".html,.txt,.htm" onchange="handleFileUpload(event)">
+                </label>
+                <!-- Xóa sạch -->
+                <button onclick="clearEditors()" class="bg-red-500/20 hover:bg-red-500/35 text-red-200 border border-red-500/20 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Xóa dữ liệu">
+                    <i class="fa-solid fa-trash-can"></i> Xóa hết
+                </button>
+                
+                <span class="text-white/20 select-none">|</span>
+                
+                <!-- Checkbox sử dụng JSON giả lập -->
+                <div class="flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1.5 rounded-lg shadow-2xs">
+                    <input type="checkbox" id="useJsonMock" class="w-3.5 h-3.5 text-[#166def] rounded border-white/30 focus:ring-0 cursor-pointer bg-slate-900" onchange="toggleJsonMock(this.checked)">
+                    <label for="useJsonMock" class="text-white font-bold select-none cursor-pointer">Giả lập JSON</label>
+                </div>
+                
+                <span class="text-white/20 select-none">|</span>
 
-            <!-- Nút nạp dữ liệu mẫu -->
-            <button onclick="loadSampleData()" class="bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Tải dữ liệu mẫu">
-                <i class="fa-solid fa-cubes text-blue-300"></i> Mẫu thử
-            </button>
-            <!-- Nhập file từ thiết bị -->
-            <label class="hover:bg-white/15 bg-white/10 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold cursor-pointer transition flex items-center gap-1.5 shadow-2xs" title="Tải file HTML/TXT lên">
-                <i class="fa-solid fa-cloud-arrow-up text-[#38bdf8]"></i> Nhập File
-                <input type="file" id="fileInput" class="hidden" accept=".html,.txt,.htm" onchange="handleFileUpload(event)">
-            </label>
-            <!-- Xóa sạch -->
-            <button onclick="clearEditors()" class="bg-red-500/20 hover:bg-red-500/35 text-red-200 border border-red-500/20 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs" title="Xóa dữ liệu">
-                <i class="fa-solid fa-trash-can"></i> Xóa hết
-            </button>
-            
-            <span class="text-white/10 hidden lg:inline">|</span>
-            
-            <!-- Checkbox sử dụng JSON giả lập -->
-            <div class="flex items-center gap-1.5 bg-white/10 border border-white/15 px-3 py-1.5 rounded-lg shadow-2xs">
-                <input type="checkbox" id="useJsonMock" class="w-3.5 h-3.5 text-[#166def] rounded border-white/30 focus:ring-0 cursor-pointer bg-slate-900" onchange="toggleJsonMock(this.checked)">
-                <label for="useJsonMock" class="text-white font-bold select-none cursor-pointer">Giả lập JSON</label>
+                <!-- Chế độ di động -->
+                <button id="toggleViewBtn" onclick="toggleViewport()" class="text-white hover:bg-white/10 bg-white/5 border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                    <i class="fa-solid fa-mobile-screen-button text-[#38bdf8]"></i> Di động
+                </button>
+                <!-- Mở sang Tab độc lập -->
+                <button onclick="openInNewTab()" class="text-white hover:bg-white/15 bg-white/10 border border-white/25 px-2.5 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                    <i class="fa-solid fa-arrow-up-right-from-square text-indigo-300"></i> Tab mới
+                </button>
+                <!-- Toàn màn hình -->
+                <button onclick="toggleFullscreen()" class="text-white hover:bg-white/10 bg-white/15 border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
+                    <i class="fa-solid fa-expand text-amber-300"></i> Full Screen
+                </button>
+                <!-- Tải xuống file .html -->
+                <button onclick="downloadOutput()" class="text-white hover:bg-[#0e5cd2] bg-[#166def] border border-blue-600 px-3 py-2 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-md">
+                    <i class="fa-solid fa-download"></i> Tải về
+                </button>
             </div>
-            
-            <span class="text-white/10 hidden lg:inline">|</span>
-
-            <!-- Chế độ di động -->
-            <button id="toggleViewBtn" onclick="toggleViewport()" class="bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
-                <i class="fa-solid fa-mobile-screen-button text-[#38bdf8]"></i> Di động
-            </button>
-            <!-- Mở sang Tab độc lập -->
-            <button onclick="openInNewTab()" class="bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
-                <i class="fa-solid fa-arrow-up-right-from-square text-indigo-300"></i> Tab mới
-            </button>
-            <!-- Toàn màn hình -->
-            <button onclick="toggleFullscreen()" class="bg-white/10 hover:bg-white/15 text-white border border-white/15 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-2xs">
-                <i class="fa-solid fa-expand text-amber-300"></i> Full Screen
-            </button>
-            <!-- Tải xuống file .html -->
-            <button onclick="downloadOutput()" class="bg-[#166def] hover:bg-blue-600 text-white border border-blue-600 px-3 py-1.5 rounded-lg font-semibold transition flex items-center gap-1.5 shadow-md">
-                <i class="fa-solid fa-download"></i> Tải về
-            </button>
         </div>
     </header>
 
-    <!-- Main Workspace (Loại bỏ padding ngoài để Sidebar sát mép hoàn toàn trên PC) -->
-    <main class="flex-1 w-full max-w-none flex flex-col min-h-0 overflow-y-auto lg:overflow-hidden bg-[#fafbfc]">
+    <!-- Main Workspace -->
+    <main class="flex-1 w-full max-w-none flex flex-col min-h-0 overflow-y-auto lg:overflow-visible bg-[#fafbfc]">
         
-        <!-- Workspace Flexbox -->
-        <div id="workspace" class="flex flex-col lg:flex-row flex-grow min-h-0 w-full relative">
+        <!-- Workspace Flexbox Layout -->
+        <div id="workspace" class="flex flex-col lg:flex-row flex-grow min-h-0 w-full relative lg:overflow-visible">
             
-            <!-- Cột trái (Sidebar): Thiết kế phẳng Navy mượt mà, ôm trọn khung hình bên trái -->
-            <div id="leftSidebar" class="bg-[#243242] border-r border-[#1a2635] p-3.5 flex flex-col shrink-0 min-h-0 w-full lg:w-1/5 h-[450px] lg:h-full transition-[width] duration-75 select-none">
+            <!-- Cột trái (Sidebar): Rộng 25% màn hình tạo khoảng trống 16:9 tiêu chuẩn cho vùng Preview -->
+            <div id="leftSidebar" style="width: 25%;" class="bg-[#243242] border-r border-[#1a2635] p-3.5 flex flex-col shrink-0 min-h-0 h-[450px] lg:h-full transition-all duration-300 select-none lg:overflow-visible relative">
                 <!-- Tiêu đề / Tab Headers (Chỉ xuất hiện khi tích chọn Giả lập JSON) -->
                 <div id="leftTabHeader" class="flex border-b border-[#1b2734] mb-2.5 text-xs font-bold hidden shrink-0">
                     <button id="tabHtmlBtn" onclick="switchLeftTab('html')" class="py-1.5 px-3 text-[#38bdf8] border-b-2 border-[#38bdf8] flex items-center gap-1.5 transition">
@@ -184,17 +301,17 @@
                 </div>
 
                 <!-- Tab 1: Nội dung HTML -->
-                <div id="leftTabHtmlContent" class="flex-grow min-h-0 relative h-full">
-                    <div id="inputEditor" class="absolute inset-0 overflow-hidden"></div>
+                <div id="leftTabHtmlContent" class="flex-grow min-h-0 relative h-full lg:overflow-visible">
+                    <div id="inputEditor" class="absolute inset-0"></div>
                 </div>
 
                 <!-- Tab 2: Nội dung JSON -->
-                <div id="leftTabJsonContent" class="hidden flex-grow flex flex-col h-full gap-3">
+                <div id="leftTabJsonContent" class="hidden flex-grow flex flex-col h-full gap-3 min-h-0 lg:overflow-visible">
                     <div class="flex flex-col gap-1 shrink-0">
                         <label class="text-[9px] font-bold text-slate-300 uppercase tracking-wider">Tên tệp giả lập ảo:</label>
                         <input id="jsonFilename" type="text" value="data.json" class="bg-[#1b2734] border border-[#121c30] rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#38bdf8] font-mono text-[#38bdf8]" placeholder="data.json" oninput="runPreview()">
                     </div>
-                    <div class="flex flex-col flex-grow min-h-0 relative">
+                    <div class="flex flex-col flex-grow min-h-0 relative lg:overflow-visible">
                         <div class="flex justify-between items-center mb-1 shrink-0">
                             <label class="text-[9px] font-bold text-slate-300 uppercase tracking-wider">Nội dung tệp JSON:</label>
                             <div class="flex gap-2">
@@ -207,34 +324,44 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="flex-grow min-h-0 relative">
-                            <div id="jsonEditor" class="absolute inset-0 overflow-hidden"></div>
+                        <div class="flex-grow min-h-0 relative lg:overflow-visible">
+                            <div id="jsonEditor" class="absolute inset-0"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Rãnh phân tách kéo thả siêu mảnh (Chỉ khả dụng trên Desktop) -->
-            <div id="resizer" class="hidden lg:flex w-[3px] hover:w-1.5 bg-slate-200/80 hover:bg-[#166def] active:bg-[#166def] cursor-col-resize transition-all duration-150 items-center justify-center shrink-0 relative z-20 h-full"></div>
+            <div id="resizer" class="hidden lg:flex w-[3px] hover:w-1.5 bg-[#1b2734] hover:bg-[#166def] active:bg-[#166def] cursor-col-resize transition-all duration-150 items-center justify-center shrink-0 relative z-20 h-full"></div>
 
-            <!-- Cột phải (Canvas): Vùng đệm xám nhạt cao cấp giúp nổi bật tệp thiết kế -->
-            <div id="rightPreview" class="flex-grow flex flex-col min-h-0 h-[580px] lg:h-full bg-[#f1f5f9]/50 p-4 transition-all duration-300">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2.5 shrink-0 select-none">
+            <!-- Cột phải (Canvas): Tự động co giãn theo không gian còn lại (khoảng 75% màn hình) -->
+            <div id="rightPreview" class="flex-grow flex flex-col min-h-0 h-[580px] lg:h-full bg-[#f1f5f9]/50 p-4 select-none">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2.5 shrink-0">
                     <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 bg-[#166def] rounded-full"></span> Live Preview Canvas
                     </span>
+                    
+                    <!-- Chức năng Thu phóng (Zoom Controls) của khung hiển thị -->
+                    <div class="flex items-center gap-1.5 bg-white border border-slate-300 px-2 py-1 rounded-lg shadow-2xs text-xs mt-1 sm:mt-0">
+                        <button onclick="changeZoom(-0.1)" class="w-5 h-5 rounded hover:bg-slate-100 flex items-center justify-center font-extrabold text-slate-500 transition-colors" title="Thu nhỏ">-</button>
+                        <span id="zoomPercent" class="font-bold text-slate-500 w-10 text-center text-[10px]">100%</span>
+                        <button onclick="changeZoom(0.1)" class="w-5 h-5 rounded hover:bg-slate-100 flex items-center justify-center font-extrabold text-slate-500 transition-colors" title="Phóng to">+</button>
+                    </div>
                 </div>
 
-                <!-- Thể hiện Frame hiển thị mượt mà -->
-                <div class="flex-grow min-h-0 bg-white rounded-xl border border-slate-200 overflow-hidden relative shadow-xs">
+                <!-- Vùng chứa Frame mô phỏng sắc nét -->
+                <div class="flex-grow min-h-0 bg-slate-200/30 rounded-xl border border-slate-200 p-3 flex items-center justify-center relative overflow-hidden">
                     
                     <!-- Khung Browser/Mobile Mockup -->
-                    <div id="previewIframeContainer" class="w-full h-full relative transition-all duration-300">
-                        <!-- Thanh tai thỏ (Chỉ hiển thị ở chế độ di động) -->
-                        <div id="mobileNotch" class="absolute top-1.5 left-1/2 -translate-x-1/2 w-24 h-4 bg-slate-800 rounded-full z-30 hidden"></div>
+                    <div id="previewIframeContainer" class="w-full h-full bg-white rounded-lg overflow-hidden border border-slate-200 flex flex-col relative transition-all duration-300">
+                        <!-- Camera Dynamic Island của iPhone 14 Pro Max (Chỉ hiển thị ở chế độ di động) -->
+                        <div id="mobileNotch" class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-40 hidden flex items-center">
+                            <!-- Chùm thấu kính camera ảo phản chiếu ánh xanh tím -->
+                            <div class="w-2.5 h-2.5 bg-[#0a1226] rounded-full ml-auto mr-4 border border-[#1e293b] shadow-inner"></div>
+                        </div>
                         
-                        <!-- Iframe thực thi kết quả (Loại bỏ hoàn toàn các thanh địa chỉ rườm rà) -->
-                        <div class="w-full h-full relative bg-white">
+                        <!-- Iframe thực thi kết quả -->
+                        <div class="flex-grow w-full h-full relative bg-white">
                             <iframe id="previewIframe" class="w-full h-full border-0 absolute inset-0"></iframe>
                         </div>
                     </div>
@@ -250,6 +377,7 @@
         let inputEditor, jsonEditor;
         let isMobileView = false;
         let isSidebarHidden = false;
+        let currentZoom = 1.0;
 
         // Khởi động khi ứng dụng tải xong cấu trúc DOM
         window.addEventListener('DOMContentLoaded', () => {
@@ -273,6 +401,10 @@
                 wrap: true
             });
 
+            // Ghi đè phím tắt và ép hệ thống hỗ trợ Ctrl + H (Thay thế) & Ctrl + F (Tìm kiếm) chuẩn chỉnh
+            registerCustomShortcuts(inputEditor);
+            registerCustomWorkspaceCommands(jsonEditor);
+
             // Tải dữ liệu mẫu mặc định
             loadSampleData();
 
@@ -286,9 +418,142 @@
             inputEditor.session.on('change', liveUpdate);
             jsonEditor.session.on('change', liveUpdate);
 
+            // Kích hoạt bộ theo dõi việt hóa hộp thoại Tìm kiếm & Thay thế
+            translateAceSearchBox(inputEditor);
+            translateAceSearchBox(jsonEditor);
+
             // Cấu hình tính năng kéo thả thay đổi kích thước rãnh Resizer
             setupResizablePanels();
         });
+
+        // Thiết lập lệnh phím tắt ghi đè hệ thống giúp Ctrl+F và Ctrl+H hoạt động mượt mà
+        function registerCustomCommands(editor) {
+            // Lệnh Ctrl + F (Tìm kiếm đơn thuần)
+            editor.commands.addCommand({
+                name: "find",
+                bindKey: {win: "Ctrl-F", mac: "Command-F"},
+                exec: function(editor) {
+                    ace.config.loadModule("ace/ext/searchbox", function(e) {
+                        e.Search(editor, false); // False = Chỉ tìm kiếm
+                    });
+                }
+            });
+
+            // Lệnh Ctrl + H (Thay thế - Hỗ trợ chuẩn xác)
+            editor.commands.addCommand({
+                name: "replace",
+                bindKey: {win: "Ctrl-H", mac: "Command-Option-F"},
+                exec: function(editor) {
+                    ace.config.loadModule("ace/ext/searchbox", function(e) {
+                        e.Search(editor, true); // True = Bật bảng Thay thế (Replace)
+                    });
+                }
+            });
+        }
+
+        // Kỹ thuật MutationObserver giúp Việt hóa toàn bộ Tooltip, nút bấm, tùy chọn của Ace Search
+        function translateAceSearchBox(editor) {
+            // Đăng ký ghi đè phím tắt trước tiên
+            registerCustomCommands(editor);
+
+            const container = editor.container;
+            const observer = new MutationObserver(() => {
+                const searchBox = container.querySelector('.ace_search');
+                if (searchBox) {
+                    // 1. Dịch văn bản gợi ý (Placeholders)
+                    const searchInput = searchBox.querySelector('.ace_search_field[placeholder*="Search"]');
+                    if (searchInput && searchInput.placeholder !== "Tìm kiếm...") {
+                        searchInput.placeholder = "Tìm kiếm...";
+                    }
+                    const replaceInput = searchBox.querySelector('.ace_search_field[placeholder*="Replace"]');
+                    if (replaceInput && replaceInput.placeholder !== "Thay thế bằng...") {
+                        replaceInput.placeholder = "Thay thế bằng...";
+                    }
+
+                    // 2. Dịch văn bản nút bấm chính dựa trên thuộc tính action
+                    const prevBtn = searchBox.querySelector('[action="findPrev"]') || searchBox.querySelector('.ace_searchbtn.prev');
+                    if (prevBtn && prevBtn.title !== "Kết quả trước đó") {
+                        prevBtn.title = "Kết quả trước đó";
+                    }
+                    const nextBtn = searchBox.querySelector('[action="findNext"]');
+                    if (nextBtn && nextBtn.title !== "Kết quả tiếp theo") {
+                        nextBtn.title = "Kết quả tiếp theo";
+                    }
+
+                    // Nút Thay thế (Replace)
+                    const replaceBtn = searchBox.querySelector('[action="replace"]');
+                    if (replaceBtn && replaceBtn.textContent !== "Thay thế") {
+                        replaceBtn.textContent = "Thay thế";
+                        replaceBtn.title = "Thay thế kết quả hiện tại";
+                    }
+
+                    // Nút Thay thế tất cả (Replace All)
+                    const replaceAllBtn = searchBox.querySelector('[action="replaceAll"]');
+                    if (replaceAllBtn && replaceAllBtn.textContent !== "Thay tất cả") {
+                        replaceAllBtn.textContent = "Thay tất cả";
+                        replaceAllBtn.title = "Thay thế toàn bộ kết quả trùng khớp";
+                    }
+
+                    // Nút Tìm tất cả (Find All)
+                    const findAllBtn = searchBox.querySelector('[action="findAll"]');
+                    if (findAllBtn && findAllBtn.textContent !== "Tất cả") {
+                        findAllBtn.textContent = "Tất cả";
+                        findAllBtn.title = "Tìm và bôi đen toàn bộ kết quả phù hợp";
+                    }
+
+                    // 3. Dịch các tùy chọn tìm kiếm nâng cao (Regex, Case, Word) dựa trên nội dung text hoặc action
+                    const optRegexp = searchBox.querySelector('[action="toggleRegexp"]');
+                    if (optRegexp && optRegexp.title !== "Tìm bằng Biểu thức chính quy (RegExp)") {
+                        optRegexp.title = "Tìm bằng Biểu thức chính quy (RegExp)";
+                    }
+                    const optCase = searchBox.querySelector('[action="toggleCaseSensitive"]');
+                    if (optCase && optCase.title !== "Phân biệt chữ hoa / chữ thường") {
+                        optCase.title = "Phân biệt chữ hoa / chữ thường";
+                    }
+                    const optWhole = searchBox.querySelector('[action="toggleWholeWords"]');
+                    if (optWhole && optWhole.title !== "Khớp chính xác cả từ") {
+                        optWhole.title = "Khớp chính xác cả từ";
+                    }
+                    const optSelection = searchBox.querySelector('[action="toggleSearchInSelection"]');
+                    if (optSelection && optSelection.title !== "Chỉ tìm trong phần văn bản quét chọn") {
+                        optSelection.title = "Chỉ tìm trong phần văn bản quét chọn";
+                    }
+
+                    // Nút đóng
+                    const closeBtn = searchBox.querySelector('.ace_searchbtn.close') || searchBox.querySelector('[action="close"]');
+                    if (closeBtn && closeBtn.title !== "Đóng") {
+                        closeBtn.title = "Đóng";
+                    }
+                }
+            });
+            // Giám sát mọi thay đổi của thẻ con để lập tức can thiệp khi hộp tìm kiếm xuất hiện
+            observer.observe(container, { childList: true, subtree: true });
+        }
+
+        // Đăng ký đè phím tắt hệ thống để chặn hành vi mặc định của trình duyệt
+        function registerCustomCommands(editor) {
+            // Đè Ctrl + F
+            editor.commands.addCommand({
+                name: "find",
+                bindKey: {win: "Ctrl-F", mac: "Command-F"},
+                exec: function(editor) {
+                    ace.config.loadModule("ace/ext/searchbox", function(e) {
+                        e.Search(editor, false);
+                    });
+                }
+            });
+
+            // Đè Ctrl + H
+            editor.commands.addCommand({
+                name: "replace",
+                bindKey: {win: "Ctrl-H", mac: "Command-Option-F"},
+                exec: function(editor) {
+                    ace.config.loadModule("ace/ext/searchbox", function(e) {
+                        e.Search(editor, true); // True kích hoạt bảng Thay thế
+                    });
+                }
+            });
+        }
 
         // Hàm thiết lập tính năng Kéo thả điều chỉnh tỷ lệ chiều rộng
         function setupResizablePanels() {
@@ -303,7 +568,6 @@
                 isResizing = true;
                 document.body.style.cursor = 'col-resize';
                 document.body.style.userSelect = 'none';
-                // Tạm thời vô hiệu hóa bắt sự kiện của Iframe để di chuột không bị nghẽn
                 previewIframe.style.pointerEvents = 'none';
             });
 
@@ -314,7 +578,7 @@
                 const currentWidthPx = e.clientX - workspaceRect.left;
                 const percent = (currentWidthPx / workspaceRect.width) * 100;
 
-                // Khống chế biên an toàn từ 10% đến 80% độ rộng màn hình
+                // Khống chế biên an toàn kéo thả từ 10% đến 80% độ rộng màn hình
                 if (percent >= 10 && percent <= 80) {
                     leftSidebar.style.width = `${percent}%`;
                     inputEditor.resize();
@@ -334,7 +598,7 @@
             });
         }
 
-        // Hàm ẩn hoàn toàn nội dung gõ code bên trái để tăng không gian preview
+        // Hàm ẩn/hiện hoàn toàn nội dung gõ code bên trái để tăng không gian preview
         function toggleSidebar() {
             isSidebarHidden = !isSidebarHidden;
             const sidebar = document.getElementById('leftSidebar');
@@ -354,6 +618,24 @@
                 inputEditor.resize();
                 jsonEditor.resize();
             }
+        }
+
+        // Hàm thay độ tỷ lệ thu phóng (Scale Zoom) mượt mà không gây giật lag
+        function changeZoom(factor) {
+            currentZoom = Math.round((currentZoom + factor) * 10) / 10;
+            // Khống chế tỷ lệ zoom từ 50% đến 150%
+            if (currentZoom < 0.5) currentZoom = 0.5;
+            if (currentZoom > 1.5) currentZoom = 1.5;
+
+            const iframe = document.getElementById('previewIframe');
+            if (iframe) {
+                iframe.style.transform = `scale(${currentZoom})`;
+                iframe.style.transformOrigin = 'top left';
+                // Điều chỉnh độ rộng ảo tương xứng giúp triệt tiêu hiện tượng sụt lùi dòng của trình duyệt khi dựng hình
+                iframe.style.width = `${100 / currentZoom}%`;
+                iframe.style.height = `${100 / currentZoom}%`;
+            }
+            document.getElementById('zoomPercent').innerText = `${Math.round(currentZoom * 100)}%`;
         }
 
         // Hàm tải dữ liệu mẫu và dữ liệu JSON giả lập
@@ -598,23 +880,38 @@
             iframe.srcdoc = finalCode; 
         }
 
-        // Chuyển đổi giữa chế độ View di động (375px) và View toàn màn hình PC
+        // Chuyển đổi giữa chế độ View di động (Tỉ lệ iPhone 14 Pro Max) và View toàn màn hình PC
         function toggleViewport() {
+            // Khi chuyển đổi thiết bị, thiết lập lại Zoom về 100% để hiển thị trực quan không bị méo kích thước
+            currentZoom = 1.0;
+            const iframe = document.getElementById('previewIframe');
+            if (iframe) {
+                iframe.style.transform = "none";
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+            }
+            document.getElementById('zoomPercent').innerText = "100%";
+
             isMobileView = !isMobileView;
             const container = document.getElementById('previewIframeContainer');
             const notch = document.getElementById('mobileNotch');
             const viewBtn = document.getElementById('toggleViewBtn');
 
             if (isMobileView) {
-                // Chuyển sang kích thước điện thoại dọc
-                container.className = "w-[375px] max-w-full h-[520px] border-[12px] border-slate-800 rounded-[36px] shadow-2xl bg-white relative transition-all duration-300 mx-auto flex flex-col overflow-hidden my-4";
+                // Giả lập chuẩn tỉ lệ iPhone 14 Pro Max (393px × 852px thực tế)
+                container.className = "w-[393px] max-w-full h-[760px] border-[12px] border-slate-900 rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)] bg-white relative transition-all duration-300 mx-auto flex flex-col overflow-hidden my-4";
+                
+                // Kích hoạt dải đảo thông minh Dynamic Island đặc trưng của Apple
+                notch.className = "absolute top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-40 flex items-center justify-center";
+                notch.innerHTML = `<div class="w-2.5 h-2.5 bg-[#0a1226] rounded-full ml-auto mr-4 border border-[#1e293b] shadow-inner"></div>`;
                 notch.classList.remove('hidden');
-                viewBtn.innerHTML = `<i class="fa-solid fa-desktop"></i> Máy tính`;
+                
+                viewBtn.innerHTML = `<i class="fa-solid fa-desktop text-[#38bdf8]"></i> Máy tính`;
             } else {
                 // Chuyển lại màn hình máy tính đầy đủ
                 container.className = "w-full h-full bg-white rounded-lg overflow-hidden border border-slate-200 flex flex-col relative transition-all duration-300";
                 notch.classList.add('hidden');
-                viewBtn.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> Di động`;
+                viewBtn.innerHTML = `<i class="fa-solid fa-mobile-screen-button text-[#38bdf8]"></i> Di động`;
             }
         }
 
