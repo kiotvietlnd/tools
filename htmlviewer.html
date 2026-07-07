@@ -10,11 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- FontAwesome cho các icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Ace Editor -->
+    <!-- Ace Editor & Plugin SearchBox -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.36.2/ace.js"></script>
-    <!-- Mở rộng Tìm kiếm của Ace Editor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.36.2/ext-searchbox.min.js"></script>
-    
     <style>
         /* Áp dụng phông chữ Inter mặc định */
         body {
@@ -51,25 +49,27 @@
         .ace_content { background-color: transparent !important; }
 
         /* ========================================================
-           Thiết kế Widget Tìm kiếm nổi (Chuẩn IDE hiện đại)
+           Thiết kế Widget Tìm kiếm gắn xuống ĐÁY (Bottom Docked)
            ======================================================== */
         .ace_search {
             background-color: #f8fafc !important; /* Xám nhạt siêu sáng */
-            border: 1px solid #cbd5e1 !important;
-            border-top: 3px solid #166def !important; /* Điểm nhấn xanh dương */
-            border-radius: 6px !important;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
-            padding: 10px !important;
+            border: none !important;
+            border-top: 3px solid #166def !important; /* Điểm nhấn viền trên xanh dương */
+            border-radius: 0 !important;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15) !important;
+            padding: 10px 15px !important;
             color: #0f172a !important; /* Chữ đen đậm */
             font-family: 'Inter', sans-serif !important;
             
-            /* Định vị nổi ở góc phải trên cùng */
+            /* Định vị dính liền đáy Editor */
             position: absolute !important;
-            top: 10px !important;
-            right: 15px !important;
-            left: auto !important;
-            max-width: 320px !important;
-            width: auto !important;
+            top: auto !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 115px !important; /* Cao cố định để dồn Code lên trên */
             z-index: 999 !important;
         }
         
@@ -87,24 +87,27 @@
             border: 1px solid #cbd5e1 !important;
             color: #000000 !important;
             border-radius: 4px !important;
-            padding: 4px 8px !important;
+            padding: 5px 10px !important;
             font-size: 12px !important;
             font-family: 'Fira Code', monospace !important;
-            width: 150px !important;
+            flex-grow: 1 !important;
+            min-width: 0 !important;
         }
         .ace_search_field::placeholder { color: #94a3b8 !important; }
         .ace_search_field:focus { outline: none !important; border-color: #166def !important; box-shadow: 0 0 0 2px rgba(22,109,239,0.2) !important; }
         
-        /* Các nút bấm */
+        /* Các nút bấm Search/Replace */
         .ace_searchbtn {
             background-color: #e2e8f0 !important;
             border: 1px solid #cbd5e1 !important;
             color: #334155 !important;
             border-radius: 4px !important;
-            padding: 4px 8px !important;
+            padding: 5px 10px !important;
             font-size: 11px !important;
+            font-weight: 600 !important;
             cursor: pointer !important;
             transition: all 0.15s !important;
+            white-space: nowrap !important;
         }
         .ace_searchbtn:hover {
             background-color: #166def !important;
@@ -123,8 +126,9 @@
             border: 1px solid #cbd5e1 !important;
             color: #64748b !important;
             border-radius: 4px !important;
-            padding: 2px 6px !important;
+            padding: 2px 8px !important;
             font-size: 11px !important;
+            font-weight: 600 !important;
             cursor: pointer !important;
         }
         .ace_search_option.checked {
@@ -132,16 +136,27 @@
             color: #166def !important;
             border-color: #166def !important;
         }
-        .ace_searchbtn.close {
+        
+        /* Nút Close (X) riêng biệt */
+        .ace_searchbtn_close {
             color: #94a3b8 !important;
             position: absolute !important;
-            top: 4px !important;
-            right: 4px !important;
+            top: 6px !important;
+            right: 8px !important;
             background: transparent !important;
             border: none !important;
-            padding: 2px !important;
+            cursor: pointer !important;
+            padding: 4px 8px !important;
         }
-        .ace_searchbtn.close:hover { color: #ef4444 !important; }
+        .ace_searchbtn_close:hover { color: #ef4444 !important; }
+
+        /* Kỹ thuật dồn mã nguồn lên trên nhường chỗ cho Hộp thoại đáy */
+        .ace_editor:has(.ace_search:not([style*="display: none"])) .ace_scroller,
+        .ace_editor:has(.ace_search:not([style*="display: none"])) .ace_gutter,
+        .ace_editor:has(.ace_search:not([style*="display: none"])) .ace_scrollbar-v {
+            transform: none !important; 
+            height: calc(100% - 115px) !important;
+        }
 
         /* Tối ưu hóa chuyển động mượt mà khi Zoom */
         #previewIframe {
@@ -214,8 +229,8 @@
         
         <div id="workspace" class="flex flex-col lg:flex-row flex-grow min-h-0 w-full relative">
             
-            <!-- Cột trái (Sidebar) - Sửa lỗi rớt dòng bằng whitespace-nowrap -->
-            <div id="leftSidebar" style="width: 25%;" class="bg-[#243242] border-r border-[#1a2635] p-3.5 flex flex-col shrink-0 min-h-0 h-[450px] lg:h-full transition-all duration-300 select-none relative">
+            <!-- Cột trái (Sidebar) - Đã tăng lên 33.333% (1/3 Màn hình) -->
+            <div id="leftSidebar" style="width: 33.333333%;" class="bg-[#243242] border-r border-[#1a2635] p-3.5 flex flex-col shrink-0 min-h-0 h-[450px] lg:h-full transition-all duration-300 select-none relative z-10">
                 
                 <div id="leftTabHeader" class="flex border-b border-[#1b2734] mb-2.5 text-xs font-bold hidden shrink-0">
                     <button id="tabHtmlBtn" onclick="switchLeftTab('html')" class="py-1.5 px-3 text-[#38bdf8] border-b-2 border-[#38bdf8] flex items-center gap-1.5 transition whitespace-nowrap">
@@ -234,17 +249,19 @@
                         <button onclick="copyToClipboard(inputEditor)" class="text-[10px] text-[#38bdf8] hover:underline flex items-center gap-1 whitespace-nowrap">
                             <i class="fa-regular fa-copy"></i> Copy
                         </button>
-                        <span class="text-slate-500">|</span>
+                        <span class="text-slate-600">|</span>
                         <button onclick="pasteFromClipboard(inputEditor)" class="text-[10px] text-[#38bdf8] hover:underline flex items-center gap-1 whitespace-nowrap">
                             <i class="fa-regular fa-clipboard"></i> Paste
                         </button>
                     </div>
                 </div>
 
+                <!-- Tab 1: Nội dung HTML -->
                 <div id="leftTabHtmlContent" class="flex-grow min-h-0 relative h-full">
                     <div id="inputEditor" class="absolute inset-0"></div>
                 </div>
 
+                <!-- Tab 2: Nội dung JSON -->
                 <div id="leftTabJsonContent" class="hidden flex-grow flex flex-col h-full gap-3 min-h-0">
                     <div class="flex flex-col gap-1 shrink-0">
                         <label class="text-[9px] font-bold text-slate-300 uppercase tracking-wider">Tên tệp giả lập ảo:</label>
@@ -257,7 +274,7 @@
                                 <button onclick="copyToClipboard(jsonEditor)" class="text-[10px] text-[#38bdf8] hover:underline flex items-center gap-1 whitespace-nowrap">
                                     <i class="fa-regular fa-copy"></i> Copy
                                 </button>
-                                <span class="text-slate-500">|</span>
+                                <span class="text-slate-600">|</span>
                                 <button onclick="pasteFromClipboard(jsonEditor)" class="text-[10px] text-[#38bdf8] hover:underline flex items-center gap-1 whitespace-nowrap">
                                     <i class="fa-regular fa-clipboard"></i> Paste
                                 </button>
@@ -280,9 +297,10 @@
                         <span class="w-1.5 h-1.5 bg-[#166def] rounded-full"></span> Live Preview Canvas
                     </span>
                     
+                    <!-- Nút Zoom mặc định hiển thị 80% -->
                     <div class="flex items-center gap-1.5 bg-white border border-slate-300 px-2 py-1 rounded-lg shadow-2xs text-xs mt-1 sm:mt-0">
                         <button onclick="changeZoom(-0.1)" class="w-5 h-5 rounded hover:bg-slate-100 flex items-center justify-center font-extrabold text-slate-500 transition-colors" title="Thu nhỏ">-</button>
-                        <span id="zoomPercent" class="font-bold text-slate-500 w-10 text-center text-[10px]">100%</span>
+                        <span id="zoomPercent" class="font-bold text-slate-500 w-10 text-center text-[10px]">80%</span>
                         <button onclick="changeZoom(0.1)" class="w-5 h-5 rounded hover:bg-slate-100 flex items-center justify-center font-extrabold text-slate-500 transition-colors" title="Phóng to">+</button>
                     </div>
                 </div>
@@ -292,7 +310,7 @@
                         <div id="mobileNotch" class="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-40 hidden flex items-center">
                             <div class="w-2.5 h-2.5 bg-[#0a1226] rounded-full ml-auto mr-4 border border-[#1e293b] shadow-inner"></div>
                         </div>
-                        <div class="flex-grow w-full h-full relative bg-white">
+                        <div class="flex-grow w-full h-full relative bg-white overflow-hidden">
                             <iframe id="previewIframe" class="w-full h-full border-0 absolute inset-0"></iframe>
                         </div>
                     </div>
@@ -307,7 +325,8 @@
         let inputEditor, jsonEditor;
         let isMobileView = false;
         let isSidebarHidden = false;
-        let currentZoom = 1.0;
+        // Đặt Zoom mặc định là 80%
+        let currentZoom = 0.8;
 
         window.addEventListener('DOMContentLoaded', () => {
             // Khởi tạo Ace Editor
@@ -321,7 +340,7 @@
             jsonEditor.session.setMode("ace/mode/json");
             jsonEditor.setOptions({ fontSize: "13px", showPrintMargin: false, wrap: true });
 
-            // Ghi đè và đăng ký phím tắt Ctrl+F / Ctrl+H
+            // Ghi đè và đăng ký phím tắt Ctrl+F / Ctrl+H chuyên nghiệp
             setupAceSearchKeys(inputEditor);
             setupAceSearchKeys(jsonEditor);
 
@@ -329,8 +348,10 @@
             observeAndTranslateAceSearch(inputEditor);
             observeAndTranslateAceSearch(jsonEditor);
 
+            // Tải dữ liệu mẫu
             loadSampleData();
 
+            // Kích hoạt Update thời gian thực
             let timeout;
             const liveUpdate = () => { clearTimeout(timeout); timeout = setTimeout(runPreview, 350); };
             inputEditor.session.on('change', liveUpdate);
@@ -339,7 +360,7 @@
             setupResizablePanels();
         });
 
-        // 1. Hàm ghi đè phím tắt Tìm kiếm (Ctrl+F) và Thay thế (Ctrl+H)
+        // 1. Ghi đè khẩn cấp hệ thống phím tắt của Ace
         function setupAceSearchKeys(editor) {
             editor.commands.addCommand({
                 name: "find",
@@ -349,25 +370,24 @@
                 }
             });
 
+            // Ép Ctrl+H thực hiện Thay thế (Replace) bất chấp trình duyệt
             editor.commands.addCommand({
                 name: "replace",
                 bindKey: {win: "Ctrl-H", mac: "Command-Option-F"},
                 exec: function(ed) {
-                    ace.config.loadModule("ace/ext/searchbox", function(e) { e.Search(ed, true); }); // True = bật Replace
+                    ace.config.loadModule("ace/ext/searchbox", function(e) { e.Search(ed, true); }); 
                 }
             });
         }
 
-        // 2. Hàm dịch thuật Tooltip & Button của hộp thoại Tìm kiếm
+        // 2. Observer Dịch thuật 100% tiếng Việt
         function observeAndTranslateAceSearch(editor) {
-            // Khi thực hiện command, chờ Ace render box xong rồi dịch
             editor.commands.on("afterExec", function(e) {
                 if (e.command.name == "find" || e.command.name == "replace") {
-                    setTimeout(() => applyTranslation(editor.container), 10);
+                    setTimeout(() => applyTranslation(editor.container), 5);
                 }
             });
 
-            // Sử dụng Observer để bắt các thay đổi bên trong (ví dụ khi nhấn chuyển tab Find -> Replace)
             const observer = new MutationObserver(() => { applyTranslation(editor.container); });
             observer.observe(editor.container, { childList: true, subtree: true });
         }
@@ -376,42 +396,56 @@
             const box = container.querySelector('.ace_search');
             if (!box) return;
 
-            // Dịch Placeholders
-            const inputs = box.querySelectorAll('.ace_search_field');
-            inputs.forEach(inp => {
-                if (inp.placeholder === "Search for") inp.placeholder = "Tìm kiếm...";
-                if (inp.placeholder === "Replace with") inp.placeholder = "Thay thế bằng...";
-            });
+            // Dịch ô Placeholder
+            const searchInp = box.querySelector('.ace_search_form .ace_search_field');
+            if (searchInp && searchInp.placeholder !== "Tìm kiếm...") searchInp.placeholder = "Tìm kiếm...";
 
-            // Dịch Nút bấm (dựa theo nội dung chữ)
-            const btns = box.querySelectorAll('.ace_searchbtn');
-            btns.forEach(btn => {
-                if (btn.textContent === "All" && btn.getAttribute('action') !== 'replaceAll') btn.textContent = "Tất cả";
-                if (btn.textContent === "All" && btn.getAttribute('action') === 'replaceAll') btn.textContent = "Thay tất cả";
-                if (btn.textContent === "Replace") btn.textContent = "Thay thế";
-            });
+            const replaceInp = box.querySelector('.ace_replace_form .ace_search_field');
+            if (replaceInp && replaceInp.placeholder !== "Thay thế bằng...") replaceInp.placeholder = "Thay thế bằng...";
 
-            // Dịch Tooltips (dựa theo Action hoặc Title gốc)
-            const elements = box.querySelectorAll('[title]');
-            elements.forEach(el => {
-                const title = el.getAttribute('title');
-                if (title === "RegExp Search") el.setAttribute('title', "Tìm bằng Regex");
-                if (title === "CaseSensitive Search") el.setAttribute('title', "Phân biệt hoa/thường");
-                if (title === "Whole Word Search") el.setAttribute('title', "Khớp toàn bộ từ");
-                if (title === "Search In Selection") el.setAttribute('title', "Tìm trong vùng chọn");
-            });
+            // Dịch nút bấm thông qua thuộc tính 'action' an toàn
+            const btnFindAll = box.querySelector('[action="findAll"]');
+            if (btnFindAll && btnFindAll.textContent !== "Tìm tất cả") {
+                btnFindAll.textContent = "Tìm tất cả";
+                btnFindAll.title = "Tìm và bôi đen toàn bộ";
+            }
 
-            const prev = box.querySelector('[action="findPrev"]');
-            if(prev) prev.setAttribute('title', "Kết quả trước");
-            
-            const next = box.querySelector('[action="findNext"]');
-            if(next) next.setAttribute('title', "Kết quả sau");
-            
-            const close = box.querySelector('.ace_searchbtn.close');
-            if(close) close.setAttribute('title', "Đóng");
+            const btnReplace = box.querySelector('[action="replaceAndFindNext"]');
+            if (btnReplace && btnReplace.textContent !== "Thay thế") {
+                btnReplace.textContent = "Thay thế";
+                btnReplace.title = "Thay thế và tìm tiếp";
+            }
+
+            const btnReplaceAll = box.querySelector('[action="replaceAll"]');
+            if (btnReplaceAll && btnReplaceAll.textContent !== "Thay tất cả") {
+                btnReplaceAll.textContent = "Thay tất cả";
+                btnReplaceAll.title = "Thay thế toàn bộ văn bản trùng khớp";
+            }
+
+            // Dịch Tooltips
+            const btnNext = box.querySelector('[action="findNext"]');
+            if (btnNext) btnNext.title = "Kết quả tiếp theo";
+
+            const btnPrev = box.querySelector('[action="findPrev"]');
+            if (btnPrev) btnPrev.title = "Kết quả trước đó";
+
+            const btnHide = box.querySelector('.ace_searchbtn_close') || box.querySelector('.ace_searchbtn.close');
+            if (btnHide) btnHide.title = "Đóng hộp thoại";
+
+            const optReg = box.querySelector('[action="toggleRegexp"]');
+            if (optReg) optReg.title = "Sử dụng Biểu thức chính quy (RegExp)";
+
+            const optCase = box.querySelector('[action="toggleCaseSensitive"]');
+            if (optCase) optCase.title = "Phân biệt chữ hoa / chữ thường";
+
+            const optWord = box.querySelector('[action="toggleWholeWords"]');
+            if (optWord) optWord.title = "Khớp chính xác nguyên từ (Whole Word)";
+
+            const optSel = box.querySelector('[action="searchInSelection"]');
+            if (optSel) optSel.title = "Chỉ tìm kiếm trong vùng được quét chọn";
         }
 
-        // Thiết lập Kéo thả Sidebar
+        // Thiết lập Kéo thả Sidebar Resizer
         function setupResizablePanels() {
             const leftSidebar = document.getElementById('leftSidebar');
             const resizer = document.getElementById('resizer');
@@ -469,12 +503,8 @@
             }
         }
 
-        // Thu phóng mượt mà
-        function changeZoom(factor) {
-            currentZoom = Math.round((currentZoom + factor) * 10) / 10;
-            if (currentZoom < 0.5) currentZoom = 0.5;
-            if (currentZoom > 1.5) currentZoom = 1.5;
-
+        // Cập nhật tỷ lệ Zoom cho Iframe mượt mà 
+        function applyZoom() {
             const iframe = document.getElementById('previewIframe');
             if (iframe) {
                 iframe.style.transform = `scale(${currentZoom})`;
@@ -482,6 +512,13 @@
                 iframe.style.height = `${100 / currentZoom}%`;
             }
             document.getElementById('zoomPercent').innerText = `${Math.round(currentZoom * 100)}%`;
+        }
+
+        function changeZoom(factor) {
+            currentZoom = Math.round((currentZoom + factor) * 10) / 10;
+            if (currentZoom < 0.5) currentZoom = 0.5;
+            if (currentZoom > 1.5) currentZoom = 1.5;
+            applyZoom();
         }
 
         function loadSampleData() {
@@ -635,6 +672,9 @@
         }
 
         function runPreview() {
+            // Áp dụng Zoom mặc định 80% khi Preview load lần đầu
+            applyZoom();
+
             const code = inputEditor.getValue();
             const useJsonMock = document.getElementById('useJsonMock').checked;
             const iframe = document.getElementById('previewIframe');
@@ -673,12 +713,9 @@
             iframe.srcdoc = finalCode; 
         }
 
-        // Thay đổi tỷ lệ Mobile chuẩn iPhone 14 Pro Max
         function toggleViewport() {
-            currentZoom = 1.0;
-            const iframe = document.getElementById('previewIframe');
-            if (iframe) { iframe.style.transform = "none"; iframe.style.width = "100%"; iframe.style.height = "100%"; }
-            document.getElementById('zoomPercent').innerText = "100%";
+            currentZoom = 0.8;
+            applyZoom();
 
             isMobileView = !isMobileView;
             const container = document.getElementById('previewIframeContainer');
@@ -686,7 +723,6 @@
             const viewBtn = document.getElementById('toggleViewBtn');
 
             if (isMobileView) {
-                // Tỉ lệ iPhone 14 Pro Max
                 container.className = "w-[393px] max-w-full h-[760px] border-[12px] border-slate-900 rounded-[48px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.45)] bg-white relative transition-all duration-300 mx-auto flex flex-col overflow-hidden my-4 shrink-0";
                 notch.className = "absolute top-3 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-40 flex items-center justify-center";
                 notch.innerHTML = `<div class="w-2.5 h-2.5 bg-[#0a1226] rounded-full ml-auto mr-4 border border-[#1e293b] shadow-inner"></div>`;
