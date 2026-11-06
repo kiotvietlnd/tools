@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Thảo Luận Nâng Cao Năng Lực Sales TSSGN 2027 - KiotViet</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- QRCode.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            kiot: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              200: '#bae0fd',
+              500: '#0066cc',
+              600: '#0052a3',
+              700: '#003d7a',
+              accent: '#ff8c00'
+            },
+            pastel: {
+              redBg: '#ffe4e6',
+              redText: '#e11d48',
+              redBar: '#fda4af',
+              yellowBg: '#fef3c7',
+              yellowText: '#d97706',
+              yellowBar: '#fde047',
+              blueBg: '#e0f2fe',
+              blueText: '#0284c7',
+              blueBar: '#7dd3fc',
+              purpleBg: '#f3e8ff',
+              purpleText: '#7c3aed',
+              purpleBar: '#d8b4fe'
+            }
+          },
+          boxShadow: {
+            'saas': '0 10px 25px -5px rgba(0, 102, 204, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.02)',
+            'floating': '0 20px 35px -5px rgba(15, 23, 42, 0.2), 0 10px 10px -5px rgba(15, 23, 42, 0.04)'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+    }
+    @keyframes toastSlide {
+      from { transform: translateX(110%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes toastFade {
+      from { transform: translateX(0) scale(1); opacity: 1; }
+      to { transform: translateX(20%) scale(0.9); opacity: 0; }
+    }
+    .toast-in { animation: toastSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .toast-out { animation: toastFade 0.4s ease-in forwards; }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex flex-col font-sans antialiased relative selection:bg-kiot-100 selection:text-kiot-700">
+
+  <!-- ======================================================= -->
+  <!-- TOP HEADER (TRENDY & CLEAN SAAS)                       -->
+  <!-- ======================================================= -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-40 shadow-xs no-print">
+    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center space-x-3.5">
+        <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="KiotViet Logo" class="h-7 sm:h-8 w-auto object-contain">
+        <div class="h-5 w-px bg-slate-200 hidden sm:block"></div>
+        <span class="text-xs font-bold text-slate-900 hidden sm:inline tracking-tight">Thảo Luận Hoạch Định Đào Tạo Sales TSSGN 2027</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span id="sync-status-badge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Đồng bộ Realtime
+        </span>
+
+        <!-- Switcher Giữa 2 Màn Hình -->
+        <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+          <button onclick="setMode('user')" id="btn-mode-user" class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-600 transition-all">
+            <i class="ph-bold ph-device-mobile"></i> <span class="hidden sm:inline">SM / Coacher</span>
+          </button>
+          <button onclick="setMode('admin')" id="btn-mode-admin" class="px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 bg-white text-kiot-500 shadow-xs transition-all">
+            <i class="ph-bold ph-projector-screen"></i> <span class="hidden sm:inline">L&D Máy Chiếu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================= -->
+  <!-- 1. GIAO DIỆN NGƯỜI THAM GIA: SM / COACHER (MOBILE)      -->
+  <!-- ======================================================= -->
+  <section id="view-user" class="max-w-xl mx-auto w-full p-4 flex-1 space-y-4 hidden">
+    
+    <!-- Profile Mini Bar -->
+    <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-saas flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <span id="u-display-team-badge" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-pastel-redBg text-pastel-redText border border-pastel-redBar">
+          🔴 Nhóm 1 (Đỏ)
+        </span>
+        <span id="u-display-name" class="text-xs font-extrabold text-slate-800">Thành viên TSSGN</span>
+      </div>
+      <button onclick="openWelcomeModal(true)" class="text-[11px] text-kiot-500 font-bold hover:underline flex items-center gap-1">
+        <i class="ph ph-pencil-simple"></i> Đổi thông tin
+      </button>
+    </div>
+
+    <!-- Navigation Stepper -->
+    <div class="flex bg-slate-200/70 p-1 rounded-2xl text-xs font-bold text-slate-600">
+      <button onclick="switchUserTab('u-tab-bem')" id="btn-u-bem" class="flex-1 py-2 rounded-xl bg-white text-kiot-500 shadow-xs text-center transition-all">1. Vote BEM</button>
+      <button onclick="switchUserTab('u-tab-persona')" id="btn-u-persona" class="flex-1 py-2 rounded-xl text-center transition-all">2. Chân Dung</button>
+      <button onclick="switchUserTab('u-tab-training')" id="btn-u-training" class="flex-1 py-2 rounded-xl text-center transition-all">3. Khóa Học</button>
+    </div>
+
+    <!-- TAB 1: VOTE BEM -->
+    <div id="u-tab-bem" class="space-y-3">
+      <div class="flex items-center justify-between text-xs px-1">
+        <span class="font-bold text-slate-700">Chọn tối đa 2 nguyên nhân cốt lõi:</span>
+        <span id="user-bem-indicator" class="font-extrabold text-kiot-500">0/2 đã chọn</span>
+      </div>
+
+      <div class="space-y-2">
+        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">A. Yếu Tố Môi Trường</p>
+        <div class="space-y-2" id="bem-options-env"></div>
+
+        <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-wider pt-2">B. Yếu Tố Cá Nhân</p>
+        <div class="space-y-2" id="bem-options-ind"></div>
+      </div>
+
+      <button onclick="submitBemVote()" id="btn-submit-bem" class="w-full py-3.5 bg-kiot-500 hover:bg-kiot-600 text-white font-bold rounded-2xl text-xs shadow-md transition-all flex items-center justify-center gap-2">
+        <i class="ph-bold ph-check-circle"></i> Xác Nhận Bình Chọn
+      </button>
+    </div>
+
+    <!-- TAB 2: ĐÓNG GÓP CHÂN DUNG -->
+    <div id="u-tab-persona" class="hidden space-y-4">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas space-y-3.5">
+        <div>
+          <span class="text-xs font-bold text-slate-700">Khía cạnh chân dung (Tự nhảy mục khi gửi):</span>
+          <div class="grid grid-cols-3 gap-1.5 mt-2" id="persona-stepper-container">
+            <button type="button" onclick="selectPersonaStep('tuduy')" id="btn-pstep-tuduy" class="p-2 rounded-xl text-[11px] font-bold border text-center transition-all bg-kiot-50 border-kiot-500 text-kiot-500 shadow-xs">
+              1. Tư Duy <span id="tick-p-tuduy" class="hidden text-emerald-600 font-extrabold">✓</span>
+            </button>
+            <button type="button" onclick="selectPersonaStep('nghiepvu')" id="btn-pstep-nghiepvu" class="p-2 rounded-xl text-[11px] font-bold border border-slate-200 text-slate-600 text-center transition-all">
+              2. Nghiệp Vụ <span id="tick-p-nghiepvu" class="hidden text-emerald-600 font-extrabold">✓</span>
+            </button>
+            <button type="button" onclick="selectPersonaStep('tacphong')" id="btn-pstep-tacphong" class="p-2 rounded-xl text-[11px] font-bold border border-slate-200 text-slate-600 text-center transition-all">
+              3. Tác Phong <span id="tick-p-tacphong" class="hidden text-emerald-600 font-extrabold">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-700" id="label-persona-input">Mô tả hành vi chuẩn của: 1. Tư Duy</label>
+          <textarea id="u-persona-content" rows="3" placeholder="Nhập mô tả hành vi cần có..." class="w-full text-xs p-3 mt-1.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-kiot-500/20 focus:border-kiot-500"></textarea>
+        </div>
+
+        <button onclick="submitPersonaIdea()" class="w-full py-3 bg-kiot-500 hover:bg-kiot-600 text-white font-bold rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
+          <i class="ph-bold ph-paper-plane-tilt"></i> Gửi Ý Kiến Lên Màn Chiếu
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <h5 class="text-xs font-bold text-slate-600 uppercase tracking-wide">Ý kiến chân dung bạn đã gửi:</h5>
+        <div id="user-persona-history" class="space-y-2"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: ĐỀ XUẤT KHÓA HỌC (NHẬP LIỆU GẮN TAG TỰ ĐỘNG CÓ DẤU ×) -->
+    <div id="u-tab-training" class="hidden space-y-4">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas space-y-3.5">
+        <div>
+          <span class="text-xs font-bold text-slate-700">Khối kiến thức (Tự nhảy mục khi gửi):</span>
+          <div class="grid grid-cols-3 gap-1.5 mt-2" id="training-stepper-container">
+            <button type="button" onclick="selectTrainingStep('kienthuc')" id="btn-tstep-kienthuc" class="p-2 rounded-xl text-[10.5px] font-bold border text-center transition-all bg-kiot-50 border-kiot-500 text-kiot-500 shadow-xs">
+              1. Kiến Thức <span id="tick-t-kienthuc" class="hidden text-emerald-600 font-extrabold">✓</span>
+            </button>
+            <button type="button" onclick="selectTrainingStep('sanpham')" id="btn-tstep-sanpham" class="p-2 rounded-xl text-[10.5px] font-bold border border-slate-200 text-slate-600 text-center transition-all">
+              2. Sản Phẩm <span id="tick-t-sanpham" class="hidden text-emerald-600 font-extrabold">✓</span>
+            </button>
+            <button type="button" onclick="selectTrainingStep('kynang')" id="btn-tstep-kynang" class="p-2 rounded-xl text-[10.5px] font-bold border border-slate-200 text-slate-600 text-center transition-all">
+              3. Kỹ Năng <span id="tick-t-kynang" class="hidden text-emerald-600 font-extrabold">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-slate-700" id="label-training-input">Đề xuất chuyên đề cho: 1. Kiến Thức</label>
+            <span id="editing-mode-badge" class="hidden text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">Đang sửa đề tài</span>
+          </div>
+
+          <!-- Input tạo Tag thông minh -->
+          <div class="mt-1.5 p-2 bg-slate-50 border border-slate-300 rounded-xl space-y-2 focus-within:ring-2 focus-within:ring-kiot-500/20 focus-within:border-kiot-500">
+            <!-- Khu vực chứa các Tag đã tạo -->
+            <div id="user-tag-pills" class="flex flex-wrap gap-1.5"></div>
+            
+            <input type="text" id="u-tag-input" onkeydown="handleTagInputKey(event)" placeholder="Gõ nội dung rồi bấm phẩy (,), chấm (.) hoặc Enter để tạo tag..." class="w-full text-xs p-1.5 bg-transparent border-0 focus:outline-none">
+          </div>
+          <p class="text-[10px] text-slate-400 mt-1">Gõ nhiều ý cách nhau bằng dấu phẩy, chấm hoặc Enter để tạo từng Tag riêng biệt.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="submitTrainingTopic()" id="btn-submit-training" class="flex-1 py-3 bg-kiot-500 hover:bg-kiot-600 text-white font-bold rounded-xl text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-plus-circle"></i> Gửi Toàn Bộ Tag Lên Màn Chiếu
+          </button>
+          <button onclick="cancelEditTopic()" id="btn-cancel-edit" class="hidden py-3 px-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-xs transition-colors">
+            Hủy sửa
+          </button>
+        </div>
+      </div>
+
+      <!-- Danh sách câu đã gửi kèm nút Sửa/Xóa -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <h5 class="text-xs font-bold text-slate-600 uppercase tracking-wide">Đề xuất bạn đã gửi:</h5>
+          <span class="text-[10px] text-slate-400">Chỉ sửa được khi chưa gán vào lộ trình</span>
+        </div>
+        <div id="user-training-history" class="space-y-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- 2. GIAO DIỆN ĐIỀU PHỐI: L&D MÁY CHIẾU (BIG SCREEN)     -->
+  <!-- ======================================================= -->
+  <section id="view-admin" class="max-w-7xl mx-auto w-full p-4 sm:p-6 flex-1 space-y-5">
+    
+    <!-- Agenda Control Bar -->
+    <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-saas flex flex-wrap items-center justify-between gap-3 no-print">
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        <button onclick="switchAdminTab('adm-bem')" id="adm-nav-bem" class="adm-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-kiot-500 text-white flex items-center gap-1.5 shadow-xs transition-all">
+          <i class="ph-bold ph-chart-bar"></i> 1. Rào Cản BEM (20')
+        </button>
+        <button onclick="switchAdminTab('adm-persona')" id="adm-nav-persona" class="adm-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition-all">
+          <i class="ph-bold ph-user-focus"></i> 2. Chân Dung Chuẩn (30')
+        </button>
+        <button onclick="switchAdminTab('adm-matrix')" id="adm-nav-matrix" class="adm-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition-all">
+          <i class="ph-bold ph-squares-four"></i> 3. Ma Trận Đào Tạo (30')
+        </button>
+        <button onclick="switchAdminTab('adm-coaching')" id="adm-nav-coaching" class="adm-tab-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 flex items-center gap-1.5 transition-all">
+          <i class="ph-bold ph-handshake"></i> 4. Coaching 4 Bước
+        </button>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleQRModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl flex items-center gap-1.5 border border-slate-200 transition-colors">
+          <i class="ph-bold ph-qr-code text-kiot-500"></i> Quét QR
+        </button>
+        <button onclick="fetchRemoteData(true)" class="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-kiot-500 text-xs font-bold rounded-xl flex items-center gap-1.5 border border-blue-200 transition-colors">
+          <i class="ph-bold ph-arrows-clockwise"></i> Làm mới
+        </button>
+        <button onclick="loadSampleWorkshopData()" class="px-3.5 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded-xl flex items-center gap-1.5 border border-indigo-200 transition-colors">
+          <i class="ph-bold ph-database"></i> Dữ Liệu Mẫu
+        </button>
+        <button onclick="resetDataPrompt()" class="px-2.5 py-2 text-rose-600 hover:bg-rose-50 text-xs font-bold rounded-xl border border-rose-200 transition-colors" title="Làm mới phiên làm việc">
+          <i class="ph-bold ph-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ADMIN TAB 1: KẾT QUẢ VOTE BEM (THANH TIẾN ĐỘ PHÂN KHÚC MÀU NHÓM PASTEL) -->
+    <div id="adm-bem" class="adm-view space-y-4">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-saas space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="font-extrabold text-slate-900 text-base">KẾT QUẢ BÌNH CHỌN RÀO CẢN HIỆU SUẤT (MÔ HÌNH BEM)</h3>
+            <p class="text-xs text-slate-500">Thanh tiến độ phân bổ màu sắc pastel theo tỷ lệ phiếu của từng nhóm</p>
+          </div>
+          <!-- Legend màu nhóm -->
+          <div class="flex items-center gap-2 text-xs">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-pastel-redBg text-pastel-redText font-bold border border-pastel-redBar">🔴 Nhóm 1</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-pastel-yellowBg text-pastel-yellowText font-bold border border-pastel-yellowBar">🟡 Nhóm 2</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-pastel-blueBg text-pastel-blueText font-bold border border-pastel-blueBar">🔵 Nhóm 3</span>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-pastel-purpleBg text-pastel-purpleText font-bold border border-pastel-purpleBar">🟣 Nhóm 4</span>
+          </div>
+        </div>
+
+        <div id="bem-bars-container" class="space-y-4 pt-2">
+          <!-- Render Segmented Multi-Color Progress Bars -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN TAB 2: CHÂN DUNG 3 KHÍA CẠNH -->
+    <div id="adm-persona" class="adm-view hidden space-y-4">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas flex items-center justify-between">
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-sm">CHÂN DUNG CHUYÊN VIÊN TƯ VẤN GIẢI PHÁP KIOTVIET (2027)</h3>
+          <p class="text-xs text-slate-500">Chuyển từ "Nhân viên bán phần mềm" sang "Chuyên viên tư vấn giải pháp quản lý"</p>
+        </div>
+        <button onclick="filterPersonaDuplicates()" class="px-3.5 py-1.5 bg-kiot-500 hover:bg-kiot-600 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-xs transition-colors">
+          <i class="ph-bold ph-magic-wand"></i> Lọc trùng AI
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-saas flex flex-col h-[520px]">
+          <div class="p-3.5 border-b border-slate-200 bg-blue-50/60 rounded-t-2xl flex items-center justify-between">
+            <h4 class="font-bold text-kiot-700 text-xs uppercase flex items-center gap-1.5">
+              <i class="ph-bold ph-brain text-kiot-500"></i> 1. Tư Duy (Mindset)
+            </h4>
+            <span id="badge-p-tuduy" class="text-[11px] font-bold bg-white text-kiot-500 px-2 py-0.5 rounded border border-blue-200">0</span>
+          </div>
+          <div id="box-p-tuduy" class="p-3 overflow-y-auto custom-scrollbar flex-1 space-y-2"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-saas flex flex-col h-[520px]">
+          <div class="p-3.5 border-b border-slate-200 bg-indigo-50/60 rounded-t-2xl flex items-center justify-between">
+            <h4 class="font-bold text-indigo-900 text-xs uppercase flex items-center gap-1.5">
+              <i class="ph-bold ph-briefcase text-indigo-600"></i> 2. Nghiệp Vụ (Hard Skills)
+            </h4>
+            <span id="badge-p-nghiepvu" class="text-[11px] font-bold bg-white text-indigo-700 px-2 py-0.5 rounded border border-indigo-200">0</span>
+          </div>
+          <div id="box-p-nghiepvu" class="p-3 overflow-y-auto custom-scrollbar flex-1 space-y-2"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-saas flex flex-col h-[520px]">
+          <div class="p-3.5 border-b border-slate-200 bg-emerald-50/60 rounded-t-2xl flex items-center justify-between">
+            <h4 class="font-bold text-emerald-900 text-xs uppercase flex items-center gap-1.5">
+              <i class="ph-bold ph-chat-teardrop-text text-emerald-600"></i> 3. Thái Độ / Tác Phong
+            </h4>
+            <span id="badge-p-tacphong" class="text-[11px] font-bold bg-white text-emerald-700 px-2 py-0.5 rounded border border-emerald-200">0</span>
+          </div>
+          <div id="box-p-tacphong" class="p-3 overflow-y-auto custom-scrollbar flex-1 space-y-2"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN TAB 3: MA TRẬN 3x3 VÀ KHO ĐỀ XUẤT FAST-PICK THEO TAG -->
+    <div id="adm-matrix" class="adm-view hidden space-y-5">
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas flex flex-wrap items-center justify-between gap-3 no-print">
+        <div>
+          <h3 class="font-extrabold text-slate-900 text-sm">MA TRẬN NỘI DUNG ƯU TIÊN ĐÀO TẠO SALES MỚI TSSGN 2027</h3>
+          <p class="text-xs text-slate-500">Mỗi thẻ đại diện cho 1 Tag chuyên đề độc lập, bấm dấu `×` để xóa hoặc nút giai đoạn để gán</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="exportMatrixToCSV()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-xs transition-colors">
+            <i class="ph-bold ph-microsoft-excel-logo"></i> Xuất Excel (BOM UTF-8)
+          </button>
+          <button onclick="saveMatrixConfig()" class="px-3.5 py-1.5 bg-kiot-500 hover:bg-kiot-600 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-xs transition-colors">
+            <i class="ph-bold ph-floppy-disk"></i> Lưu Ma Trận
+          </button>
+        </div>
+      </div>
+
+      <!-- KHO ĐỀ XUẤT CHỜ PHÂN KỲ DẠNG THẺ TAG THÔNG MINH -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-saas p-4 space-y-3 no-print">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-2.5">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-blue-50 text-kiot-500 flex items-center justify-center font-bold">
+              <i class="ph-bold ph-stack text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-slate-900 text-xs">Kho Tag Chuyên Đề Chờ Phân Kỳ (Đã Gộp Trùng)</h4>
+              <p class="text-[11px] text-slate-500">Màu pastel thể hiện rõ các nhóm đề xuất. Bấm nút giai đoạn để phân kỳ 1-chạm</p>
+            </div>
+          </div>
+
+          <!-- Bộ lọc danh mục -->
+          <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+            <button onclick="filterDepository('all')" id="btn-flt-all" class="flt-btn px-2.5 py-1 rounded-lg bg-white text-kiot-500 shadow-xs">Tất cả (<span id="cnt-flt-all">0</span>)</button>
+            <button onclick="filterDepository('kienthuc')" id="btn-flt-kienthuc" class="flt-btn px-2.5 py-1 rounded-lg text-slate-600">Kiến thức (<span id="cnt-flt-kienthuc">0</span>)</button>
+            <button onclick="filterDepository('sanpham')" id="btn-flt-sanpham" class="flt-btn px-2.5 py-1 rounded-lg text-slate-600">Sản phẩm (<span id="cnt-flt-sanpham">0</span>)</button>
+            <button onclick="filterDepository('kynang')" id="btn-flt-kynang" class="flt-btn px-2.5 py-1 rounded-lg text-slate-600">Kỹ năng (<span id="cnt-flt-kynang">0</span>)</button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs px-1">
+          <label class="flex items-center gap-2 cursor-pointer font-bold text-slate-700">
+            <input type="checkbox" id="chk-select-all" onchange="toggleSelectAllTopics(this)" class="rounded text-kiot-500 focus:ring-kiot-500">
+            <span>Chọn tất cả các tag để gán hàng loạt</span>
+          </label>
+          <span id="depository-status-text" class="text-slate-400 text-[11px]">Đang chọn: 0 tag</span>
+        </div>
+
+        <div id="depository-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-64 overflow-y-auto custom-scrollbar p-1">
+          <!-- Render Cards -->
+        </div>
+      </div>
+
+      <!-- BẢNG MA TRẬN 3x3 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-saas overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 font-extrabold uppercase text-[11px] border-b border-slate-200">
+                <th class="py-3 px-4 w-56 border-r border-slate-200">Khối Nội Dung Cần Trang Bị</th>
+                <th class="py-3 px-4 w-1/3 bg-blue-50/50 text-kiot-700 border-r border-slate-200">Giai Đoạn 1: 2 Tuần Đầu</th>
+                <th class="py-3 px-4 w-1/3 bg-indigo-50/50 text-indigo-900 border-r border-slate-200">Giai Đoạn 2: Thử Việc (T2 - T3)</th>
+                <th class="py-3 px-4 w-1/3 bg-emerald-50/50 text-emerald-900">Giai Đoạn 3: Chính Thức &lt; 1 Năm</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <!-- Dòng 1: Kiến thức -->
+              <tr>
+                <td class="py-3 px-4 font-bold text-slate-900 bg-slate-50/70 border-r border-slate-200 align-top">
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-kiot-500"></span>
+                    <span class="text-xs">1. Kiến thức KH & Ngành Hàng</span>
+                  </div>
+                  <p class="text-[11px] font-normal text-slate-500">Đặc thù FnB, Retail, văn hóa kinh doanh Nam Bộ</p>
+                </td>
+                <td class="p-2 border-r border-slate-200 align-top bg-white">
+                  <div id="cell-kienthuc-stage1" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('kienthuc', 'stage1')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+                <td class="p-2 border-r border-slate-200 align-top bg-white">
+                  <div id="cell-kienthuc-stage2" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('kienthuc', 'stage2')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+                <td class="p-2 align-top bg-white">
+                  <div id="cell-kienthuc-stage3" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('kienthuc', 'stage3')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+              </tr>
+
+              <!-- Dòng 2: Sản phẩm -->
+              <tr>
+                <td class="py-3 px-4 font-bold text-slate-900 bg-slate-50/70 border-r border-slate-200 align-top">
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+                    <span class="text-xs">2. Sản Phẩm & Nghiệp Vụ</span>
+                  </div>
+                  <p class="text-[11px] font-normal text-slate-500">Tính năng KiotViet, quản trị chuỗi & tồn kho</p>
+                </td>
+                <td class="p-2 border-r border-slate-200 align-top bg-white">
+                  <div id="cell-sanpham-stage1" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('sanpham', 'stage1')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+                <td class="p-2 border-r border-slate-200 align-top bg-white">
+                  <div id="cell-sanpham-stage2" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('sanpham', 'stage2')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+                <td class="p-2 align-top bg-white">
+                  <div id="cell-sanpham-stage3" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('sanpham', 'stage3')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+              </tr>
+
+              <!-- Dòng 3: Kỹ năng -->
+              <tr>
+                <td class="py-3 px-4 font-bold text-slate-900 bg-slate-50/70 border-r border-slate-200 align-top">
+                  <div class="flex items-center gap-1.5 mb-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                    <span class="text-xs">3. Kỹ Năng Bán Hàng</span>
+                  </div>
+                  <p class="text-[11px] font-normal text-slate-500">Opening 15s, vượt Gatekeeper, xử lý từ chối giá</p>
+                </td>
+                <td class="p-2 border-r border-slate-200 align-top bg-white">
+                  <div id="cell-kynang-stage1" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('kynang', 'stage1')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+                <td class="p-2 border-r border-slate-200 align-top bg-white">
+                  <div id="cell-kynang-stage2" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('kynang', 'stage2')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+                <td class="p-2 align-top bg-white">
+                  <div id="cell-kynang-stage3" class="min-h-[85px] space-y-1.5 p-1 rounded-xl"></div>
+                  <button onclick="promptAddTopicToCell('kynang', 'stage3')" class="mt-1 w-full py-1 border border-dashed border-slate-300 rounded-lg text-[11px] text-slate-400 hover:text-kiot-500 no-print">+ Thêm</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN TAB 4: COACHING 4 BƯỚC -->
+    <div id="adm-coaching" class="adm-view hidden space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-blue-50 text-kiot-500 font-bold flex items-center justify-center text-sm border border-blue-200">1</div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase">Quan sát & Thu thập</h4>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Xem xét KPI, nghe lại cuộc gọi thực tế, phân tích tỷ lệ rớt số và chất lượng khách.</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 font-bold flex items-center justify-center text-sm border border-indigo-200">2</div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase">Xác định khoảng cách</h4>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Đối chiếu với Chân dung chuẩn: Hổng do Kỹ năng, Cách làm, Động cơ hay Môi trường?</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 font-bold flex items-center justify-center text-sm border border-emerald-200">3</div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase">Coaching đổi hành vi</h4>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Cùng nhân viên mổ xẻ vấn đề, lựa chọn giải pháp mới và thực hành trên ca thực tế.</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-saas space-y-2">
+          <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 font-bold flex items-center justify-center text-sm border border-amber-200">4</div>
+          <h4 class="font-bold text-slate-900 text-xs uppercase">Theo dõi tiến bộ</h4>
+          <p class="text-[11px] text-slate-500 leading-relaxed">Đo lường sự chuyển đổi hành vi tư vấn và các chỉ số chốt số cụ thể sau khi kèm cặp.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- FLOATING BULK ACTION BAR                                -->
+  <!-- ======================================================= -->
+  <div id="floating-bulk-bar" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 transform translate-y-32 opacity-0 pointer-events-none no-print">
+    <div class="bg-slate-900/95 backdrop-blur-md text-white px-5 py-3 rounded-2xl shadow-floating border border-slate-700 flex items-center gap-4">
+      <div class="flex items-center gap-2 pr-3 border-r border-slate-700">
+        <span class="w-2.5 h-2.5 rounded-full bg-kiot-accent animate-ping"></span>
+        <span class="text-xs font-bold text-slate-200">Đã chọn: <b id="bulk-selected-count" class="text-kiot-accent text-sm">0</b></span>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="executeBulkAssign('stage1')" class="px-3 py-1.5 rounded-xl bg-kiot-500 hover:bg-kiot-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors">
+          GĐ 1 (2 Tuần Đầu)
+        </button>
+        <button onclick="executeBulkAssign('stage2')" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors">
+          GĐ 2 (Thử Việc)
+        </button>
+        <button onclick="executeBulkAssign('stage3')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors">
+          GĐ 3 (&lt; 1 Năm)
+        </button>
+        <button onclick="clearBulkSelection()" class="p-1.5 text-slate-400 hover:text-white rounded-lg text-xs" title="Bỏ chọn">
+          <i class="ph-bold ph-x text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- LIVE TOAST NOTIFICATION (CHỈ HIỆN TRÊN MÁY CHIẾU L&D)   -->
+  <!-- ======================================================= -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none max-w-sm w-full px-3 no-print"></div>
+
+  <!-- QR MODAL CHO MÁY CHIẾU -->
+  <div id="qr-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 hidden no-print">
+    <div class="bg-white p-6 rounded-3xl max-w-sm w-full mx-4 shadow-2xl text-center space-y-4">
+      <div class="flex items-center justify-between">
+        <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="KiotViet" class="h-6 w-auto">
+        <button onclick="toggleQRModal()" class="text-slate-400 hover:text-slate-600 p-1"><i class="ph-bold ph-x text-lg"></i></button>
+      </div>
+      <div class="p-3 bg-white border-2 border-slate-100 rounded-2xl flex justify-center shadow-inner" id="qrcode-container"></div>
+      <p class="text-xs text-slate-600 font-bold">Mời 32 SM & Coacher quét mã trên điện thoại</p>
+      <button onclick="toggleQRModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition-colors">Đóng lại</button>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- MODAL CHÀO MỪNG CHỌN TÊN & NHÓM PASTEL (KHI QUÉT QR)    -->
+  <!-- ======================================================= -->
+  <div id="welcome-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center z-50 hidden no-print p-4">
+    <div class="bg-white p-6 rounded-3xl max-w-md w-full shadow-2xl space-y-4">
+      <div class="text-center space-y-1">
+        <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="KiotViet" class="h-7 w-auto mx-auto mb-2">
+        <h3 class="font-extrabold text-slate-900 text-base">Chào mừng đến buổi Thảo Luận 2027!</h3>
+        <p class="text-xs text-slate-500">Vui lòng nhập tên và chọn màu nhóm Sticker dán trên áo của bạn</p>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs font-bold text-slate-700">Họ tên hoặc Nickname của bạn:</label>
+          <input type="text" id="modal-name-input" placeholder="Nhập họ tên (VD: Tuấn SM)..." class="w-full text-xs p-3 mt-1 border border-slate-300 rounded-xl focus:ring-2 focus:ring-kiot-500/20 focus:border-kiot-500">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-700">Chọn Nhóm Sticker của bạn:</label>
+          <div class="grid grid-cols-2 gap-2 mt-1.5" id="modal-team-selector">
+            <button type="button" onclick="selectModalTeam('Nhóm 1 (Đỏ)')" id="mteam-1" class="p-3 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between bg-pastel-redBg border-pastel-redBar text-pastel-redText shadow-xs">
+              <span>🔴 Nhóm 1 (Đỏ)</span> <i class="ph-bold ph-check"></i>
+            </button>
+            <button type="button" onclick="selectModalTeam('Nhóm 2 (Vàng)')" id="mteam-2" class="p-3 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+              <span>🟡 Nhóm 2 (Vàng)</span>
+            </button>
+            <button type="button" onclick="selectModalTeam('Nhóm 3 (Xanh)')" id="mteam-3" class="p-3 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+              <span>🔵 Nhóm 3 (Xanh)</span>
+            </button>
+            <button type="button" onclick="selectModalTeam('Nhóm 4 (Tím)')" id="mteam-4" class="p-3 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between bg-white border-slate-200 text-slate-600 hover:bg-slate-50">
+              <span>🟣 Nhóm 4 (Tím)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="confirmWelcomeModal()" class="w-full py-3 bg-kiot-500 hover:bg-kiot-600 text-white font-bold rounded-2xl text-xs shadow-md transition-all flex items-center justify-center gap-1.5">
+        Bắt Đầu Tham Gia Thảo Luận <i class="ph-bold ph-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================= -->
+  <!-- JAVASCRIPT CORE ENGINE                                  -->
+  <!-- ======================================================= -->
+  <script>
+    const BEM_OPTIONS = [
+      { id: 1, type: 'env', name: '1. Thông tin, kỳ vọng và phản hồi', desc: 'Nhân viên chưa hiểu rõ tiêu chuẩn tư vấn tốt; thiếu thông tin hoặc chưa được phản hồi cụ thể, thường xuyên về cách thực hiện công việc.' },
+      { id: 2, type: 'env', name: '2. Công cụ và nguồn lực', desc: 'Nguồn khách hàng hạn chế hoặc không phù hợp; công cụ, quy trình, tài liệu hay điều kiện hỗ trợ công việc chưa đáp ứng.' },
+      { id: 3, type: 'env', name: '3. Cơ chế ghi nhận và khuyến khích', desc: 'Cách giao KPI, ghi nhận, khen thưởng hoặc các hệ quả công việc chưa khuyến khích những hành vi bán hàng mong đợi.' },
+      { id: 4, type: 'ind', name: '4. Kiến thức và kỹ năng', desc: 'Thiếu hiểu biết kiến thức, thiếu kỹ năng cần thiết cho công việc do chưa được đào tạo hoặc hướng dẫn.' },
+      { id: 5, type: 'ind', name: '5. Năng lực nền tảng và sự phù hợp', desc: 'Nhân viên không có tố chất năng lực tự thân cần thiết để đáp ứng yêu cầu công việc, ngay cả khi đã được trang bị kiến thức, hướng dẫn và điều kiện phù hợp.' },
+      { id: 6, type: 'ind', name: '6. Động cơ cá nhân', desc: 'Nhân viên thiếu sẵn sàng, không có mong muốn thực hiện những hành vi cần thiết để cải thiện hiệu suất, sau khi đã xem xét các rào cản khác.' }
+    ];
+
+    // Cấu hình bảng màu Pastel
+    const TEAM_PASTEL_CONFIG = {
+      'Nhóm 1 (Đỏ)':   { badgeClass: 'bg-pastel-redBg text-pastel-redText border-pastel-redBar', barColor: '#fda4af', dot: '🔴', label: 'Nhóm 1' },
+      'Nhóm 2 (Vàng)': { badgeClass: 'bg-pastel-yellowBg text-pastel-yellowText border-pastel-yellowBar', barColor: '#fde047', dot: '🟡', label: 'Nhóm 2' },
+      'Nhóm 3 (Xanh)': { badgeClass: 'bg-pastel-blueBg text-pastel-blueText border-pastel-blueBar', barColor: '#7dd3fc', dot: '🔵', label: 'Nhóm 3' },
+      'Nhóm 4 (Tím)':  { badgeClass: 'bg-pastel-purpleBg text-pastel-purpleText border-pastel-purpleBar', barColor: '#d8b4fe', dot: '🟣', label: 'Nhóm 4' }
+    };
+
+    let appState = {
+      mode: 'admin',
+      currentAdminTab: 'adm-bem',
+      currentDepositoryFilter: 'all',
+      selectedTopicIds: new Set(),
+      manualMergedMap: {},
+      userSelectedBem: [],
+      // BEM counts theo từng nhóm: { optionId: { 'Nhóm 1 (Đỏ)': count, ... } }
+      bemGroupVotes: {
+        1: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+        2: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+        3: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+        4: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+        5: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+        6: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 }
+      },
+      totalBemVotes: 0,
+      personaIdeas: [],   // [{ id, timestamp, author, team, dimension, content }]
+      trainingTopics: [], // [{ id, timestamp, author, team, category, topicName }]
+      matrix: {
+        kienthuc: { stage1: [], stage2: [], stage3: [] },
+        sanpham:  { stage1: [], stage2: [], stage3: [] },
+        kynang:   { stage1: [], stage2: [], stage3: [] }
+      },
+      currentPersonaStep: 'tuduy',
+      currentTrainingStep: 'kienthuc',
+      editingTopicId: null,
+      currentUserTags: [] // Mảng chứa các tag đang nhập trên mobile
+    };
+
+    let modalSelectedTeam = 'Nhóm 1 (Đỏ)';
+    const LOCAL_STORAGE_KEY = 'kv_tssgn_2027_workshop_state';
+    const USER_SESSION_KEY  = 'kv_tssgn_user_session';
+
+    // -------------------------------------------------------------
+    // KHỞI CHẠY ỨNG DỤNG & XỬ LÝ WELCOME MODAL
+    // -------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromLocalStorage();
+      checkURLParameters();
+      generateQRCode();
+      renderApp();
+
+      // Kiểm tra nếu là User Mobile mà chưa có tên ➔ Hiện Welcome Modal
+      if (appState.mode === 'user') {
+        const session = getUserSession();
+        if (!session || !session.name) {
+          openWelcomeModal(false);
+        } else {
+          updateUserTopBar();
+        }
+      }
+
+      setInterval(() => {
+        fetchRemoteData(false);
+      }, 5000);
+    });
+
+    function checkURLParameters() {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'user' || view === 'submit') {
+        setMode('user');
+      } else {
+        setMode('admin');
+      }
+    }
+
+    function setMode(mode) {
+      appState.mode = mode;
+      const userView = document.getElementById('view-user');
+      const adminView = document.getElementById('view-admin');
+      const btnUser = document.getElementById('btn-mode-user');
+      const btnAdmin = document.getElementById('btn-mode-admin');
+
+      if (mode === 'user') {
+        userView.classList.remove('hidden');
+        adminView.classList.add('hidden');
+        btnUser.classList.add('bg-white', 'text-kiot-500', 'shadow-xs');
+        btnUser.classList.remove('text-slate-600');
+        btnAdmin.classList.remove('bg-white', 'text-kiot-500', 'shadow-xs');
+        btnAdmin.classList.add('text-slate-600');
+        updateUserTopBar();
+        renderUserHistories();
+      } else {
+        adminView.classList.remove('hidden');
+        userView.classList.add('hidden');
+        btnAdmin.classList.add('bg-white', 'text-kiot-500', 'shadow-xs');
+        btnAdmin.classList.remove('text-slate-600');
+        btnUser.classList.remove('bg-white', 'text-kiot-500', 'shadow-xs');
+        btnUser.classList.add('text-slate-600');
+      }
+    }
+
+    function getUserSession() {
+      try {
+        const raw = localStorage.getItem(USER_SESSION_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) { return null; }
+    }
+
+    function openWelcomeModal(isEdit) {
+      const modal = document.getElementById('welcome-modal');
+      const nameInput = document.getElementById('modal-name-input');
+      const session = getUserSession();
+      if (session) {
+        if (session.name) nameInput.value = session.name;
+        if (session.team) selectModalTeam(session.team);
+      }
+      modal.classList.remove('hidden');
+      nameInput.focus();
+    }
+
+    function selectModalTeam(teamName) {
+      modalSelectedTeam = teamName;
+      const teams = ['Nhóm 1 (Đỏ)', 'Nhóm 2 (Vàng)', 'Nhóm 3 (Xanh)', 'Nhóm 4 (Tím)'];
+      teams.forEach((t, i) => {
+        const btn = document.getElementById(`mteam-${i+1}`);
+        const cfg = TEAM_PASTEL_CONFIG[t];
+        if (t === teamName) {
+          btn.className = `p-3 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between ${cfg.badgeClass} shadow-xs`;
+          btn.innerHTML = `<span>${cfg.dot} ${t}</span> <i class="ph-bold ph-check"></i>`;
+        } else {
+          btn.className = 'p-3 rounded-xl border text-xs font-bold transition-all text-left flex items-center justify-between bg-white border-slate-200 text-slate-600 hover:bg-slate-50';
+          btn.innerHTML = `<span>${cfg.dot} ${t}</span>`;
+        }
+      });
+    }
+
+    function confirmWelcomeModal() {
+      const nameInput = document.getElementById('modal-name-input');
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert('Vui lòng nhập họ tên hoặc nickname của bạn!');
+        nameInput.focus();
+        return;
+      }
+
+      const session = {
+        name,
+        team: modalSelectedTeam,
+        votedBem: appState.userSelectedBem
+      };
+      localStorage.setItem(USER_SESSION_KEY, JSON.stringify(session));
+      document.getElementById('welcome-modal').classList.add('hidden');
+      updateUserTopBar();
+      renderUserHistories();
+    }
+
+    function updateUserTopBar() {
+      const session = getUserSession();
+      if (session) {
+        const cfg = TEAM_PASTEL_CONFIG[session.team] || TEAM_PASTEL_CONFIG['Nhóm 1 (Đỏ)'];
+        document.getElementById('u-display-team-badge').className = `px-2.5 py-1 rounded-xl text-xs font-bold border ${cfg.badgeClass}`;
+        document.getElementById('u-display-team-badge').innerText = `${cfg.dot} ${session.team}`;
+        document.getElementById('u-display-name').innerText = session.name;
+        if (session.votedBem && session.votedBem.length > 0) {
+          appState.userSelectedBem = session.votedBem;
+          document.getElementById('user-bem-indicator').innerText = `${session.votedBem.length}/2 đã chọn (Đã lưu)`;
+          const btn = document.getElementById('btn-submit-bem');
+          if (btn) btn.innerHTML = `<i class="ph-bold ph-check"></i> Đã Lưu Bình Chọn`;
+        }
+      }
+    }
+
+    // -------------------------------------------------------------
+    // TOAST NOTIFICATION (CHỈ HIỆN TRÊN MÁY CHIẾU L&D)
+    // -------------------------------------------------------------
+    function triggerToast(author, team, text) {
+      // Chỉ kích hoạt nếu đang ở màn hình Máy chiếu
+      if (appState.mode !== 'admin') return;
+
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const cfg = TEAM_PASTEL_CONFIG[team] || { dot: '🔵', label: team, badgeClass: 'bg-blue-50 text-blue-700' };
+      const toast = document.createElement('div');
+      toast.className = 'toast-in pointer-events-auto bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-floating p-3 rounded-2xl flex items-start gap-2.5 text-xs';
+
+      toast.innerHTML = `
+        <span class="text-base">${cfg.dot}</span>
+        <div class="flex-1 space-y-0.5 overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="font-extrabold text-slate-900 truncate">${author} <span class="text-[10px] font-bold px-1.5 py-0.2 rounded border ${cfg.badgeClass}">${cfg.label}</span></span>
+            <span class="text-[10px] text-slate-400">Vừa gửi</span>
+          </div>
+          <p class="text-[11px] text-slate-600 truncate leading-snug">${text}</p>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('toast-in');
+        toast.classList.add('toast-out');
+        setTimeout(() => {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 400);
+      }, 3500);
+    }
+
+    // -------------------------------------------------------------
+    // USER: BEM VOTE
+    // -------------------------------------------------------------
+    function switchUserTab(tabId) {
+      ['u-tab-bem', 'u-tab-persona', 'u-tab-training'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+
+      ['btn-u-bem', 'btn-u-persona', 'btn-u-training'].forEach(id => {
+        document.getElementById(id).classList.remove('bg-white', 'text-kiot-500', 'shadow-xs');
+      });
+      const activeBtnId = tabId.replace('u-tab-', 'btn-u-');
+      document.getElementById(activeBtnId).classList.add('bg-white', 'text-kiot-500', 'shadow-xs');
+
+      renderUserHistories();
+    }
+
+    function renderBemCheckboxes() {
+      const envContainer = document.getElementById('bem-options-env');
+      const indContainer = document.getElementById('bem-options-ind');
+
+      const isChecked = (id) => appState.userSelectedBem.includes(id);
+
+      envContainer.innerHTML = BEM_OPTIONS.filter(o => o.type === 'env').map(opt => `
+        <label class="block p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors shadow-2xs">
+          <div class="flex items-start gap-2.5">
+            <input type="checkbox" value="${opt.id}" ${isChecked(opt.id) ? 'checked' : ''} onchange="handleBemSelect(this)" class="bem-checkbox mt-1 rounded text-kiot-500 focus:ring-kiot-500">
+            <div>
+              <p class="text-xs font-bold text-slate-800">${opt.name}</p>
+              <p class="text-[11px] text-slate-500 leading-relaxed mt-0.5">${opt.desc}</p>
+            </div>
+          </div>
+        </label>
+      `).join('');
+
+      indContainer.innerHTML = BEM_OPTIONS.filter(o => o.type === 'ind').map(opt => `
+        <label class="block p-3 bg-white border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors shadow-2xs">
+          <div class="flex items-start gap-2.5">
+            <input type="checkbox" value="${opt.id}" ${isChecked(opt.id) ? 'checked' : ''} onchange="handleBemSelect(this)" class="bem-checkbox mt-1 rounded text-kiot-500 focus:ring-kiot-500">
+            <div>
+              <p class="text-xs font-bold text-slate-800">${opt.name}</p>
+              <p class="text-[11px] text-slate-500 leading-relaxed mt-0.5">${opt.desc}</p>
+            </div>
+          </div>
+        </label>
+      `).join('');
+    }
+
+    function handleBemSelect(cb) {
+      const id = parseInt(cb.value);
+      if (cb.checked) {
+        if (appState.userSelectedBem.length >= 2) {
+          cb.checked = false;
+          alert('Theo kịch bản Thảo Luận, bạn chỉ được chọn TỐI ĐA 2 nguyên nhân!');
+          return;
+        }
+        appState.userSelectedBem.push(id);
+      } else {
+        appState.userSelectedBem = appState.userSelectedBem.filter(i => i !== id);
+      }
+      document.getElementById('user-bem-indicator').innerText = `${appState.userSelectedBem.length}/2 đã chọn`;
+    }
+
+    function submitBemVote() {
+      if (appState.userSelectedBem.length === 0) {
+        alert('Vui lòng chọn ít nhất 1 nguyên nhân!');
+        return;
+      }
+      const session = getUserSession() || { name: 'Thành viên TSSGN', team: 'Nhóm 1 (Đỏ)' };
+
+      appState.userSelectedBem.forEach(id => {
+        if (!appState.bemGroupVotes[id]) {
+          appState.bemGroupVotes[id] = { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 };
+        }
+        appState.bemGroupVotes[id][session.team] = (appState.bemGroupVotes[id][session.team] || 0) + 1;
+        appState.totalBemVotes++;
+      });
+
+      session.votedBem = appState.userSelectedBem;
+      localStorage.setItem(USER_SESSION_KEY, JSON.stringify(session));
+
+      saveStateToLocalStorage();
+      renderAdminBEM();
+      alert('Đã ghi nhận bình chọn của bạn thành công!');
+      switchUserTab('u-tab-persona');
+
+      sendPayload({
+        action: 'submit_bem',
+        data: { author: session.name, team: session.team, reasonIds: appState.userSelectedBem }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // USER: CHÂN DUNG (STEPPER TICK XANH & AUTO-JUMP)
+    // -------------------------------------------------------------
+    const PERSONA_LABELS = { tuduy: '1. Tư Duy', nghiepvu: '2. Nghiệp Vụ', tacphong: '3. Tác Phong' };
+
+    function selectPersonaStep(step) {
+      appState.currentPersonaStep = step;
+      ['tuduy', 'nghiepvu', 'tacphong'].forEach(s => {
+        const btn = document.getElementById(`btn-pstep-${s}`);
+        if (s === step) {
+          btn.className = 'p-2 rounded-xl text-[11px] font-bold border text-center transition-all bg-kiot-50 border-kiot-500 text-kiot-500 shadow-xs';
+        } else {
+          btn.className = 'p-2 rounded-xl text-[11px] font-bold border border-slate-200 text-slate-600 text-center transition-all';
+        }
+      });
+      document.getElementById('label-persona-input').innerText = `Mô tả hành vi chuẩn của: ${PERSONA_LABELS[step]}`;
+      document.getElementById('u-persona-content').focus();
+    }
+
+    function submitPersonaIdea() {
+      const contentEl = document.getElementById('u-persona-content');
+      const text = contentEl.value.trim();
+      if (!text) {
+        alert('Vui lòng nhập mô tả!');
+        contentEl.focus();
+        return;
+      }
+
+      const session = getUserSession() || { name: 'Thành viên TSSGN', team: 'Nhóm 1 (Đỏ)' };
+      const dim = appState.currentPersonaStep;
+
+      const newIdea = {
+        id: 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+        author: session.name,
+        team: session.team,
+        dimension: dim,
+        content: text
+      };
+
+      appState.personaIdeas.unshift(newIdea);
+      contentEl.value = '';
+
+      // Đánh dấu tick xanh
+      const tick = document.getElementById(`tick-p-${dim}`);
+      if (tick) tick.classList.remove('hidden');
+
+      // Tự động nhảy sang mục kế tiếp
+      if (dim === 'tuduy') selectPersonaStep('nghiepvu');
+      else if (dim === 'nghiepvu') selectPersonaStep('tacphong');
+
+      saveStateToLocalStorage();
+      renderAdminPersona();
+      renderUserHistories();
+
+      sendPayload({ action: 'submit_persona', data: newIdea });
+    }
+
+    // -------------------------------------------------------------
+    // USER: NHẬP LIỆU GẮN TAG TỰ ĐỘNG CÓ DẤU ×
+    // -------------------------------------------------------------
+    const TRAINING_LABELS = { kienthuc: '1. Kiến Thức', sanpham: '2. Sản Phẩm', kynang: '3. Kỹ Năng' };
+
+    function selectTrainingStep(step) {
+      appState.currentTrainingStep = step;
+      ['kienthuc', 'sanpham', 'kynang'].forEach(s => {
+        const btn = document.getElementById(`btn-tstep-${s}`);
+        if (s === step) {
+          btn.className = 'p-2 rounded-xl text-[10.5px] font-bold border text-center transition-all bg-kiot-50 border-kiot-500 text-kiot-500 shadow-xs';
+        } else {
+          btn.className = 'p-2 rounded-xl text-[10.5px] font-bold border border-slate-200 text-slate-600 text-center transition-all';
+        }
+      });
+      document.getElementById('label-training-input').innerText = `Đề xuất chuyên đề cho: ${TRAINING_LABELS[step]}`;
+      document.getElementById('u-tag-input').focus();
+    }
+
+    // Xử lý khi gõ dấu phẩy, chấm hoặc Enter để đóng thành Tag
+    function handleTagInputKey(e) {
+      const input = document.getElementById('u-tag-input');
+      if (e.key === ',' || e.key === '.' || e.key === 'Enter') {
+        e.preventDefault();
+        const val = input.value.trim().replace(/^[\,\.\s]+|[\,\.\s]+$/g, '');
+        if (val.length >= 3) {
+          addInputTag(val);
+          input.value = '';
+        }
+      }
+    }
+
+    function addInputTag(tagText) {
+      appState.currentUserTags.push(tagText);
+      renderInputTags();
+    }
+
+    function removeInputTag(index) {
+      appState.currentUserTags.splice(index, 1);
+      renderInputTags();
+    }
+
+    function renderInputTags() {
+      const container = document.getElementById('user-tag-pills');
+      container.innerHTML = appState.currentUserTags.map((t, idx) => `
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-kiot-50 text-kiot-700 border border-kiot-200 shadow-2xs">
+          <span>${t}</span>
+          <button type="button" onclick="removeInputTag(${idx})" class="text-kiot-400 hover:text-rose-600 font-extrabold text-sm leading-none">&times;</button>
+        </span>
+      `).join('');
+    }
+
+    function submitTrainingTopic() {
+      const input = document.getElementById('u-tag-input');
+      const pendingText = input.value.trim().replace(/^[\,\.\s]+|[\,\.\s]+$/g, '');
+      if (pendingText.length >= 3) {
+        appState.currentUserTags.push(pendingText);
+        input.value = '';
+      }
+
+      if (appState.currentUserTags.length === 0) {
+        alert('Vui lòng gõ ít nhất 1 ý và bấm dấu phẩy (,), chấm (.) hoặc Enter để tạo Tag!');
+        input.focus();
+        return;
+      }
+
+      const session = getUserSession() || { name: 'Thành viên TSSGN', team: 'Nhóm 1 (Đỏ)' };
+      const cat = appState.currentTrainingStep;
+
+      // Nếu đang sửa đề tài đơn
+      if (appState.editingTopicId) {
+        const target = appState.trainingTopics.find(t => t.id === appState.editingTopicId);
+        if (target) {
+          target.topicName = appState.currentUserTags.join(', ');
+          target.category = cat;
+          target.timestamp = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        }
+        cancelEditTopic();
+      } else {
+        // Gửi từng Tag độc lập lên hệ thống
+        appState.currentUserTags.forEach(tag => {
+          const newTopic = {
+            id: 't_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+            timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+            author: session.name,
+            team: session.team,
+            category: cat,
+            topicName: tag
+          };
+          appState.trainingTopics.unshift(newTopic);
+          sendPayload({ action: 'submit_training_topic', data: newTopic });
+        });
+
+        // Tick xanh cho khối vừa hoàn thành
+        const tick = document.getElementById(`tick-t-${cat}`);
+        if (tick) tick.classList.remove('hidden');
+
+        // Tự động nhảy sang khối tiếp theo
+        if (cat === 'kienthuc') selectTrainingStep('sanpham');
+        else if (cat === 'sanpham') selectTrainingStep('kynang');
+      }
+
+      appState.currentUserTags = [];
+      renderInputTags();
+      saveStateToLocalStorage();
+      renderDepository();
+      renderUserHistories();
+    }
+
+    function checkIfTopicAssigned(topicName, cat) {
+      const norm = cleanAndExpandAbbreviations(topicName);
+      let isAssigned = false;
+      ['stage1', 'stage2', 'stage3'].forEach(stg => {
+        (appState.matrix[cat][stg] || []).forEach(mItem => {
+          if (cleanAndExpandAbbreviations(mItem.name) === norm) isAssigned = true;
+        });
+      });
+      return isAssigned;
+    }
+
+    function startEditTopic(topicId) {
+      const topic = appState.trainingTopics.find(t => t.id === topicId);
+      if (!topic) return;
+
+      if (checkIfTopicAssigned(topic.topicName, topic.category)) {
+        alert('Đề tài này đã được L&D duyệt vào Lộ Trình Giảng Dạy nên không thể chỉnh sửa!');
+        return;
+      }
+
+      appState.editingTopicId = topicId;
+      selectTrainingStep(topic.category);
+      appState.currentUserTags = [topic.topicName];
+      renderInputTags();
+      document.getElementById('editing-mode-badge').classList.remove('hidden');
+      document.getElementById('btn-cancel-edit').classList.remove('hidden');
+      document.getElementById('btn-submit-training').innerHTML = `<i class="ph-bold ph-check"></i> Cập Nhật Lại Đề Xuất`;
+    }
+
+    function cancelEditTopic() {
+      appState.editingTopicId = null;
+      appState.currentUserTags = [];
+      renderInputTags();
+      document.getElementById('editing-mode-badge').classList.add('hidden');
+      document.getElementById('btn-cancel-edit').classList.add('hidden');
+      document.getElementById('btn-submit-training').innerHTML = `<i class="ph-bold ph-plus-circle"></i> Gửi Toàn Bộ Tag Lên Màn Chiếu`;
+    }
+
+    function deleteUserTopic(topicId) {
+      const topic = appState.trainingTopics.find(t => t.id === topicId);
+      if (!topic) return;
+
+      if (checkIfTopicAssigned(topic.topicName, topic.category)) {
+        alert('Đề tài đã vào lộ trình, không thể xóa!');
+        return;
+      }
+
+      if (confirm(`Xóa đề tài: "${topic.topicName}"?`)) {
+        appState.trainingTopics = appState.trainingTopics.filter(t => t.id !== topicId);
+        saveStateToLocalStorage();
+        renderDepository();
+        renderUserHistories();
+      }
+    }
+
+    function renderUserHistories() {
+      const session = getUserSession() || { name: 'Thành viên TSSGN' };
+
+      const pHistory = document.getElementById('user-persona-history');
+      if (pHistory) {
+        const myPersonas = appState.personaIdeas.filter(p => p.author === session.name);
+        pHistory.innerHTML = myPersonas.length === 0 
+          ? `<p class="text-[11px] text-slate-400 italic">Bạn chưa gửi ý kiến chân dung nào.</p>`
+          : myPersonas.map(p => `
+            <div class="p-2.5 bg-white border border-slate-200 rounded-xl space-y-1 text-xs">
+              <span class="font-bold text-[10px] text-kiot-500 bg-blue-50 px-1.5 py-0.5 rounded">${PERSONA_LABELS[p.dimension] || p.dimension}</span>
+              <p class="text-slate-800">${p.content}</p>
+            </div>
+          `).join('');
+      }
+
+      const tHistory = document.getElementById('user-training-history');
+      if (tHistory) {
+        const myTopics = appState.trainingTopics.filter(t => t.author === session.name);
+        tHistory.innerHTML = myTopics.length === 0
+          ? `<p class="text-[11px] text-slate-400 italic">Bạn chưa đề xuất chuyên đề nào.</p>`
+          : myTopics.map(t => {
+            const isAssigned = checkIfTopicAssigned(t.topicName, t.category);
+            return `
+              <div class="p-2.5 bg-white border border-slate-200 rounded-xl flex items-center justify-between gap-2 text-xs">
+                <div class="space-y-0.5 overflow-hidden">
+                  <span class="font-bold text-[10px] text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded">${TRAINING_LABELS[t.category] || t.category}</span>
+                  <p class="text-slate-800 font-medium truncate">${t.topicName}</p>
+                </div>
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  ${isAssigned ? `
+                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-1 rounded-lg">
+                      <i class="ph-bold ph-lock-key"></i> Đã vào lộ trình
+                    </span>
+                  ` : `
+                    <button onclick="startEditTopic('${t.id}')" class="px-2 py-1 text-[11px] font-bold text-kiot-500 hover:bg-blue-50 border border-blue-200 rounded-lg transition-colors">
+                      Sửa
+                    </button>
+                    <button onclick="deleteUserTopic('${t.id}')" class="p-1 text-slate-400 hover:text-rose-600 rounded" title="Xóa">
+                      <i class="ph ph-trash text-sm"></i>
+                    </button>
+                  `}
+                </div>
+              </div>
+            `;
+          }).join('');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // LOGIC ADMIN DASHBOARD (MÁY CHIẾU)
+    // -------------------------------------------------------------
+    function switchAdminTab(tabId) {
+      document.querySelectorAll('.adm-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.adm-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-kiot-500', 'text-white', 'shadow-xs');
+        btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+      });
+
+      document.getElementById(tabId).classList.remove('hidden');
+      const activeNav = document.getElementById(tabId.replace('adm-', 'adm-nav-'));
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-600', 'hover:bg-slate-100');
+        activeNav.classList.add('bg-kiot-500', 'text-white', 'shadow-xs');
+      }
+
+      renderApp();
+    }
+
+    function renderApp() {
+      renderAdminBEM();
+      renderAdminPersona();
+      renderDepository();
+      renderMatrixCells();
+      renderUserHistories();
+    }
+
+    // RENDER BEM: THANH TIẾN ĐỘ PHÂN KHÚC MÀU PASTEL THEO NHÓM
+    function renderAdminBEM() {
+      const container = document.getElementById('bem-bars-container');
+      const totalEl = document.getElementById('adm-bem-total');
+      if (!container) return;
+
+      // Tính tổng vote cho từng option
+      const optionStats = BEM_OPTIONS.map(opt => {
+        const groupVotes = appState.bemGroupVotes[opt.id] || { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 };
+        const totalOptVotes = Object.values(groupVotes).reduce((a, b) => a + b, 0);
+        return { ...opt, groupVotes, totalOptVotes };
+      });
+
+      const maxVotes = Math.max(...optionStats.map(o => o.totalOptVotes), 1);
+      totalEl.innerText = `${appState.totalBemVotes} lượt vote`;
+
+      // Sắp xếp option có số vote cao nhất lên đầu
+      optionStats.sort((a, b) => b.totalOptVotes - a.totalOptVotes);
+
+      container.innerHTML = optionStats.map(opt => {
+        const teams = ['Nhóm 1 (Đỏ)', 'Nhóm 2 (Vàng)', 'Nhóm 3 (Xanh)', 'Nhóm 4 (Tím)'];
+        
+        // Tạo các đoạn phân khúc màu (Segments)
+        const segmentsHtml = teams.map(tName => {
+          const vCount = opt.groupVotes[tName] || 0;
+          if (vCount === 0) return '';
+          // Tỷ lệ % của nhóm này so với chiều dài tối đa
+          const segWidthPercent = (vCount / maxVotes) * 100;
+          const cfg = TEAM_PASTEL_CONFIG[tName];
+          return `<div style="width: ${segWidthPercent}%; background-color: ${cfg.barColor};" class="h-full transition-all duration-500 relative group" title="${tName}: ${vCount} phiếu"></div>`;
+        }).join('');
+
+        // Chip đếm số phiếu từng nhóm
+        const teamChips = teams.map(tName => {
+          const v = opt.groupVotes[tName] || 0;
+          if (v === 0) return '';
+          const cfg = TEAM_PASTEL_CONFIG[tName];
+          return `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[10px] font-bold border ${cfg.badgeClass}">${cfg.dot} ${v}</span>`;
+        }).join(' ');
+
+        return `
+          <div class="space-y-1.5 p-2 rounded-xl hover:bg-slate-50 transition-colors">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-slate-800">${opt.name}</span>
+              <span class="font-extrabold text-kiot-500 text-sm">${opt.totalOptVotes} phiếu</span>
+            </div>
+            <!-- Thanh ngang phân khúc màu Pastel -->
+            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden flex">
+              ${opt.totalOptVotes === 0 
+                ? '<div class="w-full h-full bg-slate-100"></div>' 
+                : segmentsHtml}
+            </div>
+            <!-- Hiển thị chi tiết số phiếu từng nhóm -->
+            <div class="flex items-center gap-2 pt-0.5">
+              ${teamChips || '<span class="text-[10px] text-slate-300 italic">Chưa có bình chọn</span>'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAdminPersona() {
+      const boxTuduy = document.getElementById('box-p-tuduy');
+      const boxNghiepvu = document.getElementById('box-p-nghiepvu');
+      const boxTacphong = document.getElementById('box-p-tacphong');
+
+      const tuduyItems = appState.personaIdeas.filter(p => p.dimension === 'tuduy');
+      const nghiepvuItems = appState.personaIdeas.filter(p => p.dimension === 'nghiepvu');
+      const tacphongItems = appState.personaIdeas.filter(p => p.dimension === 'tacphong');
+
+      document.getElementById('badge-p-tuduy').innerText = tuduyItems.length;
+      document.getElementById('badge-p-nghiepvu').innerText = nghiepvuItems.length;
+      document.getElementById('badge-p-tacphong').innerText = tacphongItems.length;
+
+      const renderList = (items, emptyText) => {
+        if (items.length === 0) return `<div class="h-full flex items-center justify-center text-slate-400 text-xs italic">${emptyText}</div>`;
+        return items.map(item => {
+          const cfg = TEAM_PASTEL_CONFIG[item.team] || { badgeClass: 'bg-slate-100 text-slate-700', dot: '⚪', label: item.team };
+          return `
+            <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+              <div class="flex items-center justify-between text-[10px]">
+                <span class="font-bold px-1.5 py-0.5 rounded border ${cfg.badgeClass}">
+                  ${cfg.dot} ${item.author} (${cfg.label})
+                </span>
+                <span class="text-slate-400">${item.timestamp}</span>
+              </div>
+              <p class="text-xs text-slate-800 font-medium">${item.content}</p>
+            </div>
+          `;
+        }).join('');
+      };
+
+      boxTuduy.innerHTML = renderList(tuduyItems, 'Chưa có ý kiến Tư duy');
+      boxNghiepvu.innerHTML = renderList(nghiepvuItems, 'Chưa có ý kiến Nghiệp vụ');
+      boxTacphong.innerHTML = renderList(tacphongItems, 'Chưa có ý kiến Tác phong');
+    }
+
+    function filterPersonaDuplicates() {
+      if (appState.personaIdeas.length === 0) return;
+      const seen = new Set();
+      const unique = [];
+      appState.personaIdeas.forEach(p => {
+        const key = p.dimension + '_' + p.content.toLowerCase().trim().replace(/\s+/g, ' ');
+        if (!seen.has(key)) {
+          seen.add(key);
+          unique.push(p);
+        }
+      });
+      const removed = appState.personaIdeas.length - unique.length;
+      appState.personaIdeas = unique;
+      saveStateToLocalStorage();
+      renderAdminPersona();
+      alert(`Đã loại bỏ ${removed} ý kiến trùng!`);
+    }
+
+    // -------------------------------------------------------------
+    // TOKEN SIMILARITY & KHO TAG ĐỀ XUẤT (GỘP TRÙNG THEO TAG)
+    // -------------------------------------------------------------
+    function cleanAndExpandAbbreviations(str) {
+      if (!str) return '';
+      let s = str.toLowerCase().trim();
+      s = s.replace(/\bkh\b/g, 'khách hàng')
+           .replace(/\bpm\b/g, 'phần mềm')
+           .replace(/\b(gk|getkiper|getkeeper)\b/g, 'gatekeeper')
+           .replace(/\bf&b\b/g, 'fnb')
+           .replace(/\bhd\b/g, 'hợp đồng')
+           .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+           .replace(/\s+/g, " ");
+      return s;
+    }
+
+    function getMeaningfulTokens(str) {
+      const stopWords = new Set(['và', 'hoặc', 'của', 'các', 'cho', 'với', 'trong', 'để', 'kỹ', 'năng', 'cách']);
+      return cleanAndExpandAbbreviations(str)
+        .split(' ')
+        .filter(w => w.length > 1 && !stopWords.has(w));
+    }
+
+    function calculateTokenSimilarity(s1, s2) {
+      const tokens1 = new Set(getMeaningfulTokens(s1));
+      const tokens2 = new Set(getMeaningfulTokens(s2));
+      if (tokens1.size === 0 || tokens2.size === 0) return 0;
+
+      let intersection = 0;
+      tokens1.forEach(t => { if (tokens2.has(t)) intersection++; });
+      const containment = Math.max(intersection / tokens1.size, intersection / tokens2.size);
+      const jaccard = intersection / (tokens1.size + tokens2.size - intersection);
+      return Math.max(containment, jaccard);
+    }
+
+    function getUnassignedTopics() {
+      const rawList = appState.trainingTopics.map(t => {
+        const normKey = cleanAndExpandAbbreviations(t.topicName);
+        const resolvedKey = appState.manualMergedMap[normKey] || normKey;
+        return {
+          originalName: t.topicName.trim(),
+          category: t.category,
+          author: t.author,
+          team: t.team,
+          normKey: resolvedKey
+        };
+      });
+
+      const clusters = [];
+      rawList.forEach(item => {
+        let matched = null;
+        for (let c of clusters) {
+          if (c.category === item.category) {
+            if (c.key === item.normKey || calculateTokenSimilarity(c.primaryName, item.originalName) >= 0.65) {
+              matched = c;
+              break;
+            }
+          }
+        }
+
+        if (matched) {
+          matched.count += 1;
+          matched.teams.add(item.team);
+          if (item.originalName.length > matched.primaryName.length) {
+            matched.primaryName = item.originalName;
+          }
+        } else {
+          clusters.push({
+            id: 'top_' + Math.random().toString(36).substr(2, 7),
+            key: item.normKey,
+            primaryName: item.originalName,
+            category: item.category,
+            teams: new Set([item.team]),
+            count: 1
+          });
+        }
+      });
+
+      const assignedNames = new Set();
+      ['kienthuc', 'sanpham', 'kynang'].forEach(cat => {
+        ['stage1', 'stage2', 'stage3'].forEach(stg => {
+          (appState.matrix[cat][stg] || []).forEach(mItem => {
+            assignedNames.add(cleanAndExpandAbbreviations(mItem.name));
+          });
+        });
+      });
+
+      return clusters.filter(c => !assignedNames.has(c.key)).sort((a, b) => b.count - a.count);
+    }
+
+    function filterDepository(cat) {
+      appState.currentDepositoryFilter = cat;
+      document.querySelectorAll('.flt-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'text-kiot-500', 'shadow-xs');
+        btn.classList.add('text-slate-600');
+      });
+      const activeBtn = document.getElementById(`btn-flt-${cat}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-white', 'text-kiot-500', 'shadow-xs');
+        activeBtn.classList.remove('text-slate-600');
+      }
+      renderDepository();
+    }
+
+    function renderDepository() {
+      const grid = document.getElementById('depository-grid');
+      const allList = getUnassignedTopics();
+
+      document.getElementById('cnt-flt-all').innerText = allList.length;
+      document.getElementById('cnt-flt-kienthuc').innerText = allList.filter(t => t.category === 'kienthuc').length;
+      document.getElementById('cnt-flt-sanpham').innerText = allList.filter(t => t.category === 'sanpham').length;
+      document.getElementById('cnt-flt-kynang').innerText = allList.filter(t => t.category === 'kynang').length;
+
+      const filtered = appState.currentDepositoryFilter === 'all' 
+        ? allList 
+        : allList.filter(t => t.category === appState.currentDepositoryFilter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-8 text-center text-slate-400 text-xs italic">Không có đề xuất nào trong danh mục này (hoặc tất cả đã được phân kỳ).</div>`;
+        updateFloatingBar();
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => {
+        const isChecked = appState.selectedTopicIds.has(item.id);
+
+        // Huy hiệu màu Pastel của từng nhóm
+        const teamBadges = Array.from(item.teams).map(tName => {
+          const cfg = TEAM_PASTEL_CONFIG[tName] || { badgeClass: 'bg-slate-100 text-slate-700', dot: '⚪', label: tName };
+          return `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.2 rounded border ${cfg.badgeClass}">${cfg.dot} ${cfg.label}</span>`;
+        }).join(' ');
+
+        return `
+          <div class="p-3 rounded-2xl border transition-all ${isChecked ? 'bg-blue-50/70 border-kiot-500 shadow-xs' : 'bg-white border-slate-200 hover:border-slate-300'} flex flex-col justify-between space-y-2.5">
+            <div class="space-y-1.5">
+              <div class="flex items-start justify-between gap-1">
+                <div class="flex items-center gap-2">
+                  <input type="checkbox" onchange="handleTopicCheckbox('${item.id}', this.checked)" ${isChecked ? 'checked' : ''} class="rounded text-kiot-500 focus:ring-kiot-500 cursor-pointer">
+                  <span class="inline-flex items-center gap-0.5 text-[10px] font-extrabold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">
+                    ${item.count} nhóm đề xuất
+                  </span>
+                </div>
+                <!-- Nút gộp & Nút Xóa Tag (Có dấu × theo yêu cầu) -->
+                <div class="flex items-center gap-1">
+                  <button onclick="manualMergeTopic('${item.id}')" class="p-1 text-slate-400 hover:text-kiot-500 rounded" title="Gộp thủ công">
+                    <i class="ph-bold ph-git-merge text-xs"></i>
+                  </button>
+                  <button onclick="dismissTopic('${item.id}')" class="p-1 text-slate-400 hover:text-rose-600 rounded font-extrabold text-sm leading-none" title="Xóa Tag này khỏi kho">
+                    &times;
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs font-bold text-slate-900 leading-snug">${item.primaryName}</p>
+              <div class="flex flex-wrap items-center gap-1 pt-0.5">${teamBadges}</div>
+            </div>
+
+            <!-- 3 NÚT FAST-PICK 1-CHẠM -->
+            <div class="pt-2 border-t border-slate-100 flex items-center gap-1.5">
+              <button onclick="assignSingleTopic('${item.category}', 'stage1', '${encodeURIComponent(item.primaryName)}', ${item.count})" class="flex-1 py-1 px-1 bg-blue-50 hover:bg-blue-100 text-kiot-500 font-bold text-[10px] rounded-lg transition-colors border border-blue-200">
+                + 2 Tuần Đầu
+              </button>
+              <button onclick="assignSingleTopic('${item.category}', 'stage2', '${encodeURIComponent(item.primaryName)}', ${item.count})" class="flex-1 py-1 px-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[10px] rounded-lg transition-colors border border-indigo-200">
+                + Thử Việc
+              </button>
+              <button onclick="assignSingleTopic('${item.category}', 'stage3', '${encodeURIComponent(item.primaryName)}', ${item.count})" class="flex-1 py-1 px-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-[10px] rounded-lg transition-colors border border-emerald-200">
+                + Chính Thức
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      updateFloatingBar();
+    }
+
+    function assignSingleTopic(cat, stageId, encodedName, count) {
+      const name = decodeURIComponent(encodedName);
+      if (!appState.matrix[cat]) appState.matrix[cat] = { stage1: [], stage2: [], stage3: [] };
+      if (!appState.matrix[cat][stageId]) appState.matrix[cat][stageId] = [];
+
+      appState.matrix[cat][stageId].push({
+        id: 'cell_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        name,
+        votes: count || 1
+      });
+
+      saveStateToLocalStorage();
+      renderDepository();
+      renderMatrixCells();
+      renderUserHistories();
+    }
+
+    function handleTopicCheckbox(topicId, isChecked) {
+      if (isChecked) appState.selectedTopicIds.add(topicId);
+      else appState.selectedTopicIds.delete(topicId);
+      updateFloatingBar();
+      renderDepository();
+    }
+
+    function toggleSelectAllTopics(masterCheckbox) {
+      const allList = getUnassignedTopics();
+      const filtered = appState.currentDepositoryFilter === 'all' 
+        ? allList 
+        : allList.filter(t => t.category === appState.currentDepositoryFilter);
+
+      if (masterCheckbox.checked) filtered.forEach(t => appState.selectedTopicIds.add(t.id));
+      else filtered.forEach(t => appState.selectedTopicIds.delete(t.id));
+      updateFloatingBar();
+      renderDepository();
+    }
+
+    function updateFloatingBar() {
+      const count = appState.selectedTopicIds.size;
+      const bar = document.getElementById('floating-bulk-bar');
+      document.getElementById('depository-status-text').innerText = `Đang chọn: ${count} tag`;
+      document.getElementById('bulk-selected-count').innerText = count;
+
+      if (count > 0) {
+        bar.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+        bar.classList.add('translate-y-0', 'opacity-100');
+      } else {
+        bar.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        bar.classList.remove('translate-y-0', 'opacity-100');
+      }
+    }
+
+    function clearBulkSelection() {
+      appState.selectedTopicIds.clear();
+      document.getElementById('chk-select-all').checked = false;
+      updateFloatingBar();
+      renderDepository();
+    }
+
+    function executeBulkAssign(stageId) {
+      if (appState.selectedTopicIds.size === 0) return;
+
+      const unassignedList = getUnassignedTopics();
+      const topicMap = new Map();
+      unassignedList.forEach(t => topicMap.set(t.id, t));
+
+      let count = 0;
+      appState.selectedTopicIds.forEach(id => {
+        const item = topicMap.get(id);
+        if (item) {
+          const cat = item.category || 'kienthuc';
+          if (!appState.matrix[cat]) appState.matrix[cat] = { stage1: [], stage2: [], stage3: [] };
+          if (!appState.matrix[cat][stageId]) appState.matrix[cat][stageId] = [];
+
+          appState.matrix[cat][stageId].push({
+            id: 'cell_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+            name: item.primaryName,
+            votes: item.count
+          });
+          count++;
+        }
+      });
+
+      appState.selectedTopicIds.clear();
+      document.getElementById('chk-select-all').checked = false;
+
+      saveStateToLocalStorage();
+      renderDepository();
+      renderMatrixCells();
+      renderUserHistories();
+      updateFloatingBar();
+      alert(`Đã gán ${count} tag vào giai đoạn được chọn!`);
+    }
+
+    function manualMergeTopic(topicId) {
+      const allTopics = getUnassignedTopics();
+      const current = allTopics.find(t => t.id === topicId);
+      if (!current) return;
+
+      const candidates = allTopics.filter(t => t.id !== topicId && t.category === current.category);
+      if (candidates.length === 0) {
+        alert('Không có đề tài nào cùng khối để gộp!');
+        return;
+      }
+
+      let msg = `Chọn số thứ tự của đề tài gốc muốn GỘP tag:\n"${current.primaryName}" (${current.count} nhóm đề xuất) VÀO:\n\n`;
+      candidates.forEach((c, idx) => {
+        msg += `[${idx + 1}] ${c.primaryName} (${c.count} nhóm đề xuất)\n`;
+      });
+
+      const choice = prompt(msg);
+      const chosenIdx = parseInt(choice) - 1;
+      if (!isNaN(chosenIdx) && candidates[chosenIdx]) {
+        const target = candidates[chosenIdx];
+        appState.manualMergedMap[current.key] = target.key;
+        saveStateToLocalStorage();
+        renderDepository();
+        alert(`Đã gộp thành công vào: "${target.primaryName}"!`);
+      }
+    }
+
+    function dismissTopic(topicId) {
+      const allTopics = getUnassignedTopics();
+      const current = allTopics.find(t => t.id === topicId);
+      if (!current) return;
+
+      if (confirm(`Bạn có chắc muốn loại bỏ tag: "${current.primaryName}"?`)) {
+        appState.trainingTopics = appState.trainingTopics.filter(t => cleanAndExpandAbbreviations(t.topicName) !== current.key);
+        saveStateToLocalStorage();
+        renderDepository();
+        renderUserHistories();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // RENDER MA TRẬN 3x3
+    // -------------------------------------------------------------
+    function renderMatrixCells() {
+      ['kienthuc', 'sanpham', 'kynang'].forEach(cat => {
+        ['stage1', 'stage2', 'stage3'].forEach(stg => {
+          const container = document.getElementById(`cell-${cat}-${stg}`);
+          const items = (appState.matrix[cat] && appState.matrix[cat][stg]) ? appState.matrix[cat][stg] : [];
+
+          if (items.length === 0) {
+            container.innerHTML = `<p class="text-[11px] text-slate-300 italic p-1 text-center">Trống</p>`;
+          } else {
+            container.innerHTML = items.map(item => `
+              <div class="p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-xs flex items-start justify-between gap-1 group">
+                <span class="text-slate-800 font-medium leading-snug">
+                  ${item.name}
+                  ${item.votes > 1 ? `<b class="text-blue-700 font-bold text-[10px]">(${item.votes} nhóm)</b>` : ''}
+                </span>
+                <button onclick="removeTopicFromMatrixCell('${cat}', '${stg}', '${item.id}')" class="text-slate-300 hover:text-rose-600 no-print" title="Bỏ gán">
+                  <i class="ph ph-x text-xs"></i>
+                </button>
+              </div>
+            `).join('');
+          }
+        });
+      });
+    }
+
+    function removeTopicFromMatrixCell(cat, stageId, itemId) {
+      appState.matrix[cat][stageId] = appState.matrix[cat][stageId].filter(i => i.id !== itemId);
+      saveStateToLocalStorage();
+      renderDepository();
+      renderMatrixCells();
+      renderUserHistories();
+    }
+
+    function promptAddTopicToCell(cat, stageId) {
+      const name = prompt('Nhập tên chuyên đề trực tiếp cho ô này:');
+      if (name && name.trim()) {
+        if (!appState.matrix[cat]) appState.matrix[cat] = { stage1: [], stage2: [], stage3: [] };
+        if (!appState.matrix[cat][stageId]) appState.matrix[cat][stageId] = [];
+        appState.matrix[cat][stageId].push({
+          id: 'cell_' + Date.now(),
+          name: name.trim(),
+          votes: 1
+        });
+        saveStateToLocalStorage();
+        renderDepository();
+        renderMatrixCells();
+        renderUserHistories();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // GIAO TIẾP VỚI CLOUD
+    // -------------------------------------------------------------
+    function sendPayload(payload, callback) {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler((res) => { if (callback) callback(res); })
+          .withFailureHandler((err) => {
+            console.warn('Lỗi Apps Script:', err);
+            if (callback) callback();
+          })
+          .doPost({ postData: { contents: JSON.stringify(payload) } });
+      } else {
+        setTimeout(() => { if (callback) callback({ success: true }); }, 100);
+      }
+    }
+
+    function fetchRemoteData(isManual) {
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler((res) => {
+            if (res && res.success && res.data) {
+              const d = res.data;
+              const prevTopicCount = appState.trainingTopics.length;
+
+              if (d.bemCounts) {
+                // Đồng bộ bemGroupVotes
+                if (d.totalBemVotes !== undefined) appState.totalBemVotes = d.totalBemVotes;
+              }
+              if (d.personaIdeas && d.personaIdeas.length > 0) appState.personaIdeas = d.personaIdeas;
+              if (d.trainingTopics && d.trainingTopics.length > 0) {
+                // Nhận diện có Tag mới gửi lên ➔ Bắn Toast lên Máy Chiếu
+                if (d.trainingTopics.length > prevTopicCount && prevTopicCount > 0) {
+                  const latest = d.trainingTopics[0];
+                  triggerToast(latest.author, latest.team, `Vừa đề xuất tag: "${latest.topicName}"`);
+                }
+                appState.trainingTopics = d.trainingTopics;
+              }
+              if (d.matrixState) appState.matrix = d.matrixState;
+
+              saveStateToLocalStorage();
+              renderApp();
+            }
+            if (isManual) alert('Đã cập nhật dữ liệu Realtime mới nhất!');
+          })
+          .getDashboardData();
+      }
+    }
+
+    function saveMatrixConfig() {
+      sendPayload({ action: 'save_matrix_state', data: appState.matrix }, () => {
+        saveStateToLocalStorage();
+        alert('Đã lưu trạng thái Ma Trận lên Cloud thành công!');
+      });
+    }
+
+    function exportMatrixToCSV() {
+      const stageLabels = { stage1: 'GĐ 1: 2 Tuần Đầu', stage2: 'GĐ 2: Thử Việc', stage3: 'GĐ 3: Chính Thức < 1N' };
+      const catLabels = { kienthuc: '1. Kiến thức KH & Ngành hàng', sanpham: '2. Sản phẩm & Nghiệp vụ', kynang: '3. Kỹ năng bán hàng' };
+
+      let csv = '\uFEFF';
+      csv += 'Khối Nội Dung,Giai Đoạn,Chuyên Đề Đào Tạo,Số Nhóm Đề Xuất\n';
+
+      ['kienthuc', 'sanpham', 'kynang'].forEach(cat => {
+        ['stage1', 'stage2', 'stage3'].forEach(stg => {
+          (appState.matrix[cat][stg] || []).forEach(item => {
+            csv += `"${catLabels[cat]}","${stageLabels[stg]}","${item.name.replace(/"/g, '""')}",${item.votes || 1}\n`;
+          });
+        });
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', `Ma_Tran_Dao_Tao_TSSGN_2027_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function generateQRCode() {
+      const qrEl = document.getElementById('qrcode-container');
+      if (!qrEl) return;
+      qrEl.innerHTML = '';
+
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.set('view', 'user');
+
+      try {
+        new QRCode(qrEl, {
+          text: currentUrl.toString(),
+          width: 180,
+          height: 180,
+          colorDark: "#0066cc",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch (e) {
+        qrEl.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentUrl.toString())}" class="mx-auto" alt="QR Code">`;
+      }
+    }
+
+    function toggleQRModal() {
+      document.getElementById('qr-modal').classList.toggle('hidden');
+    }
+
+    function loadSampleWorkshopData() {
+      if (!confirm('Nạp dữ liệu mẫu chuẩn theo kịch bản TSSGN 2027?')) return;
+
+      // Mẫu vote phân khúc theo nhóm Pastel
+      appState.bemGroupVotes = {
+        1: { 'Nhóm 1 (Đỏ)': 8, 'Nhóm 2 (Vàng)': 4, 'Nhóm 3 (Xanh)': 5, 'Nhóm 4 (Tím)': 2 },
+        2: { 'Nhóm 1 (Đỏ)': 3, 'Nhóm 2 (Vàng)': 7, 'Nhóm 3 (Xanh)': 2, 'Nhóm 4 (Tím)': 3 },
+        3: { 'Nhóm 1 (Đỏ)': 1, 'Nhóm 2 (Vàng)': 1, 'Nhóm 3 (Xanh)': 2, 'Nhóm 4 (Tím)': 0 },
+        4: { 'Nhóm 1 (Đỏ)': 6, 'Nhóm 2 (Vàng)': 3, 'Nhóm 3 (Xanh)': 4, 'Nhóm 4 (Tím)': 5 },
+        5: { 'Nhóm 1 (Đỏ)': 1, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 1, 'Nhóm 4 (Tím)': 1 },
+        6: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 1, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 1 }
+      };
+      appState.totalBemVotes = 50;
+
+      appState.personaIdeas = [
+        { id: 'p_1', timestamp: '09:35', author: 'Tuấn SM', team: 'Nhóm 1 (Đỏ)', dimension: 'tuduy', content: 'Tư duy là người đồng hành tháo gỡ lỗ hổng kinh doanh của khách, không chỉ đi bán phần mềm tính tiền.' },
+        { id: 'p_2', timestamp: '09:40', author: 'Minh SM', team: 'Nhóm 2 (Vàng)', dimension: 'nghiepvu', content: 'Hiểu sâu quy trình vận hành và thất thoát tồn kho của mô hình FnB và Bán lẻ tại Miền Nam.' },
+        { id: 'p_3', timestamp: '09:45', author: 'Nam SM', team: 'Nhóm 3 (Xanh)', dimension: 'tacphong', content: 'Biết cách đặt câu hỏi khơi gợi vấn đề, lắng nghe dẫn dắt để khách hàng tự chia sẻ khó khăn.' }
+      ];
+
+      // Đề tài dạng Tag độc lập
+      appState.trainingTopics = [
+        { id: 't_1', timestamp: '10:05', author: 'Tuấn SM', team: 'Nhóm 1 (Đỏ)', category: 'kienthuc', topicName: 'Văn hóa kinh doanh Nam Bộ' },
+        { id: 't_2', timestamp: '10:06', author: 'Minh SM', team: 'Nhóm 2 (Vàng)', category: 'kienthuc', topicName: 'Văn hóa kinh doanh Nam Bộ' },
+        { id: 't_3', timestamp: '10:07', author: 'Hương Coacher', team: 'Nhóm 3 (Xanh)', category: 'kienthuc', topicName: 'Đặc thù chuỗi F&B vừa và nhỏ' },
+        { id: 't_4', timestamp: '10:10', author: 'Nam SM', team: 'Nhóm 1 (Đỏ)', category: 'sanpham', topicName: 'Tính năng cốt lõi PM KiotViet' },
+        { id: 't_5', timestamp: '10:11', author: 'Trang Coacher', team: 'Nhóm 2 (Vàng)', category: 'sanpham', topicName: 'Lỗ hổng quản lý dòng tiền của quán' },
+        { id: 't_6', timestamp: '10:15', author: 'Hùng SM', team: 'Nhóm 1 (Đỏ)', category: 'kynang', topicName: 'Kỹ thuật mở đầu cuộc gọi 15s gây tò mò' },
+        { id: 't_7', timestamp: '10:16', author: 'Thảo Coacher', team: 'Nhóm 4 (Tím)', category: 'kynang', topicName: 'Opening 15s gây tò mò' },
+        { id: 't_8', timestamp: '10:17', author: 'Hương Coacher', team: 'Nhóm 3 (Xanh)', category: 'kynang', topicName: 'Cách vượt rào Gatekeeper bảo vệ' },
+        { id: 't_9', timestamp: '10:18', author: 'Đức SM', team: 'Nhóm 2 (Vàng)', category: 'kynang', topicName: 'Cách vượt rào GK' }
+      ];
+
+      saveStateToLocalStorage();
+      renderApp();
+      triggerToast('Hệ thống', 'Nhóm 1 (Đỏ)', 'Đã nạp thành công bộ dữ liệu mẫu TSSGN 2027!');
+    }
+
+    function resetDataPrompt() {
+      if (confirm('CẢNH BÁO: Thao tác này sẽ xóa sạch dữ liệu phiên làm việc hiện tại?')) {
+        appState.userSelectedBem = [];
+        appState.selectedTopicIds.clear();
+        appState.manualMergedMap = {};
+        appState.bemGroupVotes = {
+          1: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+          2: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+          3: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+          4: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+          5: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 },
+          6: { 'Nhóm 1 (Đỏ)': 0, 'Nhóm 2 (Vàng)': 0, 'Nhóm 3 (Xanh)': 0, 'Nhóm 4 (Tím)': 0 }
+        };
+        appState.totalBemVotes = 0;
+        appState.personaIdeas = [];
+        appState.trainingTopics = [];
+        appState.matrix = {
+          kienthuc: { stage1: [], stage2: [], stage3: [] },
+          sanpham:  { stage1: [], stage2: [], stage3: [] },
+          kynang:   { stage1: [], stage2: [], stage3: [] }
+        };
+
+        sendPayload({ action: 'reset_session_data' }, () => {
+          localStorage.removeItem(LOCAL_STORAGE_KEY);
+          localStorage.removeItem(USER_SESSION_KEY);
+          renderApp();
+          updateFloatingBar();
+          alert('Đã làm mới toàn bộ dữ liệu!');
+        });
+      }
+    }
+
+    function saveStateToLocalStorage() {
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {}
+    }
+
+    function loadStateFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          appState = Object.assign(appState, parsed);
+        }
+      } catch (e) {}
+    }
+  </script>
+</body>
+</html>
