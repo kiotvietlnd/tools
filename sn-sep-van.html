@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎉 Mừng Sinh Nhật Sếp Nguyễn Thanh Vân - Team LND KiotViet 🎂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0b091a 0%, #171330 50%, #1f1138 100%);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --color-orig: #a5b4fc;
+      --color-parody: #38bdf8;
+      --color-gold: #fbbf24;
+      --color-pink: #f43f5e;
+      --glow-pink: rgba(244, 63, 94, 0.4);
+      --glow-blue: rgba(56, 189, 248, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      background: var(--bg-gradient);
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 80px;
+    }
+
+    /* Canvas Pháo hoa toàn màn hình */
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Hiệu ứng bóng bay nền */
+    .floating-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      animation: floatUp 15s linear infinite;
+      opacity: 0.5;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.4));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Top Banner Header */
+    .header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 30px 20px 15px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: linear-gradient(90deg, #ec4899, #8b5cf6);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    .main-title {
+      font-family: 'Comfortaa', cursive;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      font-weight: 900;
+      margin: 12px 0 6px;
+      background: linear-gradient(135deg, #fff 0%, #fbcfe8 40%, #fbbf24 80%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 35px rgba(251, 191, 36, 0.3);
+      line-height: 1.25;
+    }
+
+    .sub-title {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      margin-bottom: 15px;
+    }
+
+    .sub-title strong {
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    .team-info-card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 10px 16px;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      font-size: 0.84rem;
+      max-width: 1200px;
+    }
+
+    .info-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* ============================================================
+       BỐ CỤC 2 CỘT CHÍNH: 1/3 CỘT TRÁI (VIDEOS) + 2/3 CỘT PHẢI (LYRICS)
+       ============================================================ */
+    .main-grid-layout {
+      position: relative;
+      z-index: 10;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    @media (min-width: 1024px) {
+      .main-grid-layout {
+        grid-template-columns: 360px 1fr; /* Cột trái ~1/3 cố định, Cột phải ~2/3 */
+        align-items: start;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .main-grid-layout {
+        grid-template-columns: 420px 1fr;
+      }
+    }
+
+    /* CỘT TRÁI: 2 VIDEO XẾP TRÊN DƯỚI & CỐ ĐỊNH (STICKY) */
+    .sidebar-videos {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar-videos {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        padding-right: 6px;
+      }
+      .sidebar-videos::-webkit-scrollbar {
+        width: 4px;
+      }
+      .sidebar-videos::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+    }
+
+    .video-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .video-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .video-card-title {
+      padding: 9px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fbbf24;
+      background: rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .video-card-title.karaoke-tag {
+      color: #38bdf8;
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* Tỷ lệ 16:9 */
+      height: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* CỘT PHẢI: THANH ĐIỀU HƯỚNG & LYRICS */
+    .content-lyrics-area {
+      min-width: 0; /* Tránh tràn grid */
+    }
+
+    /* Sticky Control Toolbar */
+    .controls-toolbar {
+      position: sticky;
+      top: 15px;
+      z-index: 50;
+      padding: 10px 18px;
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      margin-bottom: 25px;
+    }
+
+    .counter-display {
+      font-weight: 800;
+      font-size: 0.92rem;
+      color: var(--color-gold);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      white-space: nowrap;
+    }
+
+    .btn-nav-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-prev {
+      background: linear-gradient(135deg, #475569, #334155);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #06b6d4, #3b82f6);
+      color: white;
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.5);
+    }
+
+    .btn-fireworks {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: white;
+      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
+    }
+
+    .hint-keyboard {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kbd-key {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Floating navigation buttons ở góc dưới màn hình */
+    .floating-arrows {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .btn-fab {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(10px);
+      color: white;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.2s;
+    }
+
+    .btn-fab:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+    }
+
+    /* Section Navigator Pills */
+    .section-nav {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 25px;
+    }
+
+    .nav-pill {
+      background: rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+      text-decoration: none;
+      padding: 5px 13px;
+      border-radius: 18px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+
+    .nav-pill:hover, .nav-pill.active {
+      background: #fbbf24;
+      color: #0f172a;
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    }
+
+    /* Khối thẻ từng Section */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      padding: 25px 22px;
+      margin-bottom: 35px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      transition: border-color 0.3s ease;
+    }
+
+    .section-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--color-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .section-desc {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* CẤU TRÚC: DÒNG GỐC -> DÒNG CHẾ -> DÒNG TRẮNG */
+    .lyric-item {
+      display: flex;
+      flex-direction: column;
+      padding: 11px 15px;
+      border-radius: 14px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .lyric-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateX(4px);
+    }
+
+    .lyric-item.karaoke-active {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateX(8px) scale(1.01);
+      box-shadow: -5px 0 0 #f43f5e, 0 8px 25px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .lyric-item.karaoke-active .line-parody {
+      color: #ffffff;
+      text-shadow: 0 0 12px #38bdf8, 0 0 25px #0284c7;
+    }
+
+    .lyric-item.karaoke-active .line-original {
+      color: #e0e7ff;
+    }
+
+    /* 1. Dòng Lyrics Gốc */
+    .line-original {
+      font-size: 0.95rem;
+      color: var(--color-orig);
+      font-style: italic;
+      line-height: 1.5;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .tag-label-orig {
+      font-size: 0.68rem;
+      font-style: normal;
+      font-weight: 700;
+      padding: 2px 7px;
+      background: rgba(165, 180, 252, 0.15);
+      border: 1px solid rgba(165, 180, 252, 0.3);
+      color: #c7d2fe;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    /* 2. Dòng Lyrics Chế */
+    .line-parody {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.6;
+      margin-top: 5px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .tag-label-parody {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      background: linear-gradient(90deg, #f43f5e, #ec4899);
+      color: #ffffff;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
+    }
+
+    .highlight-name {
+      color: #facc15;
+      text-decoration: underline dotted #facc15 2px;
+      text-underline-offset: 4px;
+      font-weight: 800;
+    }
+
+    .highlight-brand {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    .highlight-kid {
+      color: #4ade80;
+      font-weight: 800;
+    }
+
+    /* 3. Dòng Trắng Phân Cách Tuyệt Đối */
+    .line-spacer {
+      height: 24px;
+      position: relative;
+    }
+
+    .line-spacer::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      top: 50%;
+      height: 1px;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 80%);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #64748b;
+      font-size: 0.88rem;
+      padding: 15px;
+    }
+
+    @media (max-width: 640px) {
+      .header { padding: 20px 10px 10px; }
+      .section-card { padding: 18px 12px; }
+      .line-parody { font-size: 1.05rem; }
+      .controls-toolbar {
+        border-radius: 18px;
+        flex-wrap: wrap;
+        padding: 10px;
+      }
+      .btn {
+        font-size: 0.78rem;
+        padding: 7px 12px;
+      }
+      .hint-keyboard { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas bắn pháo hoa toàn màn hình -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Bóng bay lơ lửng trong background -->
+  <div class="floating-container" id="floatingBg"></div>
+
+  <!-- Header Banner -->
+  <header class="header">
+    <div class="badge-pill">🎂 SPECIAL BIRTHDAY PARODY 🎤</div>
+    <h1 class="main-title">Chúc Mừng Sinh Nhật Sếp Vân!</h1>
+    <p class="sub-title">Tác phẩm "đạo nhạc" đỉnh cao từ <strong>Team LND KiotViet</strong> chúc mừng Manager <strong>Nguyễn Thanh Vân</strong></p>
+
+    <!-- Thẻ tóm tắt thông tin nhân vật -->
+    <div class="team-info-card">
+      <div class="info-tag">👑 <strong>Nhân vật chính:</strong> Sếp Nguyễn Thanh Vân</div>
+      <div class="info-tag">👦 <strong>Bạn cùng tuổi:</strong> Hoàng Sơn</div>
+      <div class="info-tag">👩 <strong>Chị lớn:</strong> Huyền Trang</div>
+      <div class="info-tag">🌟 <strong>Đàn em:</strong> Lê Thắng, Vũ Nga, Thu Phương, Nhật Vi, Linh Trang</div>
+      <div class="info-tag">🐰 <strong>Chị Thỏ & 🦝 Bé Gấu Mèo</strong></div>
+      <div class="info-tag">🏢 <strong>LND (Eo-En-Đi)</strong> @ <strong>KiotViet</strong></div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       BỐ CỤC 2 CỘT: TRÁI 1/3 (VIDEOS CỐ ĐỊNH) - PHẢI 2/3 (LYRICS)
+       ============================================================ -->
+  <div class="main-grid-layout">
+
+    <!-- CỘT 1/3 BÊN TRÁI: 2 VIDEO XẾP TRÊN DƯỚI & CỐ ĐỊNH (STICKY) -->
+    <aside class="sidebar-videos">
+      <!-- Video 1: MV Gốc -->
+      <div class="video-card">
+        <div class="video-card-title">🎬 Video 1: MV Gốc (OSAD x Hà An Huy)</div>
+        <div class="video-wrapper">
+          <iframe 
+            src="https://www.youtube.com/embed/hGu7BVQy5G0?si=LaKhzKvqhReHrPLL" 
+            title="Như Một Người Rưng - Official MV" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Video 2: Beat Karaoke Nhạc Gốc -->
+      <div class="video-card">
+        <div class="video-card-title karaoke-tag">🎤 Video 2: Beat Karaoke Nhạc Gốc</div>
+        <div class="video-wrapper">
+          <iframe 
+            src="https://www.youtube.com/embed/yXD8pFTki1w?si=KnvDUuXcJPtN-18z" 
+            title="Như Một Người Dưng - Beat Karaoke" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CỘT 2/3 BÊN PHẢI: ĐIỀU HƯỚNG & LYRICS -->
+    <main class="content-lyrics-area">
+
+      <!-- THANH CÔNG CỤ CHUYỂN CÂU (STICKY TOOLBAR) -->
+      <div class="controls-toolbar">
+        <div class="counter-display" id="counterDisplay">Câu: 1 / 48</div>
+        
+        <div class="btn-nav-group">
+          <button class="btn btn-prev" id="btnPrev" title="Lùi lại câu trước (Phím ◀ hoặc ▲)">
+            ◀ Câu Trước
+          </button>
+          <button class="btn btn-next" id="btnNext" title="Sang câu tiếp theo (Phím ▶, ▼ hoặc Space)">
+            Câu Tiếp ▶
+          </button>
+          <button class="btn btn-fireworks" id="btnFireworks" title="Bắn pháo hoa ăn mừng">
+            🎊 Pháo Hoa
+          </button>
+        </div>
+
+        <div class="hint-keyboard">
+          <span>Phím:</span>
+          <span class="kbd-key">◀ / ▲</span>
+          <span class="kbd-key">▶ / ▼</span>
+          <span class="kbd-key">Space</span>
+        </div>
+      </div>
+
+      <!-- Quick Nav Pills -->
+      <div class="section-nav">
+        <a href="#sec-intro" class="nav-pill">Intro</a>
+        <a href="#sec-chorus1" class="nav-pill">Điệp khúc 1</a>
+        <a href="#sec-verse1" class="nav-pill">Verse 1</a>
+        <a href="#sec-chorus2" class="nav-pill">Điệp khúc 2</a>
+        <a href="#sec-verse2" class="nav-pill">Verse 2</a>
+        <a href="#sec-chorus3" class="nav-pill">Điệp khúc 3</a>
+      </div>
+
+      <!-- INTRO -->
+      <section class="section-card" id="sec-intro">
+        <div class="section-header">
+          <span class="section-title">✨ [Intro]</span>
+          <span class="section-desc">Mở màn phong cách Producer</span>
+        </div>
+
+        <div class="lyric-item" data-index="0">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> (Look, it's Gaz)</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> (Look, it's <span class="highlight-name">Vân</span>)</div>
+        </div>
+        <div class="line-spacer"></div>
+      </section>
+
+      <!-- CHORUS 1 -->
+      <section class="section-card" id="sec-chorus1">
+        <div class="section-header">
+          <span class="section-title">🔥 [Điệp khúc 1]</span>
+          <span class="section-desc">Giai điệu R&B du dương, ngọt ngào</span>
+        </div>
+
+        <!-- Cặp 1 -->
+        <div class="lyric-item" data-index="1">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Từng ngày anh vẫn bên em, thế nhưng em vương vấn điều gì?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Mừng ngày vui mãi bên <span class="highlight-name">Vân</span>, sếp yêu đang mong ước điều gì?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 2 -->
+        <div class="lyric-item" data-index="2">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Tình yêu bấy lâu nay có khiến em thôi ngừng nghĩ suy?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng nhau bước chung team có khiến cho <span class="highlight-name">Vân</span> tràn mãi vui?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 3 -->
+        <div class="lyric-item" data-index="3">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Mỗi đêm mình anh u hoài, nên dừng lại hay yêu, chẳng ngần ngại?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Dẫu cho nhiều khi lo phiền, <span class="highlight-name">Vân</span> cười thật tươi vui, chẳng còn ngại?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 4 -->
+        <div class="lyric-item" data-index="4">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Và anh cũng biết đau khi em nhạt phai</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Và team cũng chúc cho <span class="highlight-name">Vân</span> luôn đẹp tươi</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 5 -->
+        <div class="lyric-item" data-index="5">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Chờ bao tháng năm qua vẫn mong bao yêu dấu quay lại</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cầu mong sếp sang xuân mãi luôn vui tươi đón sinh nhật</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 6 -->
+        <div class="lyric-item" data-index="6">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Đành buông cánh tay em khi trái tim em chẳng có anh</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng team chúc <span class="highlight-brand">Eo-En-Đi</span> tiến lên vươn tỏa ánh quang</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 7 -->
+        <div class="lyric-item" data-index="7">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Biết đâu em cũng chấp nhận không ân hận một lần khóc cho em</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Chúc cho <span class="highlight-name">Vân</span> mãi đắc lộc <span class="highlight-brand">Ki-ot-Việt</span> rực màu tiến xa mau</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 8 -->
+        <div class="lyric-item" data-index="8">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Và quên đi tháng năm ta từng đậm sâu</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng nhau xây đắp bao năm dài thật lâu</div>
+        </div>
+        <div class="line-spacer"></div>
+      </section>
+
+      <!-- VERSE 1 -->
+      <section class="section-card" id="sec-verse1">
+        <div class="section-header">
+          <span class="section-title">🎤 [Verse 1]</span>
+          <span class="section-desc">Rap sôi động - Đầy đủ 7 thành viên chúc mừng theo đúng thứ bậc tuổi tác</span>
+        </div>
+
+        <!-- Cặp 9 -->
+        <div class="lyric-item" data-index="9">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Có lẽ anh phải rời đi (rời đi)</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Chúc mãi cho tuổi mừng vui (mừng vui)</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 10 -->
+        <div class="lyric-item" data-index="10">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Giờ này anh chẳng biết làm chi (làm chi)</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng đàn em chỉ chúc mừng <span class="highlight-name">Vân</span> (mừng <span class="highlight-name">Vân</span>)</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 11 -->
+        <div class="lyric-item" data-index="11">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Lòng ôm biết bao hoài nghi</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> <span class="highlight-name">Hoàng Sơn</span> chúc <span class="highlight-name">Vân</span> bình an</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 12 -->
+        <div class="lyric-item" data-index="12">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Sau bao đêm thâu giày vò suy nghĩ (yeah)</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> <span class="highlight-name">Thu Phương</span> mong cho phòng mình luôn vững (yeah)</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 13 -->
+        <div class="lyric-item" data-index="13">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Giờ này trong tim em đã chẳng còn (yeah)</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Hòa cùng em <span class="highlight-name">Linh Trang</span> đã gửi lời (yeah)</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 14 -->
+        <div class="lyric-item" data-index="14">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Anh như phút giây ban đầu</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Em <span class="highlight-name">Lê Thắng</span> vui tươi cười</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 15 -->
+        <div class="lyric-item" data-index="15">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Những yêu dấu ngày nào còn đâu, ya ya</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> <span class="highlight-name">Vũ Nga</span> chúc người ngày càng xinh, ya ya</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 16 -->
+        <div class="lyric-item" data-index="16">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Q-q-quá nhiều lần người đã hững hờ</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Q-q-quá nhiều quà mừng đã sẵn sàng</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 17 -->
+        <div class="lyric-item" data-index="17">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Để lại anh trong cơn mưa vẫn cứ đứng chờ</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cả <span class="highlight-name">Nhật Vi</span> luôn tươi xinh mãi chúc sếp cười</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 18 -->
+        <div class="lyric-item" data-index="18">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Chỉ biết trách một điều rằng phải chăng anh đã quá khờ, ooh-woah</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Chỉ chúc sếp vạn điều lành để luôn luôn mãi phát tài, ooh-woah</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 19 -->
+        <div class="lyric-item" data-index="19">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Những ngày mình từng yêu điên cuồng</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Giữ tình người <span class="highlight-name">Huyền Trang</span> thương nàng</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 20 -->
+        <div class="lyric-item" data-index="20">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Giờ chỉ còn thấy trong những cơn mơ</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Đoàn cả cùng chúc <span class="highlight-name">Vân</span> mãi tươi xinh</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 21 -->
+        <div class="lyric-item" data-index="21">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Đã xa rồi giờ chỉ còn lại anh thôi</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Mãi luôn đồng lòng để cùng vượt muôn gian</div>
+        </div>
+        <div class="line-spacer"></div>
+      </section>
+
+      <!-- CHORUS 2 -->
+      <section class="section-card" id="sec-chorus2">
+        <div class="section-header">
+          <span class="section-title">🔥 [Điệp khúc 2]</span>
+          <span class="section-desc">Hòa giọng điệp khúc thăng hoa</span>
+        </div>
+
+        <!-- Cặp 22 -->
+        <div class="lyric-item" data-index="22">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Từng ngày anh vẫn bên em, thế nhưng em vương vấn điều gì?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Mừng ngày vui mãi bên <span class="highlight-name">Vân</span>, sếp yêu đang mong ước điều gì?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 23 -->
+        <div class="lyric-item" data-index="23">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Tình yêu bấy lâu nay có khiến em thôi ngừng nghĩ suy?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng nhau bước chung team có khiến cho <span class="highlight-name">Vân</span> tràn mãi vui?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 24 -->
+        <div class="lyric-item" data-index="24">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Mỗi đêm mình anh u hoài, nên dừng lại hay yêu, chẳng ngần ngại?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Dẫu cho nhiều khi lo phiền, <span class="highlight-name">Vân</span> cười thật tươi vui, chẳng còn ngại?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 25 -->
+        <div class="lyric-item" data-index="25">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Và anh cũng biết đau khi em nhạt phai</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Và team cũng chúc cho <span class="highlight-name">Vân</span> luôn đẹp tươi</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 26 -->
+        <div class="lyric-item" data-index="26">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Chờ bao tháng năm qua vẫn mong bao yêu dấu quay lại</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cầu mong sếp sang xuân mãi luôn vui tươi đón sinh nhật</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 27 -->
+        <div class="lyric-item" data-index="27">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Đành buông cánh tay em khi trái tim em chẳng có anh</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng team chúc <span class="highlight-brand">Eo-En-Đi</span> tiến lên vươn tỏa ánh quang</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 28 -->
+        <div class="lyric-item" data-index="28">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Biết đâu em cũng chấp nhận không ân hận một lần khóc cho em</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Chúc cho <span class="highlight-name">Vân</span> mãi đắc lộc <span class="highlight-brand">Ki-ot-Việt</span> rực màu tiến xa mau</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 29 -->
+        <div class="lyric-item" data-index="29">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Và quên đi tháng năm ta từng đậm sâu</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng nhau xây đắp bao năm dài thật lâu</div>
+        </div>
+        <div class="line-spacer"></div>
+      </section>
+
+      <!-- VERSE 2 -->
+      <section class="section-card" id="sec-verse2">
+        <div class="section-header">
+          <span class="section-title">🌟 [Verse 2]</span>
+          <span class="section-desc">Fast flow & Gia đình hạnh phúc: Chị Thỏ & Bé Gấu Mèo</span>
+        </div>
+
+        <!-- Cặp 30 -->
+        <div class="lyric-item" data-index="30">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Đã không còn những phút giây mình từng đắm say</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Mãi cho nàng mỗi bước đi tràn niềm đắm say</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 31 -->
+        <div class="lyric-item" data-index="31">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Ngày còn nắm tay giờ ôm đắng cay</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Toàn điều tốt may về đong cánh tay</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 32 -->
+        <div class="lyric-item" data-index="32">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Mọi lời hứa trôi Theo gió bay</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Vạn điều khó trôi Theo gió bay</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 33 -->
+        <div class="lyric-item" data-index="33">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Chỉ còn những đêm dài</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Chỉ tràn những vui cười</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 34 -->
+        <div class="lyric-item" data-index="34">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Mình anh cứ ngóng trông em hoài</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng con ấm áp êm gia đình</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 35 -->
+        <div class="lyric-item" data-index="35">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Chẳng thể nào níu giữ bước chân em lại</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> <span class="highlight-kid">Thỏ cả</span> cùng bé mãi chúc an khang mẹ</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 36 -->
+        <div class="lyric-item" data-index="36">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Là-là-là-là lần người nói rằng tình yêu này chẳng phai</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Là-là-là-là cùng nàng <span class="highlight-kid">Gấu Mèo</span> là em hiền chẳng sai</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 37 -->
+        <div class="lyric-item" data-index="37">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Là-là-là-là lần người nói chẳng phải anh thì chẳng ai</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Là-là-là-là cùng đoàn sếp chẳng phải <span class="highlight-name">Vân</span> thì chẳng ai</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 38 -->
+        <div class="lyric-item" data-index="38">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Để giờ này tình mình đành vỡ tan đành lỡ làng đành dở dang</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Để ngày này đàn mình mừng mãi an càng vững vàng càng tỏa sang</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 39 -->
+        <div class="lyric-item" data-index="39">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Anh ngỡ ngàng để giờ đây đường về ta rẽ ngang</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Luôn vững vàng để cùng <span class="highlight-name">Vân</span> vượt ngàn đèo vươn mãi sang</div>
+        </div>
+        <div class="line-spacer"></div>
+      </section>
+
+      <!-- CHORUS 3 -->
+      <section class="section-card" id="sec-chorus3">
+        <div class="section-header">
+          <span class="section-title">🎉 [Điệp khúc 3 / Kết bài]</span>
+          <span class="section-desc">Bùng nổ cảm xúc mừng tuổi mới rực rỡ</span>
+        </div>
+
+        <!-- Cặp 40 -->
+        <div class="lyric-item" data-index="40">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Từng ngày anh vẫn bên em, thế nhưng em vương vấn điều gì?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Mừng ngày vui mãi bên <span class="highlight-name">Vân</span>, sếp yêu đang mong ước điều gì?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 41 -->
+        <div class="lyric-item" data-index="41">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Tình yêu bấy lâu nay có khiến em thôi ngừng nghĩ suy?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng nhau bước chung team có khiến cho <span class="highlight-name">Vân</span> tràn mãi vui?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 42 -->
+        <div class="lyric-item" data-index="42">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Mỗi đêm mình anh u hoài, nên dừng lại hay yêu, chẳng ngần ngại?</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Dẫu cho nhiều khi lo phiền, <span class="highlight-name">Vân</span> cười thật tươi vui, chẳng còn ngại?</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 43 -->
+        <div class="lyric-item" data-index="43">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Và anh cũng biết đau khi em nhạt phai</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Và team cũng chúc cho <span class="highlight-name">Vân</span> luôn đẹp tươi</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 44 -->
+        <div class="lyric-item" data-index="44">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Chờ bao tháng năm qua vẫn mong bao yêu dấu quay lại</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cầu mong sếp sang xuân mãi luôn vui tươi đón sinh nhật</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 45 -->
+        <div class="lyric-item" data-index="45">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Đành buông cánh tay em khi trái tim em chẳng có anh</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng team chúc <span class="highlight-brand">Eo-En-Đi</span> tiến lên vươn tỏa ánh quang</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 46 -->
+        <div class="lyric-item" data-index="46">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Biết đâu em cũng chấp nhận không ân hận một lần khóc cho em</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Chúc cho <span class="highlight-name">Vân</span> mãi đắc lộc <span class="highlight-brand">Ki-ot-Việt</span> rực màu tiến xa mau</div>
+        </div>
+        <div class="line-spacer"></div>
+
+        <!-- Cặp 47 -->
+        <div class="lyric-item" data-index="47">
+          <div class="line-original"><span class="tag-label-orig">GỐC</span> Và quên đi tháng năm ta từng đậm sâu</div>
+          <div class="line-parody"><span class="tag-label-parody">CHẾ</span> Cùng nhau xây đắp bao năm dài thật lâu</div>
+        </div>
+        <div class="line-spacer"></div>
+      </section>
+
+      <footer class="footer">
+        <p>🎉 Chúc Sếp Nguyễn Thanh Vân tuổi mới luôn xinh đẹp, hạnh phúc, rạng rỡ và dẫn dắt Team LND bứt phá mọi KPI! 🚀</p>
+        <p style="margin-top: 6px; font-size: 0.8rem; opacity: 0.7;">Made with ❤️ by Team LND KiotViet</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Nút mũi tên tròn nổi ở góc dưới màn hình -->
+  <div class="floating-arrows">
+    <button class="btn-fab" id="fabPrev" title="Câu trước">▲</button>
+    <button class="btn-fab" id="fabNext" title="Câu tiếp theo">▼</button>
+  </div>
+
+  <!-- JAVASCRIPT ĐIỀU HƯỚNG BẰNG PHÍM VÀ MŨI TÊN -->
+  <script>
+    /* 1. HIỆU ỨNG BÓNG BAY LƠ LỬNG TRONG BACKGROUND */
+    const floatingBg = document.getElementById('floatingBg');
+    const icons = ['🎈', '🎉', '🎵', '🎶', '⭐', '🎂', '💖', '✨'];
+
+    function createFloatingIcon() {
+      const el = document.createElement('div');
+      el.className = 'balloon';
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 95 + 'vw';
+      el.style.animationDuration = (Math.random() * 8 + 10) + 's';
+      el.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
+      floatingBg.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 18000);
+    }
+    setInterval(createFloatingIcon, 1200);
+
+    /* 2. HIỆU ỨNG PHÁO HOA CANVAS */
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    let confettiParticles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function fireConfetti(count = 100) {
+      const colors = ['#f43f5e', '#38bdf8', '#fbbf24', '#4ade80', '#a855f7', '#ec4899'];
+      for (let i = 0; i < count; i++) {
+        confettiParticles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height * 0.4,
+          r: Math.random() * 6 + 4,
+          d: Math.random() * 30 + 10,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          tilt: Math.floor(Math.random() * 10) - 10,
+          tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+          tiltAngle: 0,
+          vx: (Math.random() - 0.5) * 6,
+          vy: Math.random() * 3 + 2
+        });
+      }
+    }
+
+    function renderConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < confettiParticles.length; i++) {
+        const p = confettiParticles[i];
+        ctx.beginPath();
+        ctx.lineWidth = p.r / 2;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + (p.r / 4), p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + (p.r / 4));
+        ctx.stroke();
+
+        p.tiltAngle += p.tiltAngleIncremental;
+        p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+        p.x += Math.sin(p.d);
+        p.tilt = Math.sin(p.tiltAngle - (i / 3)) * 15;
+
+        if (p.y > canvas.height) {
+          confettiParticles.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(renderConfetti);
+    }
+    renderConfetti();
+
+    document.getElementById('btnFireworks').addEventListener('click', () => {
+      fireConfetti(150);
+    });
+
+    /* 3. LOGIC CHUYỂN CÂU BẰNG PHÍM BẤM TRÊN MÀN HÌNH HOẶC BÀN PHÍM (KHÔNG AUTO SCROLL) */
+    const lyricItems = document.querySelectorAll('.lyric-item');
+    const totalLines = lyricItems.length;
+    let currentIndex = 0;
+    const counterDisplay = document.getElementById('counterDisplay');
+
+    function updateActiveLine(index, smoothScroll = true) {
+      if (index < 0) index = 0;
+      if (index >= totalLines) index = totalLines - 1;
+
+      currentIndex = index;
+
+      // Xóa active cũ, thêm active mới
+      lyricItems.forEach(item => item.classList.remove('karaoke-active'));
+      const activeItem = lyricItems[currentIndex];
+      activeItem.classList.add('karaoke-active');
+
+      // Cập nhật text hiển thị số câu
+      counterDisplay.textContent = `Câu: ${currentIndex + 1} / ${totalLines}`;
+
+      // Cuộn êm đến câu hiện tại
+      if (smoothScroll) {
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      // Nếu tới câu cuối cùng thì nổ pháo hoa ăn mừng
+      if (currentIndex === totalLines - 1) {
+        fireConfetti(180);
+      }
+    }
+
+    function goToNextLine() {
+      if (currentIndex < totalLines - 1) {
+        updateActiveLine(currentIndex + 1);
+      } else {
+        fireConfetti(120);
+      }
+    }
+
+    function goToPrevLine() {
+      if (currentIndex > 0) {
+        updateActiveLine(currentIndex - 1);
+      }
+    }
+
+    // Gán sự kiện cho các nút bấm trên màn hình
+    document.getElementById('btnNext').addEventListener('click', goToNextLine);
+    document.getElementById('btnPrev').addEventListener('click', goToPrevLine);
+    document.getElementById('fabNext').addEventListener('click', goToNextLine);
+    document.getElementById('fabPrev').addEventListener('click', goToPrevLine);
+
+    // Click trực tiếp vào câu bất kỳ để chọn câu đó
+    lyricItems.forEach((item, idx) => {
+      item.addEventListener('click', () => {
+        updateActiveLine(idx, false);
+      });
+    });
+
+    // Lắng nghe sự kiện bàn phím (Phím mũi tên & Phím Space)
+    window.addEventListener('keydown', (e) => {
+      // Phím Mũi Tên Phải (ArrowRight), Mũi Tên Xuống (ArrowDown), hoặc Phím Space
+      if (['ArrowRight', 'ArrowDown', ' '].includes(e.key)) {
+        if (e.key === ' ') e.preventDefault();
+        goToNextLine();
+      }
+      // Phím Mũi Tên Trái (ArrowLeft) hoặc Mũi Tên Lên (ArrowUp)
+      else if (['ArrowLeft', 'ArrowUp'].includes(e.key)) {
+        e.preventDefault();
+        goToPrevLine();
+      }
+      // Phím Home: Về câu đầu
+      else if (e.key === 'Home') {
+        e.preventDefault();
+        updateActiveLine(0);
+      }
+      // Phím End: Đến câu cuối
+      else if (e.key === 'End') {
+        e.preventDefault();
+        updateActiveLine(totalLines - 1);
+      }
+    });
+
+    // Khởi tạo dòng đầu tiên khi tải trang
+    window.addEventListener('load', () => {
+      updateActiveLine(0, false);
+      fireConfetti(80);
+    });
+  </script>
+</body>
+</html>
