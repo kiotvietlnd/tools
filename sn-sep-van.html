@@ -81,7 +81,7 @@
       position: relative;
       z-index: 10;
       text-align: center;
-      padding: 25px 15px 15px;
+      padding: 30px 15px 18px;
       max-width: 1400px;
       margin: 0 auto;
     }
@@ -108,9 +108,9 @@
 
     .main-title {
       font-family: 'Comfortaa', cursive;
-      font-size: clamp(1.6rem, 5vw, 2.7rem);
+      font-size: clamp(1.7rem, 5.5vw, 2.9rem);
       font-weight: 900;
-      margin: 10px 0 6px;
+      margin: 12px 0 8px;
       background: linear-gradient(135deg, #fff 0%, #fbcfe8 40%, #fbbf24 80%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -119,39 +119,14 @@
     }
 
     .sub-title {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: #cbd5e1;
-      margin-bottom: 12px;
+      margin-bottom: 5px;
     }
 
     .sub-title strong {
       color: #38bdf8;
       font-weight: 700;
-    }
-
-    .team-info-card {
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 16px;
-      padding: 8px 12px;
-      margin: 0 auto 15px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
-      font-size: 0.8rem;
-      max-width: 1200px;
-    }
-
-    .info-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(0, 0, 0, 0.3);
-      padding: 3px 8px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     /* ============================================================
@@ -332,22 +307,39 @@
       min-width: 0;
     }
 
-    /* Sticky Control Toolbar */
+    /* Sticky Control Toolbar Nâng Cấp 2 Tầng */
     .controls-toolbar {
       position: sticky;
       top: 10px;
       z-index: 50;
-      padding: 8px 14px;
-      background: rgba(15, 23, 42, 0.95);
+      padding: 10px 16px;
+      background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.22);
-      border-radius: 40px;
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+      margin-bottom: 20px;
+    }
+
+    .toolbar-top-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
-      margin-bottom: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      flex-wrap: wrap;
     }
 
     .counter-display {
@@ -418,6 +410,97 @@
     .btn-fireworks {
       background: linear-gradient(135deg, #f43f5e, #e11d48);
       color: white;
+    }
+
+    /* BỘ NÚT BẬT TẮT HIỂN THỊ LỜI GỐC / LỜI CHẾ */
+    .toggle-lyric-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .toggle-label {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 2px;
+    }
+
+    .toggle-pill {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .toggle-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #64748b;
+      transition: all 0.2s;
+    }
+
+    .toggle-pill.active {
+      background: rgba(255, 255, 255, 0.14);
+      color: #f1f5f9;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .toggle-pill.active#toggleOrigBtn {
+      border-color: rgba(165, 180, 252, 0.6);
+      color: #c7d2fe;
+    }
+    .toggle-pill.active#toggleOrigBtn .dot {
+      background: #a5b4fc;
+      box-shadow: 0 0 8px #a5b4fc;
+    }
+
+    .toggle-pill.active#toggleParodyBtn {
+      border-color: rgba(56, 189, 248, 0.6);
+      color: #38bdf8;
+    }
+    .toggle-pill.active#toggleParodyBtn .dot {
+      background: #38bdf8;
+      box-shadow: 0 0 8px #38bdf8;
+    }
+
+    .toggle-pill:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Quy tắc ẩn hiện lời bài hát */
+    body.hide-original .line-original {
+      display: none !important;
+    }
+
+    body.hide-parody .line-parody {
+      display: none !important;
+    }
+
+    body.hide-original .line-parody {
+      margin-top: 0;
+      font-size: 1.25rem;
+    }
+
+    body.hide-parody .line-original {
+      font-size: 1.05rem;
     }
 
     .hint-keyboard {
@@ -535,7 +618,7 @@
     .lyric-item {
       display: flex;
       flex-direction: column;
-      padding: 10px 14px;
+      padding: 11px 15px;
       border-radius: 14px;
       transition: all 0.25s ease;
       cursor: pointer;
@@ -543,7 +626,12 @@
     }
 
     .lyric-item:hover {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.07);
+      transform: translateX(3px);
+    }
+
+    .lyric-item:active {
+      transform: scale(0.99);
     }
 
     .lyric-item.karaoke-active {
@@ -571,6 +659,7 @@
       display: flex;
       align-items: baseline;
       gap: 8px;
+      transition: all 0.2s;
     }
 
     .tag-label-orig {
@@ -654,14 +743,17 @@
     /* Responsive Mobile Tối Ưu */
     @media (max-width: 640px) {
       .main-title { font-size: 1.55rem; }
-      .header { padding: 18px 10px 10px; }
+      .header { padding: 20px 10px 10px; }
       .section-card { padding: 15px 10px; }
       .line-parody { font-size: 1.02rem; }
       .line-original { font-size: 0.82rem; }
       .controls-toolbar {
-        border-radius: 16px;
-        flex-wrap: wrap;
+        border-radius: 20px;
         padding: 8px 10px;
+        gap: 8px;
+      }
+      .toolbar-top-row, .toolbar-bottom-row {
+        gap: 6px;
       }
       .btn {
         font-size: 0.75rem;
@@ -669,6 +761,8 @@
       }
       .hint-keyboard { display: none; }
       .counter-display { font-size: 0.78rem; padding: 4px 8px; }
+      .toggle-lyric-pills { padding: 2px 8px; }
+      .toggle-pill { font-size: 0.7rem; padding: 3px 8px; }
     }
   </style>
 </head>
@@ -685,16 +779,6 @@
     <div class="badge-pill">🎂 SPECIAL BIRTHDAY PARODY 🎤</div>
     <h1 class="main-title">Chúc Mừng Sinh Nhật Sếp Vân!</h1>
     <p class="sub-title">Tác phẩm "đạo nhạc" đỉnh cao từ <strong>Team LND KiotViet</strong> mừng Manager <strong>Nguyễn Thanh Vân</strong></p>
-
-    <!-- Thẻ tóm tắt thông tin nhân vật -->
-    <div class="team-info-card">
-      <div class="info-tag">👑 <strong>Nhân vật chính:</strong> Sếp Nguyễn Thanh Vân</div>
-      <div class="info-tag">👦 <strong>Bạn cùng tuổi:</strong> Hoàng Sơn</div>
-      <div class="info-tag">👩 <strong>Chị lớn:</strong> Huyền Trang</div>
-      <div class="info-tag">🌟 <strong>Đàn em:</strong> Lê Thắng, Vũ Nga, Thu Phương, Nhật Vi, Linh Trang</div>
-      <div class="info-tag">🐰 <strong>Chị Thỏ & 🦝 Bé Gấu Mèo</strong></div>
-      <div class="info-tag">🏢 <strong>LND (Eo-En-Đi)</strong> @ <strong>KiotViet</strong></div>
-    </div>
   </header>
 
   <!-- ============================================================
@@ -754,24 +838,39 @@
     <!-- CỘT PHẢI (THANH ĐIỀU HƯỚNG & TOÀN BỘ LYRICS) -->
     <main class="content-lyrics-area">
 
-      <!-- THANH CÔNG CỤ ĐIỀU HƯỚNG VÀ AUTOPLAY -->
+      <!-- THANH CÔNG CỤ ĐIỀU HƯỚNG VÀ BẬT/TẮT LỜI HÁT (STICKY TOOLBAR) -->
       <div class="controls-toolbar">
-        <div class="counter-display" id="counterDisplay">Câu: 1 / 48</div>
-        
-        <div class="btn-nav-group">
-          <button class="btn btn-autoplay" id="btnAutoplay" onclick="togglePlay()" title="Tự động phát video và cuộn theo từng câu">
-            ▶️ Bật Nhạc & Auto-Scroll
-          </button>
-          <button class="btn btn-prev" id="btnPrev" title="Lùi câu trước (Phím ◀ / ▲)">◀</button>
-          <button class="btn btn-next" id="btnNext" title="Sang câu tiếp (Phím ▶ / ▼ / Space)">▶</button>
-          <button class="btn btn-fireworks" id="btnFireworks" title="Bắn pháo hoa">🎊</button>
+        <div class="toolbar-top-row">
+          <div class="counter-display" id="counterDisplay">Câu: 1 / 48</div>
+          
+          <div class="btn-nav-group">
+            <button class="btn btn-autoplay" id="btnAutoplay" onclick="togglePlay()" title="Tự động phát video và cuộn theo từng câu">
+              ▶️ Bật Nhạc & Auto-Scroll
+            </button>
+            <button class="btn btn-prev" id="btnPrev" title="Lùi câu trước (Phím ◀ / ▲)">◀</button>
+            <button class="btn btn-next" id="btnNext" title="Sang câu tiếp (Phím ▶ / ▼ / Space)">▶</button>
+            <button class="btn btn-fireworks" id="btnFireworks" title="Bắn pháo hoa">🎊</button>
+          </div>
         </div>
 
-        <div class="hint-keyboard">
-          <span>Phím:</span>
-          <span class="kbd-key">◀/▲</span>
-          <span class="kbd-key">▶/▼</span>
-          <span class="kbd-key">Space</span>
+        <div class="toolbar-bottom-row">
+          <!-- Bộ nút bật/tắt hiển thị Lời gốc & Lời chế -->
+          <div class="toggle-lyric-pills">
+            <span class="toggle-label">Hiển thị:</span>
+            <button class="toggle-pill active" id="toggleOrigBtn" onclick="toggleLyricVisibility('orig')" title="Bật/Tắt hiển thị lời gốc">
+              <span class="dot"></span> Lời gốc
+            </button>
+            <button class="toggle-pill active" id="toggleParodyBtn" onclick="toggleLyricVisibility('parody')" title="Bật/Tắt hiển thị lời chế">
+              <span class="dot"></span> Lời chế
+            </button>
+          </div>
+
+          <div class="hint-keyboard">
+            <span>Phím:</span>
+            <span class="kbd-key">◀/▲</span>
+            <span class="kbd-key">▶/▼</span>
+            <span class="kbd-key">Space</span>
+          </div>
         </div>
       </div>
 
@@ -1455,7 +1554,35 @@
     }
 
     /* ==============================================================
-       5. CẬP NHẬT CÂU HÁT & CUỘN TRANG MƯỢT MÀ VỀ GIỮA
+       5. BẬT / TẮT HIỂN THỊ LỜI GỐC HOẶC LỜI CHẾ
+       ============================================================== */
+    let showOriginal = true;
+    let showParody = true;
+
+    function toggleLyricVisibility(type) {
+      if (type === 'orig') {
+        // Không cho phép tắt cả 2 cùng lúc để tránh màn hình trống
+        if (showOriginal && !showParody) {
+          alert("Bạn cần giữ lại ít nhất một chế độ hiển thị (Lời gốc hoặc Lời chế)!");
+          return;
+        }
+        showOriginal = !showOriginal;
+        document.body.classList.toggle('hide-original', !showOriginal);
+        document.getElementById('toggleOrigBtn').classList.toggle('active', showOriginal);
+      } else if (type === 'parody') {
+        // Không cho phép tắt cả 2 cùng lúc để tránh màn hình trống
+        if (showParody && !showOriginal) {
+          alert("Bạn cần giữ lại ít nhất một chế độ hiển thị (Lời gốc hoặc Lời chế)!");
+          return;
+        }
+        showParody = !showParody;
+        document.body.classList.toggle('hide-parody', !showParody);
+        document.getElementById('toggleParodyBtn').classList.toggle('active', showParody);
+      }
+    }
+
+    /* ==============================================================
+       6. CẬP NHẬT CÂU HÁT & CUỘN TRANG MƯỢT MÀ VỀ GIỮA
        ============================================================== */
     function updateActiveLine(index, smoothScroll = true, seekVideo = true) {
       if (index < 0) index = 0;
@@ -1502,6 +1629,15 @@
     function goToNextLine() {
       if (currentIndex < totalLines - 1) {
         updateActiveLine(currentIndex + 1, true, true);
+        if (isPlaying) {
+          const targetTime = timestamps[currentIndex].start;
+          const activeId = currentSource === 1 ? 'player1' : 'player2';
+          const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+          if (activeYT && typeof activeYT.seekTo === 'function') {
+            try { activeYT.seekTo(targetTime, true); } catch(e) {}
+          }
+          sendIframeCommand(activeId, 'seekTo', [targetTime, true]);
+        }
       } else {
         fireConfetti(120);
       }
@@ -1510,6 +1646,15 @@
     function goToPrevLine() {
       if (currentIndex > 0) {
         updateActiveLine(currentIndex - 1, true, true);
+        if (isPlaying) {
+          const targetTime = timestamps[currentIndex].start;
+          const activeId = currentSource === 1 ? 'player1' : 'player2';
+          const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+          if (activeYT && typeof activeYT.seekTo === 'function') {
+            try { activeYT.seekTo(targetTime, true); } catch(e) {}
+          }
+          sendIframeCommand(activeId, 'seekTo', [targetTime, true]);
+        }
       }
     }
 
@@ -1519,10 +1664,24 @@
     document.getElementById('fabNext').addEventListener('click', goToNextLine);
     document.getElementById('fabPrev').addEventListener('click', goToPrevLine);
 
-    // Click trực tiếp vào câu bất kỳ để chọn và tua video đến câu đó
+    // Click trực tiếp vào câu bất kỳ để chọn, tua video đến timestamp và phát ngay
     lyricItems.forEach((item, idx) => {
       item.addEventListener('click', () => {
-        updateActiveLine(idx, false, true);
+        const targetTime = timestamps[idx].start;
+        updateActiveLine(idx, true, true);
+        
+        // Tự động phát nhạc ngay tại câu vừa bấm nếu chưa phát
+        if (!isPlaying) {
+          startPlay();
+        }
+        
+        // Đảm bảo tua ngay lập tức đến timestamp của câu đó
+        const activeId = currentSource === 1 ? 'player1' : 'player2';
+        const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+        if (activeYT && typeof activeYT.seekTo === 'function') {
+          try { activeYT.seekTo(targetTime, true); } catch(e) {}
+        }
+        sendIframeCommand(activeId, 'seekTo', [targetTime, true]);
       });
     });
 
@@ -1544,7 +1703,7 @@
     });
 
     /* ==============================================================
-       6. PHÁO HOA CANVAS & BÓNG BAY NỀN
+       7. PHÁO HOA CANVAS & BÓNG BAY NỀN
        ============================================================== */
     const floatingBg = document.getElementById('floatingBg');
     const icons = ['🎈', '🎉', '🎵', '🎶', '⭐', '🎂', '💖', '✨'];
