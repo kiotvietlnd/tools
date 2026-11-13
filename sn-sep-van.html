@@ -166,12 +166,12 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 20px;
+      align-items: start;
     }
 
     @media (min-width: 1024px) {
       .main-grid-layout {
-        grid-template-columns: 380px 1fr;
-        align-items: start;
+        grid-template-columns: 390px 1fr;
         gap: 30px;
         padding: 0 25px;
       }
@@ -183,25 +183,42 @@
       }
     }
 
-    /* CỘT TRÁI (VIDEO AREA) */
+    /* CỘT TRÁI (VIDEOS AREA - CỐ ĐỊNH STICKY) */
     .sidebar-videos {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
     }
 
-    /* Mobile: Tabs chuyển đổi Video để tiết kiệm diện tích */
-    .mobile-video-tabs {
+    @media (min-width: 1024px) {
+      .sidebar-videos {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+      .sidebar-videos::-webkit-scrollbar {
+        width: 4px;
+      }
+      .sidebar-videos::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+      }
+    }
+
+    /* Selector chọn nguồn nhạc trên Mobile / Desktop */
+    .source-selector-bar {
       display: flex;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.4);
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.45);
       padding: 6px;
       border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      margin-bottom: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 4px;
     }
 
-    .vtab-btn {
+    .source-tab {
       flex: 1;
       border: none;
       outline: none;
@@ -214,34 +231,20 @@
       color: #94a3b8;
       cursor: pointer;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
     }
 
-    .vtab-btn.active {
-      background: linear-gradient(135deg, #38bdf8, #0284c7);
-      color: #fff;
+    .source-tab:hover {
+      color: #f1f5f9;
+    }
+
+    .source-tab.active {
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      color: #ffffff;
       box-shadow: 0 2px 10px rgba(56, 189, 248, 0.4);
-    }
-
-    @media (min-width: 1024px) {
-      .mobile-video-tabs {
-        display: none; /* Desktop hiển thị cả 2 video không cần tab */
-      }
-      .sidebar-videos {
-        position: sticky;
-        top: 20px;
-        max-height: calc(100vh - 40px);
-        overflow-y: auto;
-      }
-      .sidebar-videos::-webkit-scrollbar {
-        width: 4px;
-      }
-      .sidebar-videos::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
-      }
-      .video-card {
-        display: block !important; /* Luôn hiện cả 2 trên desktop */
-      }
     }
 
     .video-card {
@@ -250,7 +253,26 @@
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s ease, border-color 0.25s ease;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .video-card.active-source {
+      border-color: rgba(56, 189, 248, 0.7);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+
+    /* Ẩn video khi chuyển tab trên mobile mà không reset iframe */
+    .video-card.hidden-tab {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      border: none;
     }
 
     .video-card-title {
@@ -258,14 +280,34 @@
       font-size: 0.8rem;
       font-weight: 700;
       color: #fbbf24;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 6px;
     }
 
     .video-card-title.karaoke-tag {
       color: #38bdf8;
+    }
+
+    .now-playing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .now-playing-badge.inactive {
+      display: none;
     }
 
     .video-wrapper {
@@ -276,7 +318,7 @@
       background: #000;
     }
 
-    .video-wrapper iframe, .video-wrapper div {
+    .video-wrapper iframe {
       position: absolute;
       top: 0;
       left: 0;
@@ -296,7 +338,7 @@
       top: 10px;
       z-index: 50;
       padding: 8px 14px;
-      background: rgba(15, 23, 42, 0.94);
+      background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: 40px;
@@ -323,6 +365,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: nowrap;
     }
 
     .btn {
@@ -353,6 +396,13 @@
 
     .btn-autoplay.playing {
       background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
+      animation: pulsePlay 1.5s infinite;
+    }
+
+    @keyframes pulsePlay {
+      0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+      50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.9); }
     }
 
     .btn-prev {
@@ -485,22 +535,22 @@
     .lyric-item {
       display: flex;
       flex-direction: column;
-      padding: 10px 12px;
-      border-radius: 12px;
+      padding: 10px 14px;
+      border-radius: 14px;
       transition: all 0.25s ease;
       cursor: pointer;
       position: relative;
     }
 
     .lyric-item:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .lyric-item.karaoke-active {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateX(4px) scale(1.01);
-      box-shadow: -4px 0 0 #f43f5e, 0 8px 25px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateX(4px) scale(1.015);
+      box-shadow: -5px 0 0 #f43f5e, 0 8px 25px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(56, 189, 248, 0.4);
     }
 
     .lyric-item.karaoke-active .line-parody {
@@ -514,7 +564,7 @@
 
     /* 1. Dòng Lyrics Gốc */
     .line-original {
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       color: var(--color-orig);
       font-style: italic;
       line-height: 1.45;
@@ -527,7 +577,7 @@
       font-size: 0.65rem;
       font-style: normal;
       font-weight: 700;
-      padding: 1px 5px;
+      padding: 1px 6px;
       background: rgba(165, 180, 252, 0.15);
       border: 1px solid rgba(165, 180, 252, 0.3);
       color: #c7d2fe;
@@ -537,7 +587,7 @@
 
     /* 2. Dòng Lyrics Chế */
     .line-parody {
-      font-size: 1.12rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: #f1f5f9;
       line-height: 1.55;
@@ -549,9 +599,9 @@
     }
 
     .tag-label-parody {
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      padding: 1px 6px;
+      padding: 1px 7px;
       background: linear-gradient(90deg, #f43f5e, #ec4899);
       color: #ffffff;
       border-radius: 4px;
@@ -652,31 +702,51 @@
        ============================================================ -->
   <div class="main-grid-layout">
 
-    <!-- CỘT TRÁI (VIDEOS STICKY) -->
+    <!-- CỘT TRÁI (VIDEOS AREA - STICKY) -->
     <aside class="sidebar-videos">
-      <!-- Tabs chuyển Video trên màn hình điện thoại -->
-      <div class="mobile-video-tabs">
-        <button class="vtab-btn active" id="tabBtn1" onclick="switchMobileVideo(1)">🎬 1. MV Gốc</button>
-        <button class="vtab-btn" id="tabBtn2" onclick="switchMobileVideo(2)">🎤 2. Beat Karaoke</button>
+      <!-- Tabs chuyển đổi nguồn nhạc -->
+      <div class="source-selector-bar">
+        <button class="source-tab active" id="sourceBtn1" onclick="switchSource(1)">
+          🎬 1. MV Gốc
+        </button>
+        <button class="source-tab" id="sourceBtn2" onclick="switchSource(2)">
+          🎤 2. Beat Karaoke
+        </button>
       </div>
 
       <!-- Video 1: MV Gốc -->
-      <div class="video-card" id="cardVideo1">
+      <div class="video-card active-source" id="cardVideo1">
         <div class="video-card-title">
           <span>🎬 Video 1: MV Gốc (OSAD x Hà An Huy)</span>
+          <span class="now-playing-badge" id="badgeVideo1">● Đang phát</span>
         </div>
         <div class="video-wrapper">
-          <div id="player1"></div>
+          <iframe 
+            id="player1"
+            src="https://www.youtube.com/embed/hGu7BVQy5G0?enablejsapi=1&playsinline=1&rel=0&si=LaKhzKvqhReHrPLL" 
+            title="Như Một Người Rưng - Official MV" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
 
-      <!-- Video 2: Beat Karaoke -->
+      <!-- Video 2: Beat Karaoke Nhạc Gốc -->
       <div class="video-card" id="cardVideo2">
         <div class="video-card-title karaoke-tag">
           <span>🎤 Video 2: Beat Karaoke Nhạc Gốc</span>
+          <span class="now-playing-badge inactive" id="badgeVideo2">● Đang phát</span>
         </div>
         <div class="video-wrapper">
-          <div id="player2"></div>
+          <iframe 
+            id="player2"
+            src="https://www.youtube.com/embed/yXD8pFTki1w?enablejsapi=1&playsinline=1&rel=0&si=KnvDUuXcJPtN-18z" 
+            title="Như Một Người Dưng - Beat Karaoke" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
     </aside>
@@ -689,7 +759,7 @@
         <div class="counter-display" id="counterDisplay">Câu: 1 / 48</div>
         
         <div class="btn-nav-group">
-          <button class="btn btn-autoplay" id="btnAutoplay" title="Tự động phát video và cuộn theo từng câu">
+          <button class="btn btn-autoplay" id="btnAutoplay" onclick="togglePlay()" title="Tự động phát video và cuộn theo từng câu">
             ▶️ Bật Nhạc & Auto-Scroll
           </button>
           <button class="btn btn-prev" id="btnPrev" title="Lùi câu trước (Phím ◀ / ▲)">◀</button>
@@ -1064,12 +1134,10 @@
     <button class="btn-fab" id="fabNext" title="Câu tiếp theo">▼</button>
   </div>
 
-  <!-- TẢI YOUTUBE IFRAME API CHÍNH THỨC -->
-  <script src="https://www.youtube.com/iframe_api"></script>
-
+  <!-- LOGIC ĐIỀU HƯỚNG, PHÁO HOA & ĐỒNG BỘ AUTO-SCROLL CHÍNH XÁC 100% -->
   <script>
     /* ==============================================================
-       1. MẢNG MỐC THỜI GIAN KHỚP 100% THEO FILE SRT BẢN GỐC (GIÂY)
+       1. MẢNG 48 MỐC THỜI GIAN THEO FILE SRT BẢN GỐC (GIÂY)
        ============================================================== */
     const timestamps = [
       { start: 10.00, end: 15.04 }, // 0: Intro (Look, it's Gaz / Vân)
@@ -1122,90 +1190,272 @@
       { start: 155.40, end: 160.00 }  // 47: Và quên đi tháng năm...
     ];
 
+    function findActiveLineIndex(time) {
+      if (time < timestamps[0].start) return 0;
+      for (let i = timestamps.length - 1; i >= 0; i--) {
+        if (time >= timestamps[i].start) {
+          return i;
+        }
+      }
+      return 0;
+    }
+
     /* ==============================================================
-       2. KHỞI TẠO YOUTUBE PLAYERS & ĐỒNG BỘ AUTO-SCROLL
+       2. TRẠNG THÁI & ĐIỀU KHIỂN YOUTUBE PLAYER DUAL (API + POSTMESSAGE)
        ============================================================== */
-    let player1 = null;
-    let player2 = null;
-    let activePlayer = null;
-    let isAutoplayActive = false;
+    let currentSource = 1; // 1: MV Gốc, 2: Beat Karaoke
+    let isPlaying = false;
     let syncTimer = null;
+    let lastKnownTime = 0;
+    let lastTimeUpdate = 0;
+    let ytPlayer1 = null;
+    let ytPlayer2 = null;
+
     const lyricItems = document.querySelectorAll('.lyric-item');
     const totalLines = lyricItems.length;
     let currentIndex = 0;
     const counterDisplay = document.getElementById('counterDisplay');
     const btnAutoplay = document.getElementById('btnAutoplay');
 
-    function onYouTubeIframeAPIReady() {
-      player1 = new YT.Player('player1', {
-        videoId: 'hGu7BVQy5G0',
-        playerVars: { playsinline: 1, rel: 0 },
-        events: {
-          'onStateChange': (e) => onPlayerStateChange(e, player1)
-        }
-      });
-
-      player2 = new YT.Player('player2', {
-        videoId: 'yXD8pFTki1w',
-        playerVars: { playsinline: 1, rel: 0 },
-        events: {
-          'onStateChange': (e) => onPlayerStateChange(e, player2)
-        }
-      });
-    }
-
-    function onPlayerStateChange(event, player) {
-      if (event.data === YT.PlayerState.PLAYING) {
-        activePlayer = player;
-        // Dừng video còn lại để không bị đè âm thanh
-        if (player === player1 && player2 && player2.pauseVideo) player2.pauseVideo();
-        if (player === player2 && player1 && player1.pauseVideo) player1.pauseVideo();
-
-        startAutoScrollSync();
-        btnAutoplay.innerHTML = '⏸️ Tạm Dừng Auto-Scroll';
-        btnAutoplay.classList.add('playing');
-        isAutoplayActive = true;
-      } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-        stopAutoScrollSync();
-        btnAutoplay.innerHTML = '▶️ Bật Nhạc & Auto-Scroll';
-        btnAutoplay.classList.remove('playing');
-        isAutoplayActive = false;
+    // Hàm gửi lệnh postMessage trực tiếp đến iframe YouTube
+    function sendIframeCommand(iframeId, func, args = []) {
+      const iframe = document.getElementById(iframeId);
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage(JSON.stringify({
+          event: 'command',
+          func: func,
+          args: args
+        }), '*');
       }
     }
 
-    function startAutoScrollSync() {
-      if (syncTimer) clearInterval(syncTimer);
-      syncTimer = setInterval(() => {
-        if (!activePlayer || typeof activePlayer.getCurrentTime !== 'function') return;
-        const currentTime = activePlayer.getCurrentTime();
+    // Lắng nghe postMessage từ YouTube player để lấy thời gian thực
+    window.addEventListener('message', function(e) {
+      if (!e.data) return;
+      let data = null;
+      try {
+        data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      } catch(err) {
+        return;
+      }
 
-        // Tìm câu đang hát dựa trên mốc thời gian SRT
-        const lineIdx = timestamps.findIndex(t => currentTime >= t.start && currentTime < t.end);
-        if (lineIdx !== -1 && lineIdx !== currentIndex) {
-          updateActiveLine(lineIdx, true, false);
+      if (data && data.event === 'infoDelivery' && data.info) {
+        if (typeof data.info.currentTime === 'number') {
+          lastKnownTime = data.info.currentTime;
+          lastTimeUpdate = performance.now();
         }
-      }, 100);
+        if (data.info.playerState !== undefined) {
+          onExternalStateChange(data.info.playerState);
+        }
+      } else if (data && data.event === 'onStateChange') {
+        onExternalStateChange(data.info);
+      }
+    });
+
+    function onExternalStateChange(state) {
+      // 1: PLAYING, 2: PAUSED, 0: ENDED
+      if (state === 1) {
+        if (!isPlaying) {
+          isPlaying = true;
+          lastTimeUpdate = performance.now();
+          btnAutoplay.innerHTML = '⏸️ Tạm Dừng Auto-Scroll';
+          btnAutoplay.classList.add('playing');
+          if (syncTimer) clearInterval(syncTimer);
+          syncTimer = setInterval(tick, 100);
+        }
+      } else if (state === 2 || state === 0) {
+        if (isPlaying) {
+          isPlaying = false;
+          btnAutoplay.innerHTML = '▶️ Tiếp Tục Nhạc & Auto-Scroll';
+          btnAutoplay.classList.remove('playing');
+          if (syncTimer) clearInterval(syncTimer);
+          syncTimer = null;
+        }
+      }
     }
 
-    function stopAutoScrollSync() {
+    // Tích hợp YouTube IFrame API nếu tải thành công
+    window.onYouTubeIframeAPIReady = function() {
+      try {
+        ytPlayer1 = new YT.Player('player1', {
+          events: {
+            'onStateChange': function(e) { onExternalStateChange(e.data); }
+          }
+        });
+      } catch(e) {}
+
+      try {
+        ytPlayer2 = new YT.Player('player2', {
+          events: {
+            'onStateChange': function(e) { onExternalStateChange(e.data); }
+          }
+        });
+      } catch(e) {}
+    };
+
+    // Nạp script YouTube API nếu chưa có
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const first = document.getElementsByTagName('script')[0];
+      if (first) {
+        first.parentNode.insertBefore(tag, first);
+      } else {
+        document.head.appendChild(tag);
+      }
+    }
+
+    // Lấy thời gian chính xác của video đang phát
+    function getExactCurrentTime() {
+      const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+      if (activeYT && typeof activeYT.getCurrentTime === 'function') {
+        try {
+          const t = activeYT.getCurrentTime();
+          if (typeof t === 'number' && !isNaN(t) && t >= 0) {
+            lastKnownTime = t;
+            lastTimeUpdate = performance.now();
+            return t;
+          }
+        } catch(e) {}
+      }
+
+      // Suy đoán thời gian nội suy theo nhịp chạy nếu đang phát
+      if (isPlaying && lastTimeUpdate > 0) {
+        const elapsed = (performance.now() - lastTimeUpdate) / 1000;
+        return lastKnownTime + elapsed;
+      }
+      return lastKnownTime;
+    }
+
+    // Vòng lặp kiểm tra mốc thời gian và cuộn câu mượt mà
+    function tick() {
+      if (!isPlaying) return;
+      const t = getExactCurrentTime();
+      const lineIdx = findActiveLineIndex(t);
+      if (lineIdx !== currentIndex) {
+        updateActiveLine(lineIdx, true, false);
+      }
+    }
+
+    /* ==============================================================
+       3. HÀM PHÁT / DỪNG & ĐỒNG BỘ AUTO-SCROLL
+       ============================================================== */
+    function togglePlay() {
+      if (!isPlaying) {
+        startPlay();
+      } else {
+        pausePlay();
+      }
+    }
+
+    function startPlay() {
+      isPlaying = true;
+      lastTimeUpdate = performance.now();
+
+      const activeId = currentSource === 1 ? 'player1' : 'player2';
+      const otherId = currentSource === 1 ? 'player2' : 'player1';
+      const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+      const otherYT = currentSource === 1 ? ytPlayer2 : ytPlayer1;
+
+      // Tạm dừng video còn lại để không đè âm thanh
+      if (otherYT && typeof otherYT.pauseVideo === 'function') {
+        try { otherYT.pauseVideo(); } catch(e) {}
+      }
+      sendIframeCommand(otherId, 'pauseVideo');
+
+      // Phát video hiện tại
+      if (activeYT && typeof activeYT.playVideo === 'function') {
+        try { activeYT.playVideo(); } catch(e) {}
+      }
+      sendIframeCommand(activeId, 'playVideo');
+
+      btnAutoplay.innerHTML = '⏸️ Tạm Dừng Auto-Scroll';
+      btnAutoplay.classList.add('playing');
+
+      if (syncTimer) clearInterval(syncTimer);
+      syncTimer = setInterval(tick, 100);
+    }
+
+    function pausePlay() {
+      isPlaying = false;
+      const activeId = currentSource === 1 ? 'player1' : 'player2';
+      const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+
+      if (activeYT && typeof activeYT.pauseVideo === 'function') {
+        try { activeYT.pauseVideo(); } catch(e) {}
+      }
+      sendIframeCommand(activeId, 'pauseVideo');
+
+      btnAutoplay.innerHTML = '▶️ Tiếp Tục Nhạc & Auto-Scroll';
+      btnAutoplay.classList.remove('playing');
+
       if (syncTimer) clearInterval(syncTimer);
       syncTimer = null;
     }
 
-    // Nút Bật/Dừng Auto-scroll
-    btnAutoplay.addEventListener('click', () => {
-      const targetPlayer = activePlayer || player1;
-      if (!targetPlayer) return;
+    /* ==============================================================
+       4. CHUYỂN ĐỔI NGUỒN NHẠC (MV GỐC <-> BEAT KARAOKE)
+       ============================================================== */
+    function switchSource(sourceNum) {
+      if (currentSource === sourceNum) return;
 
-      if (!isAutoplayActive) {
-        if (targetPlayer.playVideo) targetPlayer.playVideo();
+      const wasPlaying = isPlaying;
+      const currentTime = getExactCurrentTime();
+
+      pausePlay();
+      currentSource = sourceNum;
+
+      document.getElementById('sourceBtn1').classList.toggle('active', currentSource === 1);
+      document.getElementById('sourceBtn2').classList.toggle('active', currentSource === 2);
+
+      const card1 = document.getElementById('cardVideo1');
+      const card2 = document.getElementById('cardVideo2');
+      const badge1 = document.getElementById('badgeVideo1');
+      const badge2 = document.getElementById('badgeVideo2');
+
+      card1.classList.toggle('active-source', currentSource === 1);
+      card2.classList.toggle('active-source', currentSource === 2);
+
+      badge1.classList.toggle('inactive', currentSource !== 1);
+      badge2.classList.toggle('inactive', currentSource !== 2);
+
+      // Trên Mobile: ẩn hiện tab mượt mà không unload iframe
+      if (window.innerWidth < 1024) {
+        if (currentSource === 1) {
+          card1.classList.remove('hidden-tab');
+          card2.classList.add('hidden-tab');
+        } else {
+          card1.classList.add('hidden-tab');
+          card2.classList.remove('hidden-tab');
+        }
       } else {
-        if (targetPlayer.pauseVideo) targetPlayer.pauseVideo();
+        card1.classList.remove('hidden-tab');
+        card2.classList.remove('hidden-tab');
       }
-    });
+
+      // Đồng bộ thời gian sang video mới
+      lastKnownTime = currentTime;
+      const targetId = currentSource === 1 ? 'player1' : 'player2';
+      const targetYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+
+      if (targetYT && typeof targetYT.seekTo === 'function') {
+        try { targetYT.seekTo(currentTime, true); } catch(e) {}
+      }
+      sendIframeCommand(targetId, 'seekTo', [currentTime, true]);
+
+      // Nếu đang phát, tiếp tục phát trên nguồn mới
+      if (wasPlaying) {
+        setTimeout(startPlay, 150);
+      }
+    }
+
+    // Ban đầu trên mobile chỉ hiện video 1
+    if (window.innerWidth < 1024) {
+      document.getElementById('cardVideo2').classList.add('hidden-tab');
+    }
 
     /* ==============================================================
-       3. CẬP NHẬT CÂU HÁT & CUỘN MÀN HÌNH MƯỢT MÀ
+       5. CẬP NHẬT CÂU HÁT & CUỘN TRANG MƯỢT MÀ VỀ GIỮA
        ============================================================== */
     function updateActiveLine(index, smoothScroll = true, seekVideo = true) {
       if (index < 0) index = 0;
@@ -1213,23 +1463,39 @@
 
       currentIndex = index;
 
-      lyricItems.forEach(item => item.classList.remove('karaoke-active'));
-      const activeItem = lyricItems[currentIndex];
-      activeItem.classList.add('karaoke-active');
+      lyricItems.forEach((item, idx) => {
+        if (idx === currentIndex) {
+          item.classList.add('karaoke-active');
+        } else {
+          item.classList.remove('karaoke-active');
+        }
+      });
 
       counterDisplay.textContent = `Câu: ${currentIndex + 1} / ${totalLines}`;
 
-      if (smoothScroll) {
+      // Cuộn êm câu đang hát vào trung tâm màn hình
+      const activeItem = lyricItems[currentIndex];
+      if (activeItem && smoothScroll) {
         activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
 
-      // Nếu người dùng chủ động bấm chuyển câu, tua video theo đúng mốc thời gian
-      if (seekVideo && activePlayer && typeof activePlayer.seekTo === 'function') {
-        activePlayer.seekTo(timestamps[currentIndex].start, true);
+      // Nếu người dùng chủ động click hoặc dùng phím chuyển câu, tua video theo timestamp
+      if (seekVideo) {
+        const targetTime = timestamps[currentIndex].start;
+        lastKnownTime = targetTime;
+        lastTimeUpdate = performance.now();
+
+        const activeId = currentSource === 1 ? 'player1' : 'player2';
+        const activeYT = currentSource === 1 ? ytPlayer1 : ytPlayer2;
+
+        if (activeYT && typeof activeYT.seekTo === 'function') {
+          try { activeYT.seekTo(targetTime, true); } catch(e) {}
+        }
+        sendIframeCommand(activeId, 'seekTo', [targetTime, true]);
       }
 
       if (currentIndex === totalLines - 1) {
-        fireConfetti(150);
+        fireConfetti(160);
       }
     }
 
@@ -1237,7 +1503,7 @@
       if (currentIndex < totalLines - 1) {
         updateActiveLine(currentIndex + 1, true, true);
       } else {
-        fireConfetti(100);
+        fireConfetti(120);
       }
     }
 
@@ -1278,37 +1544,26 @@
     });
 
     /* ==============================================================
-       4. MOBILE VIDEO TAB SWITCHER (TIẾT KIỆM KHÔNG GIAN)
+       6. PHÁO HOA CANVAS & BÓNG BAY NỀN
        ============================================================== */
-    function switchMobileVideo(tabIndex) {
-      const card1 = document.getElementById('cardVideo1');
-      const card2 = document.getElementById('cardVideo2');
-      const btn1 = document.getElementById('tabBtn1');
-      const btn2 = document.getElementById('tabBtn2');
+    const floatingBg = document.getElementById('floatingBg');
+    const icons = ['🎈', '🎉', '🎵', '🎶', '⭐', '🎂', '💖', '✨'];
 
-      if (tabIndex === 1) {
-        card1.style.display = 'block';
-        card2.style.display = 'none';
-        btn1.classList.add('active');
-        btn2.classList.remove('active');
-        activePlayer = player1;
-      } else {
-        card1.style.display = 'none';
-        card2.style.display = 'block';
-        btn1.classList.remove('active');
-        btn2.classList.add('active');
-        activePlayer = player2;
-      }
+    function createFloatingIcon() {
+      const el = document.createElement('div');
+      el.className = 'balloon';
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 95 + 'vw';
+      el.style.animationDuration = (Math.random() * 8 + 10) + 's';
+      el.style.fontSize = (Math.random() * 1.5 + 1.2) + 'rem';
+      floatingBg.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 18000);
     }
+    setInterval(createFloatingIcon, 1200);
 
-    // Ban đầu trên mobile chỉ hiện video 1
-    if (window.innerWidth < 1024) {
-      switchMobileVideo(1);
-    }
-
-    /* ==============================================================
-       5. PHÁO HOA CANVAS & BÓNG BAY NỀN
-       ============================================================== */
     const canvas = document.getElementById('confettiCanvas');
     const ctx = canvas.getContext('2d');
     let confettiParticles = [];
